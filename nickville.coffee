@@ -17,27 +17,43 @@ initializeGameData = () ->
     startingSequence()
   )
 
-  window.game_state = {
-    "location" : "Home",
-  }
+  window.game_state =
+    location: "Home"
+    control:   "Free"
 
 # Logic around mechanics
 setControls = () ->
+  console.log("controls being set")
+
+  actions =
+    32:
+      Chat: continueDialogue
+
+  window.actions = actions
+
   $(document).keypress((e) ->
-    switch e.which
-      when 32 then continueDialogue
+    actions[e.which][window.game_state['control']]()
   )
 
-# TODO
 followDialogue = (dialogue) ->
+  # Create chat box
+  window.game_state['control'] = 'Chat'
   dialogue = dialogue.slice() # I really want clone
-  continueDialogue(dialogue)
+  window.dialogue = dialogue
+  continueDialogue()
 
 # TODO
-continueDialogue = (dialogue) ->
+continueDialogue = () ->
+  dialogue = window.dialogue
   if dialogue.length > 0
     handleMessage(dialogue[0])
-    continueDialogue(dialogue.splice(1))
+    window.dialogue = dialogue.splice(1)
+  else
+    completeDialogue()
+
+completeDialogue = () ->
+  # Remove chat box
+  # Present buttons on where to go
 
 handleMessage = (message) ->
   if message instanceof Object

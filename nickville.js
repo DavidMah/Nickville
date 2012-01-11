@@ -17,25 +17,35 @@
       return startingSequence();
     });
     return window.game_state = {
-      "location": "Home"
+      location: "Home",
+      control: "Free"
     };
   };
   setControls = function() {
-    return $(document).keypress(function(e) {
-      switch (e.which) {
-        case 32:
-          return continueDialogue;
+    var actions;
+    console.log("controls being set");
+    actions = {
+      32: {
+        Chat: continueDialogue
       }
+    };
+    window.actions = actions;
+    return $(document).keypress(function(e) {
+      return actions[e.which][window.game_state['control']]();
     });
   };
   followDialogue = function(dialogue) {
+    window.game_state['control'] = 'Chat';
     dialogue = dialogue.slice();
-    return continueDialogue(dialogue);
+    window.dialogue = dialogue;
+    return continueDialogue();
   };
-  continueDialogue = function(dialogue) {
+  continueDialogue = function() {
+    var dialogue;
+    dialogue = window.dialogue;
     if (dialogue.length > 0) {
       handleMessage(dialogue[0]);
-      return continueDialogue(dialogue.splice(1));
+      return window.dialogue = dialogue.splice(1);
     }
   };
   handleMessage = function(message) {
