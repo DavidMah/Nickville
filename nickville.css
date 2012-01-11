@@ -3,7 +3,7 @@
   height: 600px;
   margin-left:  auto;
   margin-right: auto;
-  background-color: #DDDDDD;
+  background-color: #DD7777;
 }
 
 #menu {
@@ -12,18 +12,31 @@
   position: absolute:
 }
 
-#dialogue_box {
-  width:  700px;
-  height: 100px;
-  margin-left: 30px;
-  padding: 20px 20px 20px 20px;
-
-  position: absolute;
+.dialogue {
+  margin-left: 50px;
   top:      450px;
 
-  background-color: #000000;
-  opacity: 0.4;
+  position: absolute;
+
+}
+#dialogue_box {
+  width:  700px;
+  height: 140px;
+  border: solid;
+  border-color: #000000;
+
+  background-color: #777777;
+  opacity: 0.7;
   border-radius: 15px;
+}
+
+#dialogue_area {
+  width: 640px;
+  height: 100px;
+  padding: 20px 30px 20px 30px;
+
+  z-index: 1;
+  color :  White;
 
   font-family: Verdana;
   font-size  : 13pt;

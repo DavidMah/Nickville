@@ -1,5 +1,5 @@
 (function() {
-  var chooseRandomFromList, continueDialogue, encounterPerson, followDialogue, getPossibleLinks, handleMessage, initializeGameData, setControls, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, followDialogue, getPossibleLinks, handleMessage, initializeGameData, setControls, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -46,8 +46,11 @@
     if (dialogue.length > 0) {
       handleMessage(dialogue[0]);
       return window.dialogue = dialogue.splice(1);
+    } else {
+      return completeDialogue();
     }
   };
+  completeDialogue = function() {};
   handleMessage = function(message) {
     var c, choices, i, _i, _len, _results;
     if (message instanceof Object) {
@@ -62,6 +65,7 @@
       }
       return _results;
     } else {
+      $("#dialogue_area").text(message);
       return console.log(message);
     }
   };

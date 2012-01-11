@@ -64,6 +64,7 @@ handleMessage = (message) ->
       console.log("#{i} -- #{c['Response']}")
       i += 1
   else
+    $("#dialogue_area").text(message)
     console.log(message)
 
 
