@@ -1,5 +1,5 @@
 (function() {
-  var changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, followDialogue, getPossibleLinks, handleMessage, initializeGameData, setControls, setIndicatorArea, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, followDialogue, getPossibleLinks, handleMessage, initializeGameData, setControls, setIndicatorArea, setLocationImage, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -17,10 +17,14 @@
       window.game_data = data;
       return startingSequence();
     });
-    return window.game_state = {
+    window.game_state = {
       location: "Home",
       control: "Free"
     };
+    $('#background_image').error(function() {
+      return $(this).hide();
+    });
+    return $('#background_image').hide();
   };
   setControls = function() {
     var actions;
@@ -95,12 +99,6 @@
       return console.log(message);
     }
   };
-  encounterPerson = function(location) {
-    var person, possible_people;
-    possible_people = window.game_data['Locations'][location]['People'];
-    person = chooseRandomFromList(possible_people);
-    return setupPerson(person);
-  };
   getPossibleLinks = function() {
     var possible_links;
     possible_links = window.game_data['Locations'][window.game_state['location']]['Links'];
@@ -117,7 +115,8 @@
     if (encounter_possible && Math.random() > 0.4) {
       encounterPerson(location);
     }
-    return setTravelList(location);
+    setTravelList(location);
+    return setLocationImage(location);
   };
   setTravelList = function(location) {
     var container, item, l, link_container, links, _i, _len, _results;
@@ -132,12 +131,28 @@
       item.addClass('link box');
       item.text(l);
       item.click(function() {
-        return travelToLocation(l);
+        return travelToLocation($(this).text());
       });
       link_container.append(item);
       _results.push(container.append(link_container));
     }
     return _results;
+  };
+  setLocationImage = function(location) {
+    try {
+      $('#background_image').attr('src', "images/" + location + ".jpg");
+      return $('#background_image').show();
+    } catch (error) {
+      return $('#background_image').hide();
+    }
+  };
+  encounterPerson = function(location) {
+    var person, possible_people;
+    possible_people = window.game_data['Locations'][location]['People'];
+    if (possible_people !== null) {
+      person = chooseRandomFromList(possible_people);
+      return setupPerson(person);
+    }
   };
   setupPerson = function(person) {
     var dialogue, possible_dialogue;

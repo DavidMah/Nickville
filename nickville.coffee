@@ -22,6 +22,10 @@ initializeGameData = () ->
     location: "Home"
     control:   "Free"
 
+  $('#background_image').error(() ->
+    $(this).hide())
+  $('#background_image').hide()
+
 # Logic around mechanics
 setControls = () ->
   console.log("controls being set")
@@ -88,12 +92,6 @@ handleMessage = (message) ->
     $("#dialogue_area").text(message)
     console.log(message)
 
-
-encounterPerson = (location) ->
-  possible_people   = window.game_data['Locations'][location]['People']
-  person   = chooseRandomFromList(possible_people)
-  setupPerson(person)
-
 getPossibleLinks = () ->
   possible_links = window.game_data['Locations'][window.game_state['location']]['Links']
   console.log(possible_links)
@@ -106,24 +104,38 @@ travelToLocation = (location, encounter_possible = true) ->
   # Things that happen right when you arrive somewhere :
   if encounter_possible and Math.random() >  0.4
     encounterPerson(location)
-  # Destroy old person
   setTravelList(location)
+  setLocationImage(location)
 
 setTravelList = (location) ->
   container = $('#travel_links').text("")
   links = window.game_data['Locations'][location]['Links']
+
   for l in links
     link_container = $(document.createElement('div'))
     link_container.addClass('link_container')
 
     item = $(document.createElement('button'))
     item.addClass('link box')
+
     item.text(l)
-    item.click(() -> travelToLocation(l))
+    item.click( () -> travelToLocation($(this).text()))
 
     link_container.append(item)
     container.append(link_container)
 
+setLocationImage = (location) ->
+  try
+    $('#background_image').attr('src', "images/#{location}.jpg")
+    $('#background_image').show()
+  catch error
+    $('#background_image').hide()
+
+encounterPerson = (location) ->
+  possible_people   = window.game_data['Locations'][location]['People']
+  unless possible_people == null
+    person   = chooseRandomFromList(possible_people)
+    setupPerson(person)
 
 # TODO
 setupPerson = (person) ->
