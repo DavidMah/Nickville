@@ -42,8 +42,11 @@ continueDialogue = (dialogue) ->
 handleMessage = (message) ->
   if message instanceof Object
     choices = message['Choice']
+    i = 0
+    window.choices = choices
     for c in choices
-      console.log(c)
+      console.log("#{i} -- #{c['Response']}")
+      i += 1
   else
     console.log(message)
 

@@ -39,13 +39,16 @@
     }
   };
   handleMessage = function(message) {
-    var c, choices, _i, _len, _results;
+    var c, choices, i, _i, _len, _results;
     if (message instanceof Object) {
       choices = message['Choice'];
+      i = 0;
+      window.choices = choices;
       _results = [];
       for (_i = 0, _len = choices.length; _i < _len; _i++) {
         c = choices[_i];
-        _results.push(console.log(c));
+        console.log("" + i + " -- " + c['Response']);
+        _results.push(i += 1);
       }
       return _results;
     } else {
