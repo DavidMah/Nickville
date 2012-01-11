@@ -1,5 +1,5 @@
 (function() {
-  var changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, recordGameState, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, enterMenuState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -9,12 +9,13 @@
     window.encounterPerson = encounterPerson;
     window.setupPerson = setupPerson;
     window.travelToLocation = travelToLocation;
-    return window.getPossibleLinks = getPossibleLinks;
+    window.getPossibleLinks = getPossibleLinks;
+    return window.recordGameState = recordGameState;
   };
   initializeGameData = function() {
     var cached_game_state;
     $('.container').hide();
-    cached_game_state = $.cookie('game_state');
+    cached_game_state = null;
     if (cached_game_state !== null) {
       cached_game_state = JSON.parse(cached_game_state);
     }
@@ -24,7 +25,8 @@
       if (cached_game_state === null) {
         window.game_state = {
           location: "Home",
-          control: "Free"
+          control: "Free",
+          autosave: false
         };
         startingSequence();
       } else {
@@ -36,10 +38,12 @@
   };
   recordGameState = function() {
     var game_state;
-    game_state = window.game_state;
-    game_state['control'] = 'Free';
-    $.cookie('game_state', JSON.stringify(game_state));
-    return console.log("game saved");
+    if (window.game_state['autosave'] !== false) {
+      game_state = window.game_state;
+      game_state['control'] = 'Free';
+      $.cookie('game_state', JSON.stringify(game_state));
+      return console.log("game saved");
+    }
   };
   initializeImages = function() {
     var image_names, l, p, _i, _j, _len, _len2, _ref, _ref2;
@@ -73,23 +77,44 @@
     return $('#person_image').hide();
   };
   setControls = function() {
-    var actions;
+    var action_handler, actions;
     console.log("controls being set");
     actions = {
       32: {
         Chat: continueDialogue
+      },
+      'click': {
+        Chat: continueDialogue
       }
     };
     window.actions = actions;
-    return $(document).keypress(function(e) {
+    action_handler = function(event) {
       var action;
-      action = actions[e.which][window.game_state['control']];
+      action = actions[event][window.game_state['control']];
       if (action !== void 0) {
         return action();
       }
+    };
+    $(document).keypress(function(e) {
+      return action_handler(e.which);
     });
+    $('#game_container').click(function() {
+      return action_handler('click');
+    });
+    $('#menu_button').click(openMenu);
+    return $('#autosave_button').click(changeAutoSave);
+  };
+  changeAutoSave = function() {
+    var current_autostate, next_state;
+    current_autostate = window.game_state['autosave'];
+    window.game_state = !current_autostate;
+    next_state = current_autostate != null ? current_autostate : {
+      "On": "Off"
+    };
+    return $('#autosave_button').text("Turn " + next_state + " Autosave");
   };
   changeControlState = function(state) {
+    window.game_state['previous_control'] = window.game_state['control'];
     window.game_state['control'] = state;
     switch (state) {
       case 'Chat':
@@ -98,6 +123,8 @@
       case 'Free':
         console.log("moving to Free State");
         return enterFreeState();
+      case 'Menu':
+        return enterMenuState();
     }
   };
   enterChatState = function() {
@@ -107,6 +134,21 @@
   enterFreeState = function() {
     $('.chat').hide();
     return $('.free').show();
+  };
+  enterMenuState = function() {
+    $('.chat').hide();
+    $('.free').hide();
+    return $('#menu_container').show();
+  };
+  openMenu = function() {
+    changeControlState('Menu');
+    return $('#menu_button').click(exitMenu);
+  };
+  exitMenu = function() {
+    var previous_state;
+    previous_state = window.game_state['previous_control'];
+    changeControlState(previous_state);
+    return $('#menu_button').click(openMenu);
   };
   followDialogue = function(dialogue) {
     changeControlState('Chat');
@@ -154,6 +196,9 @@
   travelToLocation = function(location, encounter_possible) {
     if (encounter_possible == null) {
       encounter_possible = true;
+    }
+    if (window.game_state['control'] !== 'Free') {
+      return;
     }
     console.log("Moving to " + location);
     window.game_state['location'] = location;

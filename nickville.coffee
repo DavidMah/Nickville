@@ -9,12 +9,12 @@ testFunctions = () ->
   window.setupPerson = setupPerson
   window.travelToLocation = travelToLocation
   window.getPossibleLinks = getPossibleLinks
+  window.recordGameState  = recordGameState
 
 
 initializeGameData = () ->
-  # Retrieve Data Json
   $('.container').hide()
-  cached_game_state = $.cookie('game_state')
+  cached_game_state =null #$.cookie('game_state')
   if cached_game_state != null
     cached_game_state = JSON.parse(cached_game_state)
   $.get("gamedata/data.json", (data) ->
@@ -23,7 +23,8 @@ initializeGameData = () ->
     if cached_game_state == null
       window.game_state =
         location: "Home"
-        control:   "Free"
+        control:  "Free"
+        autosave: false
       startingSequence()
     else
       window.game_state = cached_game_state
@@ -33,10 +34,11 @@ initializeGameData = () ->
   )
 
 recordGameState = () ->
-  game_state = window.game_state
-  game_state['control'] = 'Free'
-  $.cookie('game_state', JSON.stringify(game_state))
-  console.log("game saved")
+  if window.game_state['autosave'] != false
+    game_state = window.game_state
+    game_state['control'] = 'Free'
+    $.cookie('game_state', JSON.stringify(game_state))
+    console.log("game saved")
 
 
 initializeImages = () ->
@@ -62,23 +64,39 @@ initializeImages = () ->
   $('#background_image').hide()
   $('#person_image').hide()
 
-# Logic around mechanics
+# -------------------------------------------
+# Logic around control mechanics
+# -------------------------------------------
 setControls = () ->
   console.log("controls being set")
 
   actions =
     32:
       Chat: continueDialogue
+    'click':
+      Chat: continueDialogue
 
   window.actions = actions
 
-  $(document).keypress((e) ->
-    action = actions[e.which][window.game_state['control']]
+  action_handler = (event) ->
+    action = actions[event][window.game_state['control']]
     unless action == undefined
       action()
-  )
+
+  $(document).keypress((e) -> action_handler(e.which))
+  $('#game_container').click(() -> action_handler('click'))
+
+  $('#menu_button').click(openMenu)
+  $('#autosave_button').click(changeAutoSave)
+
+changeAutoSave = () ->
+  current_autostate = window.game_state['autosave']
+  window.game_state = !current_autostate
+  next_state = (current_autostate ? "On" : "Off")
+  $('#autosave_button').text("Turn #{next_state} Autosave")
 
 changeControlState = (state) ->
+  window.game_state['previous_control'] = window.game_state['control']
   window.game_state['control'] = state
   switch state
     when 'Chat'
@@ -87,15 +105,34 @@ changeControlState = (state) ->
     when 'Free'
       console.log("moving to Free State")
       enterFreeState()
+    when 'Menu'
+      enterMenuState()
 
 enterChatState = () ->
   $('.free').hide()
   $('.chat').show()
 
-enterFreeState =() ->
+enterFreeState = () ->
   $('.chat').hide()
   $('.free').show()
 
+enterMenuState = () ->
+  $('.chat').hide()
+  $('.free').hide()
+  $('#menu_container').show()
+
+openMenu = () ->
+  changeControlState('Menu')
+  $('#menu_button').click(exitMenu)
+
+exitMenu = () ->
+  previous_state = window.game_state['previous_control']
+  changeControlState(previous_state)
+  $('#menu_button').click(openMenu)
+
+#------------------------------
+# Logic around dialogue
+# -----------------------------
 
 followDialogue = (dialogue) ->
   # Create chat box
@@ -134,6 +171,7 @@ getPossibleLinks = () ->
   possible_links
 
 travelToLocation = (location, encounter_possible = true) ->
+  return unless window.game_state['control'] == 'Free'
   console.log "Moving to #{location}"
   window.game_state['location'] = location
   setIndicatorArea(location)
