@@ -112,6 +112,10 @@ People:
       - "Nick: What's wrong? Something happen!?!?"
       - "David: I FEEL TERRIBLE ABOUT HANAKO"
       - "Nick: I KNOW HOW YOU FEEL. I cried my soul away over Lilly"
+      - "Nick: Actually, you know what? I can't agree with you"
+      - "Nick: Hanako is just some character from a game, so you just need to get your head out of the gutter because she isn't real"
+      - "Nick: That's the difference between you and me."
+      - "David: butts"
     -
       - "David: I almost was gonna get you one of these for your birthday(http://www.nekomagic.com/?p=23095)"
       - "Nick: Well that would have been sweet. Instead you got jack shit. I am disappoint."
@@ -123,7 +127,27 @@ People:
     -
       - "*Somewhere above a wartorn Battlefield*"
       - "Nick: Hold her steady Mark, or else I can't aim!"
-      - "Mark: I'm trying, but we took a rocket to the left propeller and she's banking sharp."
+      - "Mark: I'm trying, but we took a rocket to initializeImages = () ->
+  $('#background_image').error(() ->
+    $(this).hide())
+  $('#person_image').error(() ->
+    $(this).hide())
+  $('#person_image').load(() ->
+    name = $('#person_image').attr('src')
+    name = name.substr(name.lastIndexOf('/') + 1) || input
+    name = name.substr(0, name.lastIndexOf('.')) || input
+    window.game_data['People'][name]['Width']  = $(this).width()
+    window.game_data['People'][name]['Height'] = $(this).height()
+  )
+
+  image_names = []
+
+  $.each(image_names, (i, val) ->
+    $('<img/>').attr('src', val).appendTo(hidden))
+
+  $('#background_image').hide()
+  $('#person_image').hide()
+the left propeller and she's banking sharp."
       - "Be advised, you're about to crash into a mountain"
       - "Nick: I thought you said you could fly this thing."
       - "El General Huehue^2 has died"

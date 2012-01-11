@@ -1,5 +1,5 @@
 (function() {
-  var changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, followDialogue, getPossibleLinks, handleMessage, initializeGameData, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -15,27 +15,41 @@
     $('.container').hide();
     $.get("gamedata/data.json", function(data) {
       window.game_data = data;
-      return startingSequence();
+      startingSequence();
+      return initializeImages();
     });
-    window.game_state = {
+    return window.game_state = {
       location: "Home",
       control: "Free"
     };
+  };
+  initializeImages = function() {
+    var image_names, l, p, _i, _j, _len, _len2, _ref, _ref2;
     $('#background_image').error(function() {
       return $(this).hide();
     });
     $('#person_image').error(function() {
       return $(this).hide();
     });
-    $('#person_image').load(function() {
-      var name;
-      name = $('#person_image').attr('src');
-      console.log(name);
-      name = name.substr(name.lastIndexOf('/') + 1) || input;
-      name = name.substr(0, name.lastIndexOf('.')) || input;
-      console.log(name);
-      window.game_data['People'][name]['Width'] = $(this).width();
-      return window.game_data['People'][name]['Height'] = $(this).height();
+    window.image_data = {};
+    image_names = [];
+    _ref = window.game_data['People List'];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      p = _ref[_i];
+      image_names.push("images/" + p + ".png");
+    }
+    _ref2 = window.game_data['Location List'];
+    for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+      l = _ref2[_j];
+      image_names.push("images/" + l + ".jpg");
+    }
+    $.each(image_names, function(i, path) {
+      var cached_image;
+      cached_image = $('<img/>');
+      cached_image.addClass('cached_image');
+      cached_image.attr('src', path);
+      window.image_data[path] = cached_image;
+      return cached_image.appendTo($("#meta_container"));
     });
     $('#background_image').hide();
     return $('#person_image').hide();
@@ -175,14 +189,18 @@
     return followDialogue(dialogue);
   };
   setPersonImage = function(person) {
+    var path, person_element, width;
+    person_element = $('#person_image');
     if (person === null) {
-      $('#person_image').hide();
-      return;
+      return person_element.hide();
     }
-    $('#person_image').attr('src', "images/" + person + ".png");
-    $('#person_image').show();
-    $('#person_image').width(window.game_data['People'][person]['Width']);
-    return $('#person_image').height(window.game_data['People'][person]['Height']);
+    path = "images/" + person + ".png";
+    person_element.attr('src', path);
+    person_element.show();
+    width = window.image_data[path].width();
+    person_element.width(width);
+    person_element.height(window.image_data[path].height());
+    return person_element.css('margin-left', (800 - width) / 2);
   };
   chooseRandomFromList = function(list) {
     return list[parseInt(Math.random() * list.length)];

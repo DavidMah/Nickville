@@ -1,4 +1,7 @@
 require 'yaml'
 require 'json'
 
-File.write("data.json", YAML.parse(File.read("data.yml")).transform.to_json)
+data =  YAML.parse(File.read("data.yml")).transform
+data['People List']   = data['People'].keys
+data['Location List'] = data['Locations'].keys
+File.write("data.json", data.to_json)

@@ -10,31 +10,39 @@ testFunctions = () ->
   window.travelToLocation = travelToLocation
   window.getPossibleLinks = getPossibleLinks
 
+
 initializeGameData = () ->
   # Retrieve Data Json
   $('.container').hide()
   $.get("gamedata/data.json", (data) ->
     window.game_data = data
     startingSequence()
+    initializeImages()
   )
 
   window.game_state =
     location: "Home"
     control:   "Free"
 
+initializeImages = () ->
   $('#background_image').error(() ->
     $(this).hide())
   $('#person_image').error(() ->
     $(this).hide())
-  $('#person_image').load(() ->
-    name = $('#person_image').attr('src')
-    console.log(name)
-    name = name.substr(name.lastIndexOf('/') + 1) || input
-    name = name.substr(0, name.lastIndexOf('.')) || input
-    console.log(name)
-    window.game_data['People'][name]['Width']  = $(this).width()
-    window.game_data['People'][name]['Height'] = $(this).height()
-  )
+
+  window.image_data = {}
+  image_names = []
+  for p in window.game_data['People List']
+    image_names.push("images/#{p}.png")
+  for l in window.game_data['Location List']
+    image_names.push("images/#{l}.jpg")
+
+  $.each(image_names, (i, path) ->
+    cached_image = $('<img/>')
+    cached_image.addClass('cached_image')
+    cached_image.attr('src', path)
+    window.image_data[path] = cached_image
+    cached_image.appendTo($("#meta_container")))
 
   $('#background_image').hide()
   $('#person_image').hide()
@@ -158,13 +166,16 @@ setupPerson = (person) ->
   followDialogue(dialogue)
 
 setPersonImage = (person) ->
+  person_element = $('#person_image')
   if person == null
-    $('#person_image').hide()
-    return
-  $('#person_image').attr('src', "images/#{person}.png")
-  $('#person_image').show()
-  $('#person_image').width(window.game_data['People'][person]['Width'])
-  $('#person_image').height(window.game_data['People'][person]['Height'])
+    return person_element.hide()
+  path = "images/#{person}.png"
+  person_element.attr('src', path)
+  person_element.show()
+  width = window.image_data[path].width()
+  person_element.width(width)
+  person_element.height(window.image_data[path].height())
+  person_element.css('margin-left', (800 - width) / 2)
 
 chooseRandomFromList = (list) ->
   list[parseInt(Math.random() * list.length)]

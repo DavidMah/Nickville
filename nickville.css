@@ -1,3 +1,8 @@
+#meta_container {
+  position:   fixed;
+  visibility: hidden;
+}
+
 #game_container {
   width:  800px;
   height: 600px;
@@ -17,10 +22,14 @@
   height:  600px;
 }
 
+#person_image {
+  position: absolute;
+}
+
 #status_container {
   position: absolute;
   width: 200px;
-  height: 200px;
+  min-height: 50px;
 }
 
 #status_box {
