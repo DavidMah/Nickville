@@ -1,5 +1,5 @@
 (function() {
-  var changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, enterMenuState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, enterMenuState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setAutoSaveButtonState, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -31,6 +31,7 @@
         startingSequence();
       } else {
         window.game_state = cached_game_state;
+        setAutoSaveButtonState(window.game_state['autosave']);
         travelToLocation(window.game_state['location'], false);
       }
       return setInterval(recordGameState, 15000);
@@ -105,15 +106,20 @@
       return action_handler('click');
     });
     $('#menu_button').click(openMenu);
-    return $('#autosave_button').click(changeAutoSave);
+    $('#autosave_button').click(changeAutoSave);
+    return $('#save_button').click(function() {
+      return recordGameState(true);
+    });
   };
   changeAutoSave = function() {
-    var current_autostate, next_state;
+    var current_autostate;
     current_autostate = window.game_state['autosave'];
-    window.game_state = !current_autostate;
-    next_state = current_autostate != null ? current_autostate : {
-      "On": "Off"
-    };
+    window.game_state['autosave'] = !current_autostate;
+    return setAutoSaveButtonState(current_autostate);
+  };
+  setAutoSaveButtonState = function(current_autostate) {
+    var next_state;
+    next_state = (current_autostate ? "Off" : "On");
     return $('#autosave_button').text("Turn " + next_state + " Autosave");
   };
   changeControlState = function(state) {
@@ -127,30 +133,37 @@
         console.log("moving to Free State");
         return enterFreeState();
       case 'Menu':
+        console.log('moving to Menu State');
         return enterMenuState();
     }
   };
   enterChatState = function() {
     $('.free').hide();
+    $('.menu').hide();
     return $('.chat').show();
   };
   enterFreeState = function() {
     $('.chat').hide();
+    $('.menu').hide();
     return $('.free').show();
   };
   enterMenuState = function() {
     $('.chat').hide();
     $('.free').hide();
-    return $('#menu_container').show();
+    return $('.menu').show();
   };
   openMenu = function() {
+    console.log('open menu');
     changeControlState('Menu');
+    $('#menu_button').unbind();
     return $('#menu_button').click(exitMenu);
   };
   exitMenu = function() {
     var previous_state;
+    console.log('close menu');
     previous_state = window.game_state['previous_control'];
     changeControlState(previous_state);
+    $('#menu_button').unbind();
     return $('#menu_button').click(openMenu);
   };
   followDialogue = function(dialogue) {

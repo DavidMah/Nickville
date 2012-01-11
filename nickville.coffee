@@ -28,6 +28,7 @@ initializeGameData = () ->
       startingSequence()
     else
       window.game_state = cached_game_state
+      setAutoSaveButtonState(window.game_state['autosave'])
       travelToLocation(window.game_state['location'], false)
 
     setInterval(recordGameState, 15000)
@@ -88,11 +89,15 @@ setControls = () ->
 
   $('#menu_button').click(openMenu)
   $('#autosave_button').click(changeAutoSave)
+  $('#save_button').click(() -> recordGameState(true))
 
 changeAutoSave = () ->
   current_autostate = window.game_state['autosave']
-  window.game_state = !current_autostate
-  next_state = (current_autostate ? "On" : "Off")
+  window.game_state['autosave'] = !current_autostate
+  setAutoSaveButtonState(current_autostate)
+
+setAutoSaveButtonState = (current_autostate) ->
+  next_state = (if current_autostate then "Off" else "On")
   $('#autosave_button').text("Turn #{next_state} Autosave")
 
 changeControlState = (state) ->
@@ -106,28 +111,35 @@ changeControlState = (state) ->
       console.log("moving to Free State")
       enterFreeState()
     when 'Menu'
+      console.log('moving to Menu State')
       enterMenuState()
 
 enterChatState = () ->
   $('.free').hide()
+  $('.menu').hide()
   $('.chat').show()
 
 enterFreeState = () ->
   $('.chat').hide()
+  $('.menu').hide()
   $('.free').show()
 
 enterMenuState = () ->
   $('.chat').hide()
   $('.free').hide()
-  $('#menu_container').show()
+  $('.menu').show()
 
 openMenu = () ->
+  console.log('open menu')
   changeControlState('Menu')
+  $('#menu_button').unbind()
   $('#menu_button').click(exitMenu)
 
 exitMenu = () ->
+  console.log('close menu')
   previous_state = window.game_state['previous_control']
   changeControlState(previous_state)
+  $('#menu_button').unbind()
   $('#menu_button').click(openMenu)
 
 #------------------------------

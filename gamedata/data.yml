@@ -48,6 +48,7 @@ Locations:
     Links:
     - The Ave
     - The Quad
+    - The Fountain
   The Quad:
     People:
     Links:
@@ -79,6 +80,9 @@ Locations:
     - David
     Links:
     - 10th Floor Cluster
+  The Fountain:
+    People:
+    Links:
   Reddit:
     People:
     - Some Post
