@@ -32,9 +32,13 @@ followDialogue = (dialogue) ->
   dialogue = dialogue.join("\n")
   console.log("\n---\n#{dialogue}\n---\n")
     # Create element and hide it
+  continueDialogue(dialogue)
 
 # TODO
-continueDialogue = () ->
+continueDialogue = (dialogue) ->
+  if dialogue.length > 0
+    continueDialogue(dialogue)
+  else
 
 encounterPerson = (location) ->
   possible_people   = window.game_data['Locations'][location]['People']
@@ -57,6 +61,7 @@ travelToLocation = (location) ->
     encounterPerson(location)
   # Destroy old person
   # Destroy old travel buttons
+  # Create new travel buttons
 
 # TODO
 setupPerson = (person) ->
@@ -72,6 +77,5 @@ triggerChatBox = () ->
   $("#chatbox").visibility = (visibility == "hidden" ? "visible" : "hidden")
 
 # Logic around plot
-# TODO
 startingSequence = () ->
   followDialogue(window.game_data['Starting Sequence'])
