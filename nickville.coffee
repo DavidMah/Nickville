@@ -12,6 +12,7 @@ testFunctions = () ->
 
 initializeGameData = () ->
   # Retrieve Data Json
+  $('.container').hide()
   $.get("gamedata/data.json", (data) ->
     window.game_data = data
     startingSequence()
@@ -48,8 +49,8 @@ changeControlState = (state) ->
       enterFreeState()
 
 enterChatState = () ->
-  $('.chat').show()
   $('.free').hide()
+  $('.chat').show()
 
 enterFreeState =() ->
   $('.chat').hide()
@@ -101,6 +102,7 @@ getPossibleLinks = () ->
 travelToLocation = (location, encounter_possible = true) ->
   console.log "Moving to #{location}"
   window.game_state['location'] = location
+  setIndicatorArea(location)
   # Things that happen right when you arrive somewhere :
   if encounter_possible and Math.random() >  0.4
     encounterPerson(location)
@@ -115,7 +117,7 @@ setTravelList = (location) ->
     link_container.addClass('link_container')
 
     item = $(document.createElement('button'))
-    item.addClass('link')
+    item.addClass('link box')
     item.text(l)
     item.click(() -> travelToLocation(l))
 
@@ -126,12 +128,16 @@ setTravelList = (location) ->
 # TODO
 setupPerson = (person) ->
   console.log("Encountered #{person}")
+  setIndicatorArea(person)
   possible_dialogue = window.game_data['People'][person]['Dialogue']
   dialogue = chooseRandomFromList(possible_dialogue)
   followDialogue(dialogue)
 
 chooseRandomFromList = (list) ->
   list[parseInt(Math.random() * list.length)]
+
+setIndicatorArea = (message) ->
+  $('#indicator_area').text(message)
 
 
 # Logic around the chat box

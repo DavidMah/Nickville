@@ -1,5 +1,5 @@
 (function() {
-  var changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, followDialogue, getPossibleLinks, handleMessage, initializeGameData, setControls, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, followDialogue, getPossibleLinks, handleMessage, initializeGameData, setControls, setIndicatorArea, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -12,6 +12,7 @@
     return window.getPossibleLinks = getPossibleLinks;
   };
   initializeGameData = function() {
+    $('.container').hide();
     $.get("gamedata/data.json", function(data) {
       window.game_data = data;
       return startingSequence();
@@ -50,8 +51,8 @@
     }
   };
   enterChatState = function() {
-    $('.chat').show();
-    return $('.free').hide();
+    $('.free').hide();
+    return $('.chat').show();
   };
   enterFreeState = function() {
     $('.chat').hide();
@@ -112,6 +113,7 @@
     }
     console.log("Moving to " + location);
     window.game_state['location'] = location;
+    setIndicatorArea(location);
     if (encounter_possible && Math.random() > 0.4) {
       encounterPerson(location);
     }
@@ -127,7 +129,7 @@
       link_container = $(document.createElement('div'));
       link_container.addClass('link_container');
       item = $(document.createElement('button'));
-      item.addClass('link');
+      item.addClass('link box');
       item.text(l);
       item.click(function() {
         return travelToLocation(l);
@@ -140,12 +142,16 @@
   setupPerson = function(person) {
     var dialogue, possible_dialogue;
     console.log("Encountered " + person);
+    setIndicatorArea(person);
     possible_dialogue = window.game_data['People'][person]['Dialogue'];
     dialogue = chooseRandomFromList(possible_dialogue);
     return followDialogue(dialogue);
   };
   chooseRandomFromList = function(list) {
     return list[parseInt(Math.random() * list.length)];
+  };
+  setIndicatorArea = function(message) {
+    return $('#indicator_area').text(message);
   };
   triggerChatBox = function() {
     var visibility, _ref;

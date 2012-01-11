@@ -4,30 +4,71 @@
   margin-left:  auto;
   margin-right: auto;
   background-color: #7777CC;
+
+  font-family: Verdana;
+  font-size:   13pt;
+  color:       White;
 }
 
-#menu {
-  width:  60px;
-  height: 40px;
-  position: absolute:
+#status_container {
+  position: absolute;
+  width: 200px;
+  height: 200px;
 }
+
+#status_box {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+}
+
+#status_items {
+  margin: 5px 5px 5px 5px;
+  position: absolute;
+}
+
+.status_item {
+  margin: 3px 3px 3px 3px;
+}
+
+.indicator {
+  position: absolute;
+  width:    200px;
+  height:   30px;
+}
+
+#indicator_container {
+  margin-left: 300px;
+  margin-top:  15px;
+}
+
+#indicator_area {
+  width: 190px;
+  position:   absolute;
+  text-align: center;
+  padding: 7px 5px 7px 5px;
+  z-index:  1;
+  font-weight: bold;
+}
+
+.box {
+  border: solid;
+  border-color: #000000;
+  background-color: #777777;
+  border-radius: 15px;
+  opacity: 0.7;
+}
+
 
 .dialogue {
   margin-left: 50px;
   top:      450px;
 
   position: absolute;
-
 }
 #dialogue_box {
   width:  700px;
   height: 140px;
-  border: solid;
-  border-color: #000000;
-
-  background-color: #777777;
-  opacity: 0.7;
-  border-radius: 15px;
 }
 
 #dialogue_area {
@@ -36,10 +77,6 @@
   padding: 20px 30px 20px 30px;
 
   z-index: 1;
-  color :  White;
-
-  font-family: Verdana;
-  font-size  : 13pt;
 }
 
 #travel_container {
@@ -56,20 +93,15 @@
   width:   100px;
   height:  25px;
   margin:  10px 10px 10px 10px;
-
 }
 
 .link {
   width: 100px;
   height: 25px;
   padding: 1px 5px 0px 5px;
+  opacity: 1.0;
 
   text-align: center;
-  border: solid;
-  border-color: #000000;
-  border-radius: 15px;
-  background-color: #888888;
-
 }
 
 .link:active {
