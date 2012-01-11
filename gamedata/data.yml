@@ -30,7 +30,7 @@ Locations:
     - The Apartment
     - Hawaiian Barbecue
     - Chipotle
-    - Lecture Hall
+    - Red Square
   Hawaiian Barbecue:
     People:
     - Hawaiian Barbecue Guy
@@ -43,11 +43,42 @@ Locations:
     - Derek
     Links:
     - The Ave
-  Lecture Hall:
+  Red Square:
     People:
-    - Professor
     Links:
     - The Ave
+    - The Quad
+  The Quad:
+    People:
+    Links:
+    - Red Square
+    - McMahon
+  McMahon:
+    People:
+    Links:
+    - The Quad
+    - 10th Floor Cluster
+  10th Floor Cluster:
+    People:
+    Links:
+    - McMahon
+    - Jin's Room
+    - David's Room
+  Jin's Room:
+    People:
+    Links:
+    - 10th Floor Cluster
+    - Jin's Bed
+  Jin's Bed:
+    People:
+    - Jin
+    Links:
+    - Jin's Room
+  David's Room:
+    People:
+    - David
+    Links:
+    - 10th Floor Cluster
   Reddit:
     People:
     - Some Post
@@ -215,3 +246,8 @@ People:
       - "Professor: ...and then correctly use the property of superposition to accurately reflect the free body diagram, everything should make sense."
       - "Professor: That is, of course, unless you take the acceleration of gravity to be a negative."
       - "Professor: Only retards do that."
+  Jin:
+    Dialogue:
+    -
+      - "Jin: Gosh darnit Nick not there!"
+      - "Nick: Zug Zug"

@@ -15,7 +15,7 @@
   initializeGameData = function() {
     var cached_game_state;
     $('.container').hide();
-    cached_game_state = null;
+    cached_game_state = $.cookie('game_state');
     if (cached_game_state !== null) {
       cached_game_state = JSON.parse(cached_game_state);
     }
@@ -36,9 +36,12 @@
       return setInterval(recordGameState, 15000);
     });
   };
-  recordGameState = function() {
+  recordGameState = function(force) {
     var game_state;
-    if (window.game_state['autosave'] !== false) {
+    if (force == null) {
+      force = false;
+    }
+    if (force || window.game_state['autosave']) {
       game_state = window.game_state;
       game_state['control'] = 'Free';
       $.cookie('game_state', JSON.stringify(game_state));
@@ -153,8 +156,7 @@
   followDialogue = function(dialogue) {
     changeControlState('Chat');
     dialogue = dialogue.slice();
-    window.dialogue = dialogue;
-    return continueDialogue();
+    return window.dialogue = dialogue;
   };
   continueDialogue = function() {
     var dialogue;

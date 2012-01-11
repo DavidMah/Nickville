@@ -14,7 +14,7 @@ testFunctions = () ->
 
 initializeGameData = () ->
   $('.container').hide()
-  cached_game_state =null #$.cookie('game_state')
+  cached_game_state = $.cookie('game_state')
   if cached_game_state != null
     cached_game_state = JSON.parse(cached_game_state)
   $.get("gamedata/data.json", (data) ->
@@ -33,8 +33,8 @@ initializeGameData = () ->
     setInterval(recordGameState, 15000)
   )
 
-recordGameState = () ->
-  if window.game_state['autosave'] != false
+recordGameState = (force = false) ->
+  if force or window.game_state['autosave']
     game_state = window.game_state
     game_state['control'] = 'Free'
     $.cookie('game_state', JSON.stringify(game_state))
@@ -139,7 +139,7 @@ followDialogue = (dialogue) ->
   changeControlState('Chat')
   dialogue = dialogue.slice() # I really want clone
   window.dialogue = dialogue
-  continueDialogue()
+  # continueDialogue()
 
 # TODO
 continueDialogue = () ->
