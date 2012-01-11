@@ -24,7 +24,20 @@ initializeGameData = () ->
 
   $('#background_image').error(() ->
     $(this).hide())
+  $('#person_image').error(() ->
+    $(this).hide())
+  $('#person_image').load(() ->
+    name = $('#person_image').attr('src')
+    console.log(name)
+    name = name.substr(name.lastIndexOf('/') + 1) || input
+    name = name.substr(0, name.lastIndexOf('.')) || input
+    console.log(name)
+    window.game_data['People'][name]['Width']  = $(this).width()
+    window.game_data['People'][name]['Height'] = $(this).height()
+  )
+
   $('#background_image').hide()
+  $('#person_image').hide()
 
 # Logic around mechanics
 setControls = () ->
@@ -102,6 +115,7 @@ travelToLocation = (location, encounter_possible = true) ->
   window.game_state['location'] = location
   setIndicatorArea(location)
   # Things that happen right when you arrive somewhere :
+  setPersonImage(null)
   if encounter_possible and Math.random() >  0.4
     encounterPerson(location)
   setTravelList(location)
@@ -125,11 +139,8 @@ setTravelList = (location) ->
     container.append(link_container)
 
 setLocationImage = (location) ->
-  try
     $('#background_image').attr('src', "images/#{location}.jpg")
     $('#background_image').show()
-  catch error
-    $('#background_image').hide()
 
 encounterPerson = (location) ->
   possible_people   = window.game_data['Locations'][location]['People']
@@ -143,7 +154,17 @@ setupPerson = (person) ->
   setIndicatorArea(person)
   possible_dialogue = window.game_data['People'][person]['Dialogue']
   dialogue = chooseRandomFromList(possible_dialogue)
+  setPersonImage(person)
   followDialogue(dialogue)
+
+setPersonImage = (person) ->
+  if person == null
+    $('#person_image').hide()
+    return
+  $('#person_image').attr('src', "images/#{person}.png")
+  $('#person_image').show()
+  $('#person_image').width(window.game_data['People'][person]['Width'])
+  $('#person_image').height(window.game_data['People'][person]['Height'])
 
 chooseRandomFromList = (list) ->
   list[parseInt(Math.random() * list.length)]
