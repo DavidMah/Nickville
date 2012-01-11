@@ -10,6 +10,7 @@ testFunctions = () ->
   window.travelToLocation = travelToLocation
   window.getPossibleLinks = getPossibleLinks
   window.recordGameState  = recordGameState
+  window.activateOpeningMenu = activateOpeningMenu
 
 
 initializeGameData = () ->
@@ -119,7 +120,7 @@ changeControlState = (state) ->
 enterChatState = () ->
   window.control_elements.hide()
   $('.chat').show()
-  setTimeout((() -> window.chatlocked = false), 50)
+  setChatlock(false)
 
 enterFreeState = () ->
   window.control_elements.hide()
@@ -256,6 +257,12 @@ chooseRandomFromList = (list) ->
 setIndicatorArea = (message) ->
   $('#indicator_area').text(message)
 
+setChatlock = (chatlock) ->
+  if chatlock
+    window.chatlocked = true
+  else
+    setTimeout((() -> window.chatlocked = false), 50)
+
 
 # Logic around the chat box
 triggerChatBox = () ->
@@ -264,6 +271,8 @@ triggerChatBox = () ->
 
 activateOpeningMenu = () ->
   changeControlState('Opening')
+  setChatlock(true)
+
   $('#opening_new').click(startNewGame)
   $('#opening_continue').click(continueSavedGame)
 
@@ -281,5 +290,6 @@ continueSavedGame = () ->
 
 # Logic around plot
 startingSequence = () ->
+  setChatlock(false)
   travelToLocation('The Apartment', false)
   followDialogue(window.game_data['Starting Sequence'])

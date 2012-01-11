@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterFreeState, enterMenuState, enterOpeningState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setAutoSaveButtonState, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterFreeState, enterMenuState, enterOpeningState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -10,7 +10,8 @@
     window.setupPerson = setupPerson;
     window.travelToLocation = travelToLocation;
     window.getPossibleLinks = getPossibleLinks;
-    return window.recordGameState = recordGameState;
+    window.recordGameState = recordGameState;
+    return window.activateOpeningMenu = activateOpeningMenu;
   };
   initializeGameData = function() {
     var cached_game_state;
@@ -140,9 +141,7 @@
   enterChatState = function() {
     window.control_elements.hide();
     $('.chat').show();
-    return setTimeout((function() {
-      return window.chatlocked = false;
-    }), 50);
+    return setChatlock(false);
   };
   enterFreeState = function() {
     window.control_elements.hide();
@@ -297,6 +296,15 @@
   setIndicatorArea = function(message) {
     return $('#indicator_area').text(message);
   };
+  setChatlock = function(chatlock) {
+    if (chatlock) {
+      return window.chatlocked = true;
+    } else {
+      return setTimeout((function() {
+        return window.chatlocked = false;
+      }), 50);
+    }
+  };
   triggerChatBox = function() {
     var visibility, _ref;
     visibility = $("#chatbox").visibility;
@@ -306,6 +314,7 @@
   };
   activateOpeningMenu = function() {
     changeControlState('Opening');
+    setChatlock(true);
     $('#opening_new').click(startNewGame);
     return $('#opening_continue').click(continueSavedGame);
   };
@@ -323,6 +332,7 @@
     return travelToLocation(window.game_state['location'], false);
   };
   startingSequence = function() {
+    setChatlock(false);
     travelToLocation('The Apartment', false);
     return followDialogue(window.game_data['Starting Sequence']);
   };
