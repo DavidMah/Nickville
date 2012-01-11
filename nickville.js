@@ -1,5 +1,5 @@
 (function() {
-  var chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, followDialogue, getPossibleLinks, handleMessage, initializeGameData, setControls, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, followDialogue, getPossibleLinks, handleMessage, initializeGameData, setControls, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -31,11 +31,34 @@
     };
     window.actions = actions;
     return $(document).keypress(function(e) {
-      return actions[e.which][window.game_state['control']]();
+      var action;
+      action = actions[e.which][window.game_state['control']];
+      if (action !== void 0) {
+        return action();
+      }
     });
   };
+  changeControlState = function(state) {
+    window.game_state['control'] = state;
+    switch (state) {
+      case 'Chat':
+        console.log("moving to Chat State");
+        return enterChatState();
+      case 'Free':
+        console.log("moving to Free State");
+        return enterFreeState();
+    }
+  };
+  enterChatState = function() {
+    $('.chat').show();
+    return $('.free').hide();
+  };
+  enterFreeState = function() {
+    $('.chat').hide();
+    return $('.free').show();
+  };
   followDialogue = function(dialogue) {
-    window.game_state['control'] = 'Chat';
+    changeControlState('Chat');
     dialogue = dialogue.slice();
     window.dialogue = dialogue;
     return continueDialogue();
@@ -50,7 +73,9 @@
       return completeDialogue();
     }
   };
-  completeDialogue = function() {};
+  completeDialogue = function() {
+    return changeControlState('Free');
+  };
   handleMessage = function(message) {
     var c, choices, i, _i, _len, _results;
     if (message instanceof Object) {
@@ -81,12 +106,36 @@
     console.log(possible_links);
     return possible_links;
   };
-  travelToLocation = function(location) {
+  travelToLocation = function(location, encounter_possible) {
+    if (encounter_possible == null) {
+      encounter_possible = true;
+    }
     console.log("Moving to " + location);
     window.game_state['location'] = location;
-    if (Math.random() > 0.4) {
-      return encounterPerson(location);
+    if (encounter_possible && Math.random() > 0.4) {
+      encounterPerson(location);
     }
+    return setTravelList(location);
+  };
+  setTravelList = function(location) {
+    var container, item, l, link_container, links, _i, _len, _results;
+    container = $('#travel_links').text("");
+    links = window.game_data['Locations'][location]['Links'];
+    _results = [];
+    for (_i = 0, _len = links.length; _i < _len; _i++) {
+      l = links[_i];
+      link_container = $(document.createElement('div'));
+      link_container.addClass('link_container');
+      item = $(document.createElement('button'));
+      item.addClass('link');
+      item.text(l);
+      item.click(function() {
+        return travelToLocation(l);
+      });
+      link_container.append(item);
+      _results.push(container.append(link_container));
+    }
+    return _results;
   };
   setupPerson = function(person) {
     var dialogue, possible_dialogue;
@@ -106,6 +155,7 @@
     };
   };
   startingSequence = function() {
+    travelToLocation('The Apartment', false);
     return followDialogue(window.game_data['Starting Sequence']);
   };
 }).call(this);

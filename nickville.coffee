@@ -32,12 +32,33 @@ setControls = () ->
   window.actions = actions
 
   $(document).keypress((e) ->
-    actions[e.which][window.game_state['control']]()
+    action = actions[e.which][window.game_state['control']]
+    unless action == undefined
+      action()
   )
+
+changeControlState = (state) ->
+  window.game_state['control'] = state
+  switch state
+    when 'Chat'
+      console.log("moving to Chat State")
+      enterChatState()
+    when 'Free'
+      console.log("moving to Free State")
+      enterFreeState()
+
+enterChatState = () ->
+  $('.chat').show()
+  $('.free').hide()
+
+enterFreeState =() ->
+  $('.chat').hide()
+  $('.free').show()
+
 
 followDialogue = (dialogue) ->
   # Create chat box
-  window.game_state['control'] = 'Chat'
+  changeControlState('Chat')
   dialogue = dialogue.slice() # I really want clone
   window.dialogue = dialogue
   continueDialogue()
@@ -52,8 +73,7 @@ continueDialogue = () ->
     completeDialogue()
 
 completeDialogue = () ->
-  # Remove chat box
-  # Present buttons on where to go
+  changeControlState('Free')
 
 handleMessage = (message) ->
   if message instanceof Object
@@ -78,15 +98,30 @@ getPossibleLinks = () ->
   console.log(possible_links)
   possible_links
 
-travelToLocation = (location) ->
+travelToLocation = (location, encounter_possible = true) ->
   console.log "Moving to #{location}"
   window.game_state['location'] = location
   # Things that happen right when you arrive somewhere :
-  if Math.random() >  0.4
+  if encounter_possible and Math.random() >  0.4
     encounterPerson(location)
   # Destroy old person
-  # Destroy old travel buttons
-  # Create new travel buttons
+  setTravelList(location)
+
+setTravelList = (location) ->
+  container = $('#travel_links').text("")
+  links = window.game_data['Locations'][location]['Links']
+  for l in links
+    link_container = $(document.createElement('div'))
+    link_container.addClass('link_container')
+
+    item = $(document.createElement('button'))
+    item.addClass('link')
+    item.text(l)
+    item.click(() -> travelToLocation(l))
+
+    link_container.append(item)
+    container.append(link_container)
+
 
 # TODO
 setupPerson = (person) ->
@@ -106,4 +141,5 @@ triggerChatBox = () ->
 
 # Logic around plot
 startingSequence = () ->
+  travelToLocation('The Apartment', false)
   followDialogue(window.game_data['Starting Sequence'])

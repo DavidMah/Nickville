@@ -3,7 +3,7 @@
   height: 600px;
   margin-left:  auto;
   margin-right: auto;
-  background-color: #DD7777;
+  background-color: #7777CC;
 }
 
 #menu {
@@ -41,3 +41,41 @@
   font-family: Verdana;
   font-size  : 13pt;
 }
+
+#travel_container {
+  position: absolute;
+  width: 200px;
+  margin-top: 300px;
+  margin-left: 650px;
+}
+
+#travel_links {
+}
+
+.link_container {
+  width:   100px;
+  height:  25px;
+  margin:  10px 10px 10px 10px;
+
+}
+
+.link {
+  width: 100px;
+  height: 25px;
+  padding: 1px 5px 0px 5px;
+
+  text-align: center;
+  border: solid;
+  border-color: #000000;
+  border-radius: 15px;
+  background-color: #888888;
+
+}
+
+.link:active {
+  width:  95px;
+  height: 20px;
+  margin: 2.5px 2.5px 2.5px 2.5px;
+  padding: 0px 5px 0px 5px;
+}
+
