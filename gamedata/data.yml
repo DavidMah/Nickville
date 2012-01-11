@@ -7,35 +7,35 @@ Starting Sequence:
   - "I guess I'll just go to class and tickle my buns like I always do"
 
 Locations:
-  - Home:
-    - People:
-      - Shiny
-      - Mark
-    - Links:
-      - The Ave
-  - The Ave:
-    - People:
-      - Shiny
-      - Mark
-      - David
-    - Links:
-      - Home
-      - Red Square
-  - Red Square:
-    - People:
-      - Shiny
-      - David
-    - Links:
-      - Fountain
-  - Fountain:
-    - People:
-      - Mark
-      - David
-    - Links:
-      - Red Square
+  Home:
+    People:
+    - Shiny
+    - Mark
+    Links:
+    - The Ave
+  The Ave:
+    People:
+    - Shiny
+    - Mark
+    - David
+    Links:
+    - Home
+    - Red Square
+  Red Square:
+    People:
+    - Shiny
+    - David
+    Links:
+    - Fountain
+  Fountain:
+    People:
+    - Mark
+    - David
+    Links:
+    - Red Square
 People:
-- Shiny:
-  - Dialogue:
+  Shiny:
+    Dialogue:
     -
       - "Shiny: Sup dude"
       - "Nick: Hey there Shiny what's up?"
@@ -45,8 +45,8 @@ People:
       - "Nick: You mean the track shed. For gloves."
       - "Shiny: Yeah whatever -- so wanna?"
       - "Nick: No."
-- David:
-  - Dialogue:
+  David:
+    Dialogue:
     -
       - "David: WAAAAAAAAAAAAAAAH BAWWW"
       - "Nick: What's wrong? Something happen!?!?"
@@ -58,8 +58,8 @@ People:
       - "It dawns upon me now that I really wish I got a longboard. My friends ended up being cheap"
       - "And they just got me these chipotle gift cards(NOT LIKE I DON'T WANT)."
       - "But still. A crappy game cost no money, cause [money = value of gift] right?"
-- Mark:
-  - Dialogue:
+  Mark:
+    Dialogue:
     -
       - "Mark: Aconfig Aconfig Aconfig"
       - "Shiny: What do I do!?"
