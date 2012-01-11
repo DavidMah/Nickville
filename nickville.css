@@ -1,5 +1,8 @@
 body {
   background-color: Black;
+  font-family: Verdana;
+  font-size:   13pt;
+  color:       White;
 }
 
 .container {
@@ -166,6 +169,8 @@ body {
   background-color: #777777;
   border-radius: 15px;
   opacity: 0.7;
+  font-family: Verdana;
+  color:       White;
 }
 
 

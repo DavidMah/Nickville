@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterFreeState, enterMenuState, enterOpeningState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setAutoSaveButtonState, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, skipOpeningScreen, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterFreeState, enterMenuState, enterOpeningState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setAutoSaveButtonState, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -22,8 +22,9 @@
     return $.get("gamedata/data.json", function(data) {
       window.game_data = data;
       initializeImages();
+      window.chatlocked = false;
       if (cached_game_state === null) {
-        skipOpeningScreen();
+        startNewGame();
       } else {
         window.game_state = cached_game_state;
         activateOpeningMenu();
@@ -111,11 +112,11 @@
     var current_autostate;
     current_autostate = window.game_state['autosave'];
     window.game_state['autosave'] = !current_autostate;
-    return setAutoSaveButtonState(current_autostate);
+    return setAutoSaveButtonState();
   };
-  setAutoSaveButtonState = function(current_autostate) {
+  setAutoSaveButtonState = function() {
     var next_state;
-    next_state = (current_autostate ? "Off" : "On");
+    next_state = (window.game_state['autosave'] ? "Off" : "On");
     return $('#autosave_button').text("Turn " + next_state + " Autosave");
   };
   changeControlState = function(state) {
@@ -138,7 +139,10 @@
   };
   enterChatState = function() {
     window.control_elements.hide();
-    return $('.chat').show();
+    $('.chat').show();
+    return setTimeout((function() {
+      return window.chatlocked = false;
+    }), 50);
   };
   enterFreeState = function() {
     window.control_elements.hide();
@@ -146,7 +150,8 @@
   };
   enterMenuState = function() {
     window.control_elements.hide();
-    return $('.menu').show();
+    $('.menu').show();
+    return window.chatlocked = true;
   };
   enterOpeningState = function() {
     window.control_elements.hide();
@@ -169,16 +174,19 @@
   followDialogue = function(dialogue) {
     changeControlState('Chat');
     dialogue = dialogue.slice();
-    return window.dialogue = dialogue;
+    window.dialogue = dialogue;
+    return setTimeout(continueDialogue, 50);
   };
   continueDialogue = function() {
     var dialogue;
-    dialogue = window.dialogue;
-    if (dialogue.length > 0) {
-      handleMessage(dialogue[0]);
-      return window.dialogue = dialogue.splice(1);
-    } else {
-      return completeDialogue();
+    if (!window.chatlocked) {
+      dialogue = window.dialogue;
+      if (dialogue.length > 0) {
+        handleMessage(dialogue[0]);
+        return window.dialogue = dialogue.splice(1);
+      } else {
+        return completeDialogue();
+      }
     }
   };
   completeDialogue = function() {
@@ -218,6 +226,7 @@
     console.log("Moving to " + location);
     window.game_state['location'] = location;
     setIndicatorArea(location);
+    $('#status_location').text(location);
     setPersonImage(null);
     if (encounter_possible && Math.random() > 0.4) {
       encounterPerson(location);
@@ -297,22 +306,23 @@
   };
   activateOpeningMenu = function() {
     changeControlState('Opening');
-    $('#opening_new').click(skipOpeningScreen);
+    $('#opening_new').click(startNewGame);
     return $('#opening_continue').click(continueSavedGame);
   };
-  skipOpeningScreen = function() {
-    return startingSequence();
-  };
-  continueSavedGame = function() {
-    setAutoSaveButtonState(window.game_state['autosave']);
-    return travelToLocation(window.game_state['location'], false);
-  };
-  startingSequence = function() {
+  startNewGame = function() {
     window.game_state = {
       location: "Home",
       control: "Free",
       autosave: false
     };
+    setAutoSaveButtonState();
+    return startingSequence();
+  };
+  continueSavedGame = function() {
+    setAutoSaveButtonState();
+    return travelToLocation(window.game_state['location'], false);
+  };
+  startingSequence = function() {
     travelToLocation('The Apartment', false);
     return followDialogue(window.game_data['Starting Sequence']);
   };

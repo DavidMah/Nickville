@@ -20,8 +20,9 @@ initializeGameData = () ->
   $.get("gamedata/data.json", (data) ->
     window.game_data = data
     initializeImages()
+    window.chatlocked = false
     if cached_game_state == null
-      skipOpeningScreen()
+      startNewGame()
     else
       window.game_state = cached_game_state
       activateOpeningMenu()
@@ -92,10 +93,10 @@ setControls = () ->
 changeAutoSave = () ->
   current_autostate = window.game_state['autosave']
   window.game_state['autosave'] = !current_autostate
-  setAutoSaveButtonState(current_autostate)
+  setAutoSaveButtonState()
 
-setAutoSaveButtonState = (current_autostate) ->
-  next_state = (if current_autostate then "Off" else "On")
+setAutoSaveButtonState = () ->
+  next_state = (if window.game_state['autosave'] then "Off" else "On")
   $('#autosave_button').text("Turn #{next_state} Autosave")
 
 changeControlState = (state) ->
@@ -118,6 +119,7 @@ changeControlState = (state) ->
 enterChatState = () ->
   window.control_elements.hide()
   $('.chat').show()
+  setTimeout((() -> window.chatlocked = false), 50)
 
 enterFreeState = () ->
   window.control_elements.hide()
@@ -126,6 +128,7 @@ enterFreeState = () ->
 enterMenuState = () ->
   window.control_elements.hide()
   $('.menu').show()
+  window.chatlocked = true
 
 enterOpeningState = () ->
   window.control_elements.hide()
@@ -149,20 +152,20 @@ exitMenu = () ->
 # -----------------------------
 
 followDialogue = (dialogue) ->
-  # Create chat box
   changeControlState('Chat')
   dialogue = dialogue.slice() # I really want clone
   window.dialogue = dialogue
-  # continueDialogue()
+  setTimeout(continueDialogue, 50)
 
 # TODO
 continueDialogue = () ->
-  dialogue = window.dialogue
-  if dialogue.length > 0
-    handleMessage(dialogue[0])
-    window.dialogue = dialogue.splice(1)
-  else
-    completeDialogue()
+  if not window.chatlocked
+    dialogue = window.dialogue
+    if dialogue.length > 0
+      handleMessage(dialogue[0])
+      window.dialogue = dialogue.splice(1)
+    else
+      completeDialogue()
 
 completeDialogue = () ->
   changeControlState('Free')
@@ -189,6 +192,7 @@ travelToLocation = (location, encounter_possible = true) ->
   console.log "Moving to #{location}"
   window.game_state['location'] = location
   setIndicatorArea(location)
+  $('#status_location').text(location)
   # Things that happen right when you arrive somewhere :
   setPersonImage(null)
   if encounter_possible and Math.random() >  0.4
@@ -260,21 +264,22 @@ triggerChatBox = () ->
 
 activateOpeningMenu = () ->
   changeControlState('Opening')
-  $('#opening_new').click(skipOpeningScreen)
+  $('#opening_new').click(startNewGame)
   $('#opening_continue').click(continueSavedGame)
 
-skipOpeningScreen = () ->
-  startingSequence()
-
-continueSavedGame = () ->
-  setAutoSaveButtonState(window.game_state['autosave'])
-  travelToLocation(window.game_state['location'], false)
-
-# Logic around plot
-startingSequence = () ->
+startNewGame = () ->
   window.game_state =
     location: "Home"
     control:  "Free"
     autosave: false
+  setAutoSaveButtonState()
+  startingSequence()
+
+continueSavedGame = () ->
+  setAutoSaveButtonState()
+  travelToLocation(window.game_state['location'], false)
+
+# Logic around plot
+startingSequence = () ->
   travelToLocation('The Apartment', false)
   followDialogue(window.game_data['Starting Sequence'])
