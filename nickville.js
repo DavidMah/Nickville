@@ -1,5 +1,5 @@
 (function() {
-  var changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, recordGameState, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -12,16 +12,34 @@
     return window.getPossibleLinks = getPossibleLinks;
   };
   initializeGameData = function() {
+    var cached_game_state;
     $('.container').hide();
-    $.get("gamedata/data.json", function(data) {
+    cached_game_state = $.cookie('game_state');
+    if (cached_game_state !== null) {
+      cached_game_state = JSON.parse(cached_game_state);
+    }
+    return $.get("gamedata/data.json", function(data) {
       window.game_data = data;
-      startingSequence();
-      return initializeImages();
+      initializeImages();
+      if (cached_game_state === null) {
+        window.game_state = {
+          location: "Home",
+          control: "Free"
+        };
+        startingSequence();
+      } else {
+        window.game_state = cached_game_state;
+        travelToLocation(window.game_state['location'], false);
+      }
+      return setInterval(recordGameState, 15000);
     });
-    return window.game_state = {
-      location: "Home",
-      control: "Free"
-    };
+  };
+  recordGameState = function() {
+    var game_state;
+    game_state = window.game_state;
+    game_state['control'] = 'Free';
+    $.cookie('game_state', JSON.stringify(game_state));
+    return console.log("game saved");
   };
   initializeImages = function() {
     var image_names, l, p, _i, _j, _len, _len2, _ref, _ref2;
@@ -143,6 +161,8 @@
     setPersonImage(null);
     if (encounter_possible && Math.random() > 0.4) {
       encounterPerson(location);
+    } else {
+      changeControlState('Free');
     }
     setTravelList(location);
     return setLocationImage(location);

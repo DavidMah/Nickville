@@ -14,15 +14,30 @@ testFunctions = () ->
 initializeGameData = () ->
   # Retrieve Data Json
   $('.container').hide()
+  cached_game_state = $.cookie('game_state')
+  if cached_game_state != null
+    cached_game_state = JSON.parse(cached_game_state)
   $.get("gamedata/data.json", (data) ->
     window.game_data = data
-    startingSequence()
     initializeImages()
+    if cached_game_state == null
+      window.game_state =
+        location: "Home"
+        control:   "Free"
+      startingSequence()
+    else
+      window.game_state = cached_game_state
+      travelToLocation(window.game_state['location'], false)
+
+    setInterval(recordGameState, 15000)
   )
 
-  window.game_state =
-    location: "Home"
-    control:   "Free"
+recordGameState = () ->
+  game_state = window.game_state
+  game_state['control'] = 'Free'
+  $.cookie('game_state', JSON.stringify(game_state))
+  console.log("game saved")
+
 
 initializeImages = () ->
   $('#background_image').error(() ->
@@ -126,6 +141,8 @@ travelToLocation = (location, encounter_possible = true) ->
   setPersonImage(null)
   if encounter_possible and Math.random() >  0.4
     encounterPerson(location)
+  else
+    changeControlState('Free')
   setTravelList(location)
   setLocationImage(location)
 
