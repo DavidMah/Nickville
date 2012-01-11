@@ -107,6 +107,9 @@ changeControlState = (state) ->
     when 'Chat'
       console.log("moving to Chat State")
       enterChatState()
+    when 'Choice'
+      console.log("moving to Choice State")
+      enterChoiceState()
     when 'Free'
       console.log("moving to Free State")
       enterFreeState()
@@ -122,6 +125,10 @@ enterChatState = () ->
   $('.chat').show()
   setChatlock(false)
 
+enterChoiceState = () ->
+  window.control_elements.hide()
+  setChatlock(true)
+
 enterFreeState = () ->
   window.control_elements.hide()
   $('.free').show()
@@ -129,7 +136,7 @@ enterFreeState = () ->
 enterMenuState = () ->
   window.control_elements.hide()
   $('.menu').show()
-  window.chatlocked = true
+  setChatlock(true)
 
 enterOpeningState = () ->
   window.control_elements.hide()
@@ -159,8 +166,9 @@ followDialogue = (dialogue) ->
   setTimeout(continueDialogue, 50)
 
 # TODO
-continueDialogue = () ->
-  if not window.chatlocked
+continueDialogue = (choice = null) ->
+  if not window.chatlocked or choice != null
+    changeControlState("Chat")
     dialogue = window.dialogue
     if dialogue.length > 0
       handleMessage(dialogue[0])
@@ -176,7 +184,19 @@ handleMessage = (message) ->
     choices = message['Choice']
     i = 0
     window.choices = choices
+    container = $('#choice_container').text("")
     for c in choices
+      choice_box = $(document.createElement('div'))
+      choice_box.addClass('choice_box')
+
+      item = $(document.createElement('button'))
+      item.attr("count", i)
+      item.addClass('choice_item box')
+      item.click(() -> continueDialogue(item.attr("count")))
+
+      item.text(c)
+      choice_box.append(item)
+      container.append(choice_box)
       console.log("#{i} -- #{c['Response']}")
       i += 1
   else
@@ -215,7 +235,7 @@ setTravelList = (location) ->
     item.addClass('link box')
 
     item.text(l)
-    item.click( () -> travelToLocation($(this).text()))
+    item.click(() -> travelToLocation($(this).text()))
 
     link_container.append(item)
     container.append(link_container)
@@ -230,7 +250,6 @@ encounterPerson = (location) ->
     person   = chooseRandomFromList(possible_people)
     setupPerson(person)
 
-# TODO
 setupPerson = (person) ->
   console.log("Encountered #{person}")
   setIndicatorArea(person)

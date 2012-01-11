@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterFreeState, enterMenuState, enterOpeningState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterMenuState, enterOpeningState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -127,6 +127,9 @@
       case 'Chat':
         console.log("moving to Chat State");
         return enterChatState();
+      case 'Choice':
+        console.log("moving to Choice State");
+        return enterChoiceState();
       case 'Free':
         console.log("moving to Free State");
         return enterFreeState();
@@ -143,6 +146,10 @@
     $('.chat').show();
     return setChatlock(false);
   };
+  enterChoiceState = function() {
+    window.control_elements.hide();
+    return setChatlock(true);
+  };
   enterFreeState = function() {
     window.control_elements.hide();
     return $('.free').show();
@@ -150,7 +157,7 @@
   enterMenuState = function() {
     window.control_elements.hide();
     $('.menu').show();
-    return window.chatlocked = true;
+    return setChatlock(true);
   };
   enterOpeningState = function() {
     window.control_elements.hide();
@@ -176,9 +183,13 @@
     window.dialogue = dialogue;
     return setTimeout(continueDialogue, 50);
   };
-  continueDialogue = function() {
+  continueDialogue = function(choice) {
     var dialogue;
-    if (!window.chatlocked) {
+    if (choice == null) {
+      choice = null;
+    }
+    if (!window.chatlocked || choice !== null) {
+      changeControlState("Chat");
       dialogue = window.dialogue;
       if (dialogue.length > 0) {
         handleMessage(dialogue[0]);
@@ -192,14 +203,26 @@
     return changeControlState('Free');
   };
   handleMessage = function(message) {
-    var c, choices, i, _i, _len, _results;
+    var c, choice_box, choices, container, i, item, _i, _len, _results;
     if (message instanceof Object) {
       choices = message['Choice'];
       i = 0;
       window.choices = choices;
+      container = $('#choice_container').text("");
       _results = [];
       for (_i = 0, _len = choices.length; _i < _len; _i++) {
         c = choices[_i];
+        choice_box = $(document.createElement('div'));
+        choice_box.addClass('choice_box');
+        item = $(document.createElement('button'));
+        item.attr("count", i);
+        item.addClass('choice_item box');
+        item.click(function() {
+          return continueDialogue(item.attr("count"));
+        });
+        item.text(c);
+        choice_box.append(item);
+        container.append(choice_box);
         console.log("" + i + " -- " + c['Response']);
         _results.push(i += 1);
       }

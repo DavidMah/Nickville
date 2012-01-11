@@ -215,23 +215,29 @@ h1 {
   z-index: 1;
 }
 
-#travel_container {
-  position: absolute;
+/**********
+ * Choice
+ * *********/
+#choice_container {
   width: 200px;
-  margin-top: 300px;
+  margin-top: 100px;
   margin-left: 650px;
 }
 
-#travel_links {
+#travel_container, #choice_container {
+  position: absolute;
+  width: 200px;
+  margin-top: 100px;
+  margin-left: 650px;
 }
 
-.link_container {
+.link_container, .choice_box {
   width:   100px;
   min-height:  25px;
   margin:  10px 10px 10px 10px;
 }
 
-.link {
+.link, .choice_item {
   width: 100px;
   min-height: 25px;
   padding: 1px 5px 0px 5px;
