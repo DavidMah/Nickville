@@ -49,6 +49,7 @@ Locations:
     - The Ave
     - The Quad
     - The Fountain
+    - Physics Building
   The Quad:
     People:
     Links:
@@ -59,6 +60,8 @@ Locations:
     Links:
     - The Quad
     - 10th Floor Cluster
+    - CSE Building
+    - IMA
   10th Floor Cluster:
     People:
     Links:
@@ -83,6 +86,31 @@ Locations:
   The Fountain:
     People:
     Links:
+    - Red Square
+    - CSE Building
+    - IMA
+    - Physics Building
+  Physics Building:
+    People:
+    Links:
+    - Fountain
+    - Red Square
+  CSE Building:
+    People:
+    - David
+    - Martin
+    - Shiny
+    Links:
+    - Fountain
+    - IMA
+    - McMahon
+  IMA:
+    People:
+    - Martin
+    Links:
+    - Fountain
+    - CSE Building
+    - McMahon
   Reddit:
     People:
     - Some Post
