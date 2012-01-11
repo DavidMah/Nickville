@@ -6,8 +6,9 @@ $(document).ready(()->
 
 testFunctions = () ->
   window.encounterPerson = encounterPerson
-  window.getPossibleLinks = getPossibleLinks
+  window.setupPerson = setupPerson
   window.travelToLocation = travelToLocation
+  window.getPossibleLinks = getPossibleLinks
 
 initializeGameData = () ->
   # Retrieve Data Json
@@ -29,24 +30,28 @@ setControls = () ->
 
 # TODO
 followDialogue = (dialogue) ->
-  dialogue = dialogue.join("\n")
-  console.log("\n---\n#{dialogue}\n---\n")
-    # Create element and hide it
+  dialogue = dialogue.slice() # I really want clone
   continueDialogue(dialogue)
 
 # TODO
 continueDialogue = (dialogue) ->
   if dialogue.length > 0
-    continueDialogue(dialogue)
+    handleMessage(dialogue[0])
+    continueDialogue(dialogue.splice(1))
+
+handleMessage = (message) ->
+  if message instanceof Object
+    choices = message['Choice']
+    for c in choices
+      console.log(c)
   else
+    console.log(message)
+
 
 encounterPerson = (location) ->
   possible_people   = window.game_data['Locations'][location]['People']
   person   = chooseRandomFromList(possible_people)
   setupPerson(person)
-  possible_dialogue = window.game_data['People'][person]['Dialogue']
-  dialogue = chooseRandomFromList(possible_dialogue)
-  followDialogue = (dialogue)
 
 getPossibleLinks = () ->
   possible_links = window.game_data['Locations'][window.game_state['location']]['Links']
@@ -66,6 +71,9 @@ travelToLocation = (location) ->
 # TODO
 setupPerson = (person) ->
   console.log("Encountered #{person}")
+  possible_dialogue = window.game_data['People'][person]['Dialogue']
+  dialogue = chooseRandomFromList(possible_dialogue)
+  followDialogue(dialogue)
 
 chooseRandomFromList = (list) ->
   list[parseInt(Math.random() * list.length)]

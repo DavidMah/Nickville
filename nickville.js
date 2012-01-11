@@ -1,5 +1,5 @@
 (function() {
-  var chooseRandomFromList, continueDialogue, encounterPerson, followDialogue, getPossibleLinks, initializeGameData, setControls, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var chooseRandomFromList, continueDialogue, encounterPerson, followDialogue, getPossibleLinks, handleMessage, initializeGameData, setControls, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -7,8 +7,9 @@
   });
   testFunctions = function() {
     window.encounterPerson = encounterPerson;
-    window.getPossibleLinks = getPossibleLinks;
-    return window.travelToLocation = travelToLocation;
+    window.setupPerson = setupPerson;
+    window.travelToLocation = travelToLocation;
+    return window.getPossibleLinks = getPossibleLinks;
   };
   initializeGameData = function() {
     $.get("gamedata/data.json", function(data) {
@@ -28,18 +29,34 @@
     });
   };
   followDialogue = function(dialogue) {
-    dialogue = dialogue.join("\n");
-    return console.log("\n---\n" + dialogue + "\n---\n");
+    dialogue = dialogue.slice();
+    return continueDialogue(dialogue);
   };
-  continueDialogue = function() {};
+  continueDialogue = function(dialogue) {
+    if (dialogue.length > 0) {
+      handleMessage(dialogue[0]);
+      return continueDialogue(dialogue.splice(1));
+    }
+  };
+  handleMessage = function(message) {
+    var c, choices, _i, _len, _results;
+    if (message instanceof Object) {
+      choices = message['Choice'];
+      _results = [];
+      for (_i = 0, _len = choices.length; _i < _len; _i++) {
+        c = choices[_i];
+        _results.push(console.log(c));
+      }
+      return _results;
+    } else {
+      return console.log(message);
+    }
+  };
   encounterPerson = function(location) {
-    var dialogue, person, possible_dialogue, possible_people;
+    var person, possible_people;
     possible_people = window.game_data['Locations'][location]['People'];
     person = chooseRandomFromList(possible_people);
-    setupPerson(person);
-    possible_dialogue = window.game_data['People'][person]['Dialogue'];
-    dialogue = chooseRandomFromList(possible_dialogue);
-    return followDialogue = dialogue;
+    return setupPerson(person);
   };
   getPossibleLinks = function() {
     var possible_links;
@@ -55,7 +72,11 @@
     }
   };
   setupPerson = function(person) {
-    return console.log("Encountered " + person);
+    var dialogue, possible_dialogue;
+    console.log("Encountered " + person);
+    possible_dialogue = window.game_data['People'][person]['Dialogue'];
+    dialogue = chooseRandomFromList(possible_dialogue);
+    return followDialogue(dialogue);
   };
   chooseRandomFromList = function(list) {
     return list[parseInt(Math.random() * list.length)];
