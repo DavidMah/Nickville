@@ -1,5 +1,5 @@
 (function() {
-  var changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, encounterPerson, enterChatState, enterFreeState, enterMenuState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setAutoSaveButtonState, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterFreeState, enterMenuState, enterOpeningState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setAutoSaveButtonState, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, skipOpeningScreen, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -23,16 +23,10 @@
       window.game_data = data;
       initializeImages();
       if (cached_game_state === null) {
-        window.game_state = {
-          location: "Home",
-          control: "Free",
-          autosave: false
-        };
-        startingSequence();
+        skipOpeningScreen();
       } else {
         window.game_state = cached_game_state;
-        setAutoSaveButtonState(window.game_state['autosave']);
-        travelToLocation(window.game_state['location'], false);
+        activateOpeningMenu();
       }
       return setInterval(recordGameState, 15000);
     });
@@ -105,11 +99,13 @@
     $('#game_container').click(function() {
       return action_handler('click');
     });
+    window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat'));
     $('#menu_button').click(openMenu);
     $('#autosave_button').click(changeAutoSave);
-    return $('#save_button').click(function() {
+    $('#save_button').click(function() {
       return recordGameState(true);
     });
+    return $('#menu_opening').click(activateOpeningMenu);
   };
   changeAutoSave = function() {
     var current_autostate;
@@ -135,22 +131,26 @@
       case 'Menu':
         console.log('moving to Menu State');
         return enterMenuState();
+      case 'Opening':
+        console.log('moving to Opening State');
+        return enterOpeningState();
     }
   };
   enterChatState = function() {
-    $('.free').hide();
-    $('.menu').hide();
+    window.control_elements.hide();
     return $('.chat').show();
   };
   enterFreeState = function() {
-    $('.chat').hide();
-    $('.menu').hide();
+    window.control_elements.hide();
     return $('.free').show();
   };
   enterMenuState = function() {
-    $('.chat').hide();
-    $('.free').hide();
+    window.control_elements.hide();
     return $('.menu').show();
+  };
+  enterOpeningState = function() {
+    window.control_elements.hide();
+    return $('.opening').show();
   };
   openMenu = function() {
     console.log('open menu');
@@ -295,7 +295,24 @@
       "visible": "hidden"
     };
   };
+  activateOpeningMenu = function() {
+    changeControlState('Opening');
+    $('#opening_new').click(skipOpeningScreen);
+    return $('#opening_continue').click(continueSavedGame);
+  };
+  skipOpeningScreen = function() {
+    return startingSequence();
+  };
+  continueSavedGame = function() {
+    setAutoSaveButtonState(window.game_state['autosave']);
+    return travelToLocation(window.game_state['location'], false);
+  };
   startingSequence = function() {
+    window.game_state = {
+      location: "Home",
+      control: "Free",
+      autosave: false
+    };
     travelToLocation('The Apartment', false);
     return followDialogue(window.game_data['Starting Sequence']);
   };

@@ -21,15 +21,10 @@ initializeGameData = () ->
     window.game_data = data
     initializeImages()
     if cached_game_state == null
-      window.game_state =
-        location: "Home"
-        control:  "Free"
-        autosave: false
-      startingSequence()
+      skipOpeningScreen()
     else
       window.game_state = cached_game_state
-      setAutoSaveButtonState(window.game_state['autosave'])
-      travelToLocation(window.game_state['location'], false)
+      activateOpeningMenu()
 
     setInterval(recordGameState, 15000)
   )
@@ -87,9 +82,12 @@ setControls = () ->
   $(document).keypress((e) -> action_handler(e.which))
   $('#game_container').click(() -> action_handler('click'))
 
+  window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat'))
+
   $('#menu_button').click(openMenu)
   $('#autosave_button').click(changeAutoSave)
   $('#save_button').click(() -> recordGameState(true))
+  $('#menu_opening').click(activateOpeningMenu)
 
 changeAutoSave = () ->
   current_autostate = window.game_state['autosave']
@@ -113,21 +111,25 @@ changeControlState = (state) ->
     when 'Menu'
       console.log('moving to Menu State')
       enterMenuState()
+    when 'Opening'
+      console.log('moving to Opening State')
+      enterOpeningState()
 
 enterChatState = () ->
-  $('.free').hide()
-  $('.menu').hide()
+  window.control_elements.hide()
   $('.chat').show()
 
 enterFreeState = () ->
-  $('.chat').hide()
-  $('.menu').hide()
+  window.control_elements.hide()
   $('.free').show()
 
 enterMenuState = () ->
-  $('.chat').hide()
-  $('.free').hide()
+  window.control_elements.hide()
   $('.menu').show()
+
+enterOpeningState = () ->
+  window.control_elements.hide()
+  $('.opening').show()
 
 openMenu = () ->
   console.log('open menu')
@@ -256,7 +258,23 @@ triggerChatBox = () ->
   visibility = $("#chatbox").visibility
   $("#chatbox").visibility = (visibility == "hidden" ? "visible" : "hidden")
 
+activateOpeningMenu = () ->
+  changeControlState('Opening')
+  $('#opening_new').click(skipOpeningScreen)
+  $('#opening_continue').click(continueSavedGame)
+
+skipOpeningScreen = () ->
+  startingSequence()
+
+continueSavedGame = () ->
+  setAutoSaveButtonState(window.game_state['autosave'])
+  travelToLocation(window.game_state['location'], false)
+
 # Logic around plot
 startingSequence = () ->
+  window.game_state =
+    location: "Home"
+    control:  "Free"
+    autosave: false
   travelToLocation('The Apartment', false)
   followDialogue(window.game_data['Starting Sequence'])
