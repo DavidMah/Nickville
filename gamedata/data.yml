@@ -1,4 +1,39 @@
-Characters:
+
+Starting Sequence:
+  - "I'm Nick Teal. My life is pretty tame and boring" 
+  - "I just spend all day tickling my buns and hanging out with Lydia(http://elderscrolls.wikia.com/wiki/Lydia) or Lilly(http://katawa-shoujo.com/characters.php#lilly)"
+  - "What a boring day this Thursday, January twelve is"
+  - "Like there literally isn't anything interesting today"
+  - "I guess I'll just go to class and tickle my buns like I always do"
+
+Locations:
+  - Home:
+    - People:
+      - Shiny
+      - Mark
+    - Links:
+      - The Ave
+  - The Ave:
+    - People:
+      - Shiny
+      - Mark
+      - David
+    - Links:
+      - Home
+      - Red Square
+  - Red Square:
+    - People:
+      - Shiny
+      - David
+    - Links:
+      - Fountain
+  - Fountain:
+    - People:
+      - Mark
+      - David
+    - Links:
+      - Red Square
+People:
 - Shiny:
   - Dialogue:
     -
