@@ -176,13 +176,8 @@ h1 {
  * Relationship
  * --------------------*/
 
-#relationship_container {
+#data_container {
   z-index: 5;
-}
-
-#relationship_back {
-  width: 50px;
-  height: 20px;
 }
 
 dt,dd {
@@ -207,7 +202,45 @@ dt,dd {
 }
 
 /*---------------------
- * Status Area
+ * achievement area
+ * --------------------*/
+.ach {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.ach_yes {
+  color: #2EE5CB;
+}
+
+.ach_no {
+  color: #E8176E;
+}
+
+#reward_container {
+  width: 550px;
+  height: 400px;
+  margin: 100px 125px 100px 125px;
+}
+
+#reward_message {
+  width: 400px;
+  height: 300px;
+  margin: 50px 75px 50px 75px;
+  font-size: 23pt;
+}
+
+#reward_back {
+  width: 60px;
+  height: 50px;
+}
+
+#reward_back:active {
+  width:  56px;
+  height: 46px;
+  margin: 2px 2px 2px 2px;
+}
+/*---------------------
+ * status area
  * --------------------*/
 
 #status_container {

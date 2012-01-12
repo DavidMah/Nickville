@@ -11,6 +11,8 @@ testFunctions = () ->
   window.getPossibleLinks = getPossibleLinks
   window.recordGameState  = recordGameState
   window.activateOpeningMenu = activateOpeningMenu
+  window.rewardAchievement   = rewardAchievement
+  window.collectAchievement = collectAchievement
 
 
 initializeGameData = () ->
@@ -97,13 +99,16 @@ setControls = () ->
   $(document).keypress((e) -> action_handler(e.which))
   $('#game_container').click(() -> action_handler('click'))
 
-  window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love')).add($('.loading')).add($('.relationship'))
+  window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love')).add($('.loading')).add($('.relationship')).add($('.achievements')).add($('.reward'))
 
   $('#menu_button').click(openMenu)
   $('#autosave_button').click(changeAutoSave)
   $('#save_button').click(() -> recordGameState(true))
   $('#menu_opening').click(activateOpeningMenu)
   $('#menu_relationships').click(prepareRelationshipTable)
+  $('#menu_achievements').click(prepareAchievementData)
+
+  $('#reward_back').click(changeToPreviousControl)
 
   $('#love_talk').click(() -> loveEvent(0))
   $('#love_chill').click(() -> loveEvent(1))
@@ -124,7 +129,7 @@ setAutoSaveButtonState = () ->
   $('#autosave_button').text("Turn #{next_state} Autosave")
 
 changeControlState = (state) ->
-  unless state == 'Relationship'
+  unless state == 'Relationship' or state == "Achievements"
     window.game_state['previous_control'] = window.game_state['control']
   window.game_state['control'] = state
   window.control_elements.hide()
@@ -144,6 +149,10 @@ changeControlState = (state) ->
       enterMenuState()
     when 'Relationship'
       enterRelationshipState()
+    when 'Achievements'
+      enterAchievementsState()
+    when 'Reward'
+      enterRewardState()
     when 'Opening'
       enterOpeningState()
   console.log("chatlocked #{window.chatlocked}")
@@ -177,7 +186,17 @@ enterRelationshipState = () ->
   setChatlock(true)
   $('.menu').show()
   $('#menu_items_container').hide()
-  $('#relationship_container').show()
+  $('#data_container').show()
+
+enterAchievementsState = () ->
+  setChatlock(true)
+  $('.menu').show()
+  $('#menu_items_container').hide()
+  $('#data_container').show()
+
+enterRewardState = () ->
+  setChatlock(true)
+  $('.reward').show()
 
 enterOpeningState = () ->
   $('.opening').show()
@@ -194,6 +213,9 @@ exitMenu = () ->
   changeControlState(previous_state)
   $('#menu_button').unbind()
   $('#menu_button').click(openMenu)
+
+changeToPreviousControl = () ->
+  changeControlState(window.game_state['previous_control'])
 
 #------------------------------
 # Logic around dialogue
@@ -368,11 +390,9 @@ failLove = (person, level) ->
 prepareRelationshipTable = () ->
   console.log("relationshipping")
   changeControlState('Relationship')
-  container = $('#relationship_container')
+  container = $('#data_container')
   container.text("")
   for person in window.game_data['People List']
-    console.log("rel for #{person}")
-
     entry = $(document.createElement('dt'))
     entry.text(person)
 
@@ -422,13 +442,18 @@ activateOpeningMenu = () ->
 
 initializeNewGame = () ->
   default_love = {}
+  no_achievements = []
   for person in game_data['People List']
     default_love[person] = 0
+  for ach in game_data['Achievement List']
+    achievement = ach
+    no_achievements[achievement] = [achievement[0], false, {}]
   window.game_state =
     location: "Home"
     control:  "Free"
     autosave: false
     love: default_love
+    achievements: no_achievements
   setAutoSaveButtonState()
 
 startNewGame = () ->
@@ -450,7 +475,32 @@ startingSequence = () ->
 #------------------------------
 # Achievements
 # -----------------------------
+prepareAchievementData = () ->
+  console.log("Building Achievement Record")
+  changeControlState('Achievements')
+  container = $('#data_container')
+  container.text("")
+  for achievement in window.game_data['Achievement List']
+    record = window.game_state['achievements'][achievement]
+    entry = $(document.createElement('div'))
+    success = if record[1] then ":)" else "__"
+    text = "#{success} -- #{achievement}"
+    entry.addClass("ach")
+    if record[1]
+      entry.addClass("ach_yes")
+    else
+      entry.addClass("ach_no")
+    entry.text(text)
+    container.append(entry)
 
 collectAchievement = (message) ->
+  # Happy Birthday Nick
+  data = window.game_state['achievements']['Happy Birthday Nick!']
+  unless data[1]
+    rewardAchievement('Happy Birthday Nick!')
 
-
+rewardAchievement = (achievement) ->
+  window.game_state['achievements'][achievement][1] = true
+  description = window.game_data['Achievements'][achievement]
+  changeControlState('Reward')
+  $('#reward_message').text("Solved! Achievement: #{achievement} -- #{description}")

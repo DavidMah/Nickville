@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, possiblyEncounterPerson, prepareNextState, prepareRelationshipTable, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
+  var activateOpeningMenu, changeAutoSave, changeControlState, changeToPreviousControl, chooseRandomFromList, collectAchievement, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterAchievementsState, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, enterRewardState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, possiblyEncounterPerson, prepareAchievementData, prepareNextState, prepareRelationshipTable, recordGameState, rewardAchievement, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
   $(document).ready(function() {
     testFunctions();
     setControls();
@@ -11,7 +11,9 @@
     window.travelToLocation = travelToLocation;
     window.getPossibleLinks = getPossibleLinks;
     window.recordGameState = recordGameState;
-    return window.activateOpeningMenu = activateOpeningMenu;
+    window.activateOpeningMenu = activateOpeningMenu;
+    window.rewardAchievement = rewardAchievement;
+    return window.collectAchievement = collectAchievement;
   };
   initializeGameData = function() {
     var cached_game_state;
@@ -115,7 +117,7 @@
     $('#game_container').click(function() {
       return action_handler('click');
     });
-    window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love')).add($('.loading')).add($('.relationship'));
+    window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love')).add($('.loading')).add($('.relationship')).add($('.achievements')).add($('.reward'));
     $('#menu_button').click(openMenu);
     $('#autosave_button').click(changeAutoSave);
     $('#save_button').click(function() {
@@ -123,6 +125,8 @@
     });
     $('#menu_opening').click(activateOpeningMenu);
     $('#menu_relationships').click(prepareRelationshipTable);
+    $('#menu_achievements').click(prepareAchievementData);
+    $('#reward_back').click(changeToPreviousControl);
     $('#love_talk').click(function() {
       return loveEvent(0);
     });
@@ -148,7 +152,7 @@
     return $('#autosave_button').text("Turn " + next_state + " Autosave");
   };
   changeControlState = function(state) {
-    if (state !== 'Relationship') {
+    if (!(state === 'Relationship' || state === "Achievements")) {
       window.game_state['previous_control'] = window.game_state['control'];
     }
     window.game_state['control'] = state;
@@ -175,6 +179,12 @@
         break;
       case 'Relationship':
         enterRelationshipState();
+        break;
+      case 'Achievements':
+        enterAchievementsState();
+        break;
+      case 'Reward':
+        enterRewardState();
         break;
       case 'Opening':
         enterOpeningState();
@@ -210,7 +220,17 @@
     setChatlock(true);
     $('.menu').show();
     $('#menu_items_container').hide();
-    return $('#relationship_container').show();
+    return $('#data_container').show();
+  };
+  enterAchievementsState = function() {
+    setChatlock(true);
+    $('.menu').show();
+    $('#menu_items_container').hide();
+    return $('#data_container').show();
+  };
+  enterRewardState = function() {
+    setChatlock(true);
+    return $('.reward').show();
   };
   enterOpeningState = function() {
     return $('.opening').show();
@@ -228,6 +248,9 @@
     changeControlState(previous_state);
     $('#menu_button').unbind();
     return $('#menu_button').click(openMenu);
+  };
+  changeToPreviousControl = function() {
+    return changeControlState(window.game_state['previous_control']);
   };
   followDialogue = function(dialogue) {
     changeControlState('Chat');
@@ -418,13 +441,12 @@
     var container, entry, item, love_points, person, value, _i, _len, _ref, _results;
     console.log("relationshipping");
     changeControlState('Relationship');
-    container = $('#relationship_container');
+    container = $('#data_container');
     container.text("");
     _ref = window.game_data['People List'];
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       person = _ref[_i];
-      console.log("rel for " + person);
       entry = $(document.createElement('dt'));
       entry.text(person);
       value = $(document.createElement('dd'));
@@ -468,18 +490,26 @@
     return $('#opening_continue').click(continueSavedGame);
   };
   initializeNewGame = function() {
-    var default_love, person, _i, _len, _ref;
+    var ach, achievement, default_love, no_achievements, person, _i, _j, _len, _len2, _ref, _ref2;
     default_love = {};
+    no_achievements = [];
     _ref = game_data['People List'];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       person = _ref[_i];
       default_love[person] = 0;
     }
+    _ref2 = game_data['Achievement List'];
+    for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+      ach = _ref2[_j];
+      achievement = ach;
+      no_achievements[achievement] = [achievement[0], false, {}];
+    }
     window.game_state = {
       location: "Home",
       control: "Free",
       autosave: false,
-      love: default_love
+      love: default_love,
+      achievements: no_achievements
     };
     return setAutoSaveButtonState();
   };
@@ -498,5 +528,44 @@
     travelToLocation('The Apartment', false);
     prepareNextState('Free');
     return followDialogue(window.game_data['Starting Sequence']);
+  };
+  prepareAchievementData = function() {
+    var achievement, container, entry, record, success, text, _i, _len, _ref, _results;
+    console.log("Building Achievement Record");
+    changeControlState('Achievements');
+    container = $('#data_container');
+    container.text("");
+    _ref = window.game_data['Achievement List'];
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      achievement = _ref[_i];
+      record = window.game_state['achievements'][achievement];
+      entry = $(document.createElement('div'));
+      success = record[1] ? ":)" : "__";
+      text = "" + success + " -- " + achievement;
+      entry.addClass("ach");
+      if (record[1]) {
+        entry.addClass("ach_yes");
+      } else {
+        entry.addClass("ach_no");
+      }
+      entry.text(text);
+      _results.push(container.append(entry));
+    }
+    return _results;
+  };
+  collectAchievement = function(message) {
+    var data;
+    data = window.game_state['achievements']['Happy Birthday Nick!'];
+    if (!data[1]) {
+      return rewardAchievement('Happy Birthday Nick!');
+    }
+  };
+  rewardAchievement = function(achievement) {
+    var description;
+    window.game_state['achievements'][achievement][1] = true;
+    description = window.game_data['Achievements'][achievement];
+    changeControlState('Reward');
+    return $('#reward_message').text("Solved! Achievement: " + achievement + " -- " + description);
   };
 }).call(this);
