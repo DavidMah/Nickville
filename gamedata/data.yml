@@ -245,6 +245,16 @@ People:
       - "Nick: That's the difference between you and me."
       - "David: butts"
     -
+      - "Nick: Don't you think we're lost?"
+      - "David: Of course not, we've travelled exactly 9001 steps weast."
+      - "Nick: That says West!"
+    -
+      - "David: I'm Ready! I'm Ready! I'm Ready!"
+      - "Nick: No you're not. It needs to be at least THREE times as big!"
+      - "Nick: What is this.. a center for ants!?"
+      - "David: Auu oo errm"
+      - "David: HE'S ABSOLUTELY RIGHT"
+    -
       - "David: I almost was gonna get you one of these for your birthday(http://www.nekomagic.com/?p=23095)"
       - "Nick: Well that would have been sweet. Instead you got jack shit. I am disappoint."
       - "It dawns upon me now that I really wish I got a longboard. My friends ended up being cheap"
@@ -389,11 +399,11 @@ People:
     Description: "Martin EL FUERTE Reyes, CSE 14x Ta."  
     Love:
       Success:
-      - "ok"
+      - "Ooo well then"
       Failure:
-      - "no"
+      - "Nope dude I don't roll that way"
       Love:
-      - "romance"
+      - "DEFINITELY WAS KIDDING -- It seems that I indeed roll that way"
     Dialogue:
     -
       - "Martin: Nick! Jin has gone missing and we have a presentation to give in 20 minutes!"
