@@ -180,8 +180,30 @@ h1 {
   z-index: 5;
 }
 
+#relationship_back {
+  width: 50px;
+  height: 20px;
+}
+
 dt,dd {
+  margin-left: 10px;
   display: inline;
+}
+
+.rel_bad {
+  color: #E8176E;
+}
+
+.rel_normal {
+  color: #2255DD;
+}
+
+.rel_good {
+  color: #22DD55;
+}
+
+.rel_best {
+  color: #2EE5CB;
 }
 
 /*---------------------
