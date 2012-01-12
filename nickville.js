@@ -1,9 +1,9 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoveState, enterMenuState, enterOpeningState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, loveEvent, openMenu, prepareNextState, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, loveEvent, openMenu, prepareNextState, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
   $(document).ready(function() {
     testFunctions();
-    initializeGameData();
-    return setControls();
+    setControls();
+    return initializeGameData();
   });
   testFunctions = function() {
     window.encounterPerson = encounterPerson;
@@ -17,16 +17,18 @@
     var cached_game_state;
     $('.container').hide();
     cached_game_state = $.cookie('game_state');
+    window.control_elements.hide();
+    $('.loading').show();
+    $('#loading_skip').click(activateOpeningMenu);
     return $.get("gamedata/data.json", function(data) {
       window.game_data = data;
-      initializeImages();
       window.chatlocked = false;
       if (cached_game_state === null) {
         startNewGame();
       } else {
         window.game_state = cached_game_state;
-        activateOpeningMenu();
       }
+      initializeImages();
       return setInterval(recordGameState, 15000);
     });
   };
@@ -62,10 +64,24 @@
       l = _ref2[_j];
       image_names.push("images/" + l + ".jpg");
     }
+    window.preload = {
+      necessary: image_names.length - 4,
+      success: 0
+    };
     $.each(image_names, function(i, path) {
       var cached_image;
       cached_image = $('<img/>');
       cached_image.addClass('cached_image');
+      cached_image.load(function() {
+        console.log(path);
+        window.preload['success'] += 1;
+        $('#progress_bar').width(600 * (1.0 * window.preload['success'] / window.preload['necessary']));
+        if (window.preload['success'] >= window.preload['necessary']) {
+          if (window.game_state['control'] !== 'Loading') {
+            return activateOpeningMenu();
+          }
+        }
+      });
       cached_image.attr('src', path);
       window.image_data[path] = cached_image;
       return cached_image.appendTo($("#meta_container"));
@@ -98,7 +114,7 @@
     $('#game_container').click(function() {
       return action_handler('click');
     });
-    window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love'));
+    window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love')).add($('.loading'));
     $('#menu_button').click(openMenu);
     $('#autosave_button').click(changeAutoSave);
     $('#save_button').click(function() {
@@ -132,7 +148,11 @@
   changeControlState = function(state) {
     window.game_state['previous_control'] = window.game_state['control'];
     window.game_state['control'] = state;
+    window.control_elements.hide();
     switch (state) {
+      case 'Loading':
+        enterLoadingState();
+        break;
       case 'Chat':
         enterChatState();
         break;
@@ -154,33 +174,30 @@
     console.log("chatlocked " + window.chatlocked);
     return console.log("moving to " + state + " State");
   };
+  enterLoadingState = function() {
+    return $('.loading').show();
+  };
   enterChatState = function() {
-    window.control_elements.hide();
     $('.chat').show();
     return setChatlock(false);
   };
   enterChoiceState = function() {
-    window.control_elements.hide();
     return setChatlock(true);
   };
   enterFreeState = function() {
-    window.control_elements.hide();
     $('.free').show();
     return setChatlock(true);
   };
   enterLoveState = function() {
-    window.control_elements.hide();
     $('.free').show();
     $('.love').show();
     return setChatlock(true);
   };
   enterMenuState = function() {
-    window.control_elements.hide();
     $('.menu').show();
     return setChatlock(true);
   };
   enterOpeningState = function() {
-    window.control_elements.hide();
     return $('.opening').show();
   };
   openMenu = function() {

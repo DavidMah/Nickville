@@ -31,9 +31,8 @@ body {
   color:       White;
 }
 
-
 /*---------------------
- * Opening Board
+ * Loading Area
  * --------------------*/
 
 h1 {
@@ -42,6 +41,37 @@ h1 {
   margin-right: auto;
 }
 
+.bar {
+  height: 75px;
+}
+
+#loading_bar {
+  width: 600px;
+  background-color: #E8176E;
+  margin: 0px 100px 0px 100px;
+}
+
+#progress_bar {
+  width: 1px;
+  background-color: #2EE5CB;
+}
+
+#loading_skip {
+  width:  500px;
+  height: 200px;
+  font-size:  20pt;
+  margin: 100px 150px 100px 150px;
+}
+
+#loading_skip:active {
+  width: 494px;
+  height: 194px;
+  margin: 103px 153px 103px 153px;
+}
+
+/*---------------------
+ * Opening Board
+ * --------------------*/
 #opening_container {
   position: absolute;
   width:  800px;
@@ -214,7 +244,7 @@ h1 {
   width: 640px;
   height: 100px;
   padding: 20px 30px 20px 30px;
-
+  font-size: 15pt;
   z-index: 1;
 }
 
