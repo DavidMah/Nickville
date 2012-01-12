@@ -1,5 +1,5 @@
 Starting Sequence:
-- "I'm Nick Teal. My life is pretty tame and boring" 
+- "I'm Nick Teal. My life is pretty tame and boring." 
 - "I just spend all day tickling my buns and hanging out with Lydia(http://elderscrolls.wikia.com/wiki/Lydia) or Lilly(http://katawa-shoujo.com/characters.php#lilly)"
 - "What a boring day this Thursday, January twelve is"
 - "Like there literally isn't anything interesting today. Shit this sucks."
@@ -7,7 +7,7 @@ Starting Sequence:
 
 Locations:
   The Apartment:
-    Description: "Smells like shit again. What the fuck Shiny"
+    Description: "Cool people only, NO GIRLS ALLOWED"
     People:
     - Shiny
     - Mark
@@ -16,9 +16,15 @@ Locations:
     Links:
     - The Ave
     - Reddit
+    - Skyrim
   The Ave:
     Description: "I know these streets better than I know myself..."
     People:
+    - Shiny
+    - Mark
+    - Mikelsons
+    - Emo
+    - Derek
     Links:
     - The Apartment
     - Hawaiian Barbecue
@@ -41,8 +47,14 @@ Locations:
     - Hawaiian Barbecue
     - The Ave
   Red Square:
-    Description: "I sure do love talking to God the Mother people!"
+    Description: "I LOVE MORMONS"
     People:
+    - Shiny
+    - Mark
+    - Mikelsons
+    - Emo
+    - David
+    - Martin
     Links:
     - The Ave
     - The Quad
@@ -51,12 +63,17 @@ Locations:
   The Quad:
     Description: "This isn't Loew Hall, that means no real classes happen here!"
     People:
+    - Mikelsons
+    - Emo
+    - Mark
     Links:
     - Red Square
     - McMahon
   McMahon:
     Description: "The home I never had.."
     People:
+    - David
+    - Martin
     Links:
     - The Quad
     - 10th Floor Cluster
@@ -65,6 +82,8 @@ Locations:
   10th Floor Cluster:
     Description: "This place is so cool"
     People:
+    - David
+    - Martin
     Links:
     - McMahon
     - Jin's Room
@@ -72,6 +91,7 @@ Locations:
   Jin's Room:
     Description: "It smells like fart in here"
     People:
+    - Jin
     Links:
     - 10th Floor Cluster
     - Jin's Bed
@@ -88,8 +108,13 @@ Locations:
     Links:
     - 10th Floor Cluster
   Fountain:
-    Description: "There's nothing like the smell of geese poop"
+    Description: "Geese poop landmines"
     People:
+    - Mikelsons
+    - Emo
+    - David
+    - Martin
+    - Shiny
     Links:
     - Red Square
     - CSE Building
@@ -98,11 +123,20 @@ Locations:
   Physics Building:
     Description: "Smells like midterm"
     People:
+    - David
+    - Martin
+    - Shiny
     Links:
     - Fountain
     - Red Square
+  Physics Building:
+    Description: "Smells like zzzzzzzz"
+    People:
+    - Professor
+    Links:
+    - Physics Building
   CSE Building:
-    Description: "My future home"
+    Description: "NERD ALERT"
     People:
     - David
     - Martin
@@ -115,6 +149,7 @@ Locations:
     Description: "I own this place..."
     People:
     - Martin
+    - Derek
     Links:
     - Fountain
     - CSE Building
@@ -123,6 +158,13 @@ Locations:
     Description: "My true love"
     People:
     - Some Post
+    Links:
+    - The Apartment
+  Skyrim:
+    Description: "My second home"
+    People:
+    - Lydia
+    - Lily
     Links:
     - The Apartment
 People:
@@ -302,6 +344,15 @@ People:
       - "I get wet every time I get a kill with Miss Fortune."
       - "Katarina is mai waifu~~"
       - "Annie?"
+  Professor:
+    Dialogue:
+    -
+      - "Professor: So if you take the cross product of the net torque vector keeping in mind the net displacement from BOTH friction and the electrical field..."
+      - "Professor: ...and then cross multiply that with the static internal tension, convert the function to parametric polar coordinates..."
+      - "Professor: ...and then correctly use the property of superposition to accurately reflect the free body diagram, everything should make sense."
+      - "Professor: That is, of course, unless you take the acceleration of gravity to be a negative."
+      - "Professor: Only retards do that."
+
   Jin:
     Dialogue:
     -
@@ -332,6 +383,41 @@ People:
       - "Nick: Hey Jin, what's up?"
       - "Jin: *crying, inaudible response*"
       - "Nick: See ya Jin..."
+  Lily:
+    Dialogue:
+    -
+      - "Lily: I used to be able to see..."
+      - "Lily: But then I took an arrow to the eye."
+      - "Lily: That is, of course, just a joke."
+      - "Lily: But you shouldn't joke about other's disabilites."
+    -
+      - "Lily: Have you ever heard of the Sky Rim-Job?"
+      - "Lily: I don't know what it is either."
+      - "Lily: I'm quite curious about it myself. I've heard it's quite popular."
+    -
+      - "Lily: Would you help me into the bath?"
+      - "Lily: It's quite cold and I'm not quite faimiliar with this place."
+      - "Nick: It's bun touching time."
+      - "Lily: You know I can't see you right now..."
+      - "Lily: But I definitely heard that."
+
+
+  Lydia:
+    Dialogue:
+    -
+      - "Lydia: Oh, my sweet Dohvakin, I would love to marry you so."
+      - "Lydia: Our quest is of such grave importance. But alas, I cannot. "
+      - "Nick: Not if I have anything to say about it."
+      - "*Enters in code into the console*"
+      - "Lydia: What kind of sandwich would you desire, my love?"
+    -
+      - "Lydia: My love, my champion, my sweet Dohvakin, I really wish you would stop giving me these tiny undergarments to wear."
+      - "Lydia: They are really quite inappropriate for this Skyrim weather!"
+      - "*Enters in code into the console*"
+      - "Lydia: I give up, Dohvakin. I do this for you."
+      - "Nick: It's bun touching time."
+
+
 
 Achievements:
 - Happy Birthday Nick!: "You opened up the game. Now get out of my House"
