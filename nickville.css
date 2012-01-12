@@ -270,14 +270,14 @@ h1 {
 }
 
 .love_item {
-  width: 100px;
+  width: 140px;
   height: 60px;
   opacity: 1.0;
   margin: 0px 0px 0px 0px;
 }
 
 .love_item:active {
-  width: 80px;
+  width: 120px;
   height: 50px;
   padding: 5px 10px 5px 10px;
 }
