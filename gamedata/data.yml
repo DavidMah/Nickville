@@ -254,7 +254,26 @@ People:
   Martin:
     Dialogue:
     -
-      - "Martin: Someone fill this in."
+      - "Martin: Nick! Jin has gone missing and we have a presentation to give in 20 minutes!"
+      - "Martin: This is like that thing that happened in AP Calc with Sarah."
+      - "Nick: It's my birthday today, why should I have to go on an epic saga again?"
+      - "Martin: Good point."
+      - "Martin: I just realized I didn't check in Jin's room, so he's probably in there anyway."
+    -
+      - "Martin: Here's your birthday present Nick."
+      - "Nick: Oh sweet man, thanks!"
+      - "Nick: ..."
+      - "Nick: ..."
+      - "Nick: ..."
+      - "Nick: What is this?"
+      - "Martin: What do you mean? You asked for this!"
+      - "Martin: It's a Tenga egg. I heard you were out of eggs at your apartment so I got the most expensive egg I could find."
+      - "Nick: Do you have any clue what this is?"
+      - "Martin: It's a really expensive egg. Now that I see it in person, it doesn't look edible though."
+      - "Nick: This this isn't edible at all!"
+      - "Martin: Well I guess you should throw it away then since it's of no use."
+      - "Martin: Sorry about that."
+      - "Nick: It's okay, I'll keep it and see if I ever find any use for it."
   Derek:
     Dialogue:
     -
