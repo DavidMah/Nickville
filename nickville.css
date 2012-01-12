@@ -253,3 +253,14 @@ h1 {
   padding: 0px 5px 0px 5px;
 }
 
+/*****************
+ * Love
+ *****************/
+
+#love_container {
+  margin-top: 650px;
+}
+
+.love_item {
+  opacity: 1.0;
+}

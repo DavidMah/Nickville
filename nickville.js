@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterMenuState, enterOpeningState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoveState, enterMenuState, enterOpeningState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, prepareNextState, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -98,7 +98,7 @@
     $('#game_container').click(function() {
       return action_handler('click');
     });
-    window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat'));
+    window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love'));
     $('#menu_button').click(openMenu);
     $('#autosave_button').click(changeAutoSave);
     $('#save_button').click(function() {
@@ -122,21 +122,24 @@
     window.game_state['control'] = state;
     switch (state) {
       case 'Chat':
-        console.log("moving to Chat State");
-        return enterChatState();
+        enterChatState();
+        break;
       case 'Choice':
-        console.log("moving to Choice State");
-        return enterChoiceState();
+        enterChoiceState();
+        break;
       case 'Free':
-        console.log("moving to Free State");
-        return enterFreeState();
+        enterFreeState();
+        break;
+      case 'Love':
+        enterLoveState();
+        break;
       case 'Menu':
-        console.log('moving to Menu State');
-        return enterMenuState();
+        enterMenuState();
+        break;
       case 'Opening':
-        console.log('moving to Opening State');
-        return enterOpeningState();
+        enterOpeningState();
     }
+    return console.log("moving to " + state + " State");
   };
   enterChatState = function() {
     window.control_elements.hide();
@@ -150,6 +153,11 @@
   enterFreeState = function() {
     window.control_elements.hide();
     return $('.free').show();
+  };
+  enterLoveState = function() {
+    window.control_elements.hide();
+    $('.free').show();
+    return $('.love').show();
   };
   enterMenuState = function() {
     window.control_elements.hide();
@@ -185,7 +193,7 @@
     if (choice == null) {
       choice = null;
     }
-    console.log("continued shit");
+    console.log("continued dialogue");
     if (!window.chatlocked || choice !== null) {
       changeControlState("Chat");
       dialogue = window.dialogue;
@@ -198,7 +206,7 @@
     }
   };
   completeDialogue = function() {
-    return changeControlState('Free');
+    return changeControlState(window.next_state);
   };
   handleMessage = function(message) {
     var c, choice_box, choices, container, i, item, _i, _len, _results;
@@ -285,6 +293,7 @@
     var person, possible_people;
     possible_people = window.game_data['Locations'][location]['People'];
     if (possible_people !== null) {
+      prepareNextState('Love');
       person = chooseRandomFromList(possible_people);
       return setupPerson(person);
     }
@@ -311,6 +320,9 @@
     person_element.width(width);
     person_element.height(window.image_data[path].height());
     return person_element.css('margin-left', (800 - width) / 2);
+  };
+  prepareNextState = function(state) {
+    return window.next_state = state;
   };
   chooseRandomFromList = function(list) {
     return list[parseInt(Math.random() * list.length)];
@@ -358,6 +370,7 @@
   startingSequence = function() {
     setChatlock(false);
     travelToLocation('The Apartment', false);
+    prepareNextState('Free');
     return followDialogue(window.game_data['Starting Sequence']);
   };
 }).call(this);

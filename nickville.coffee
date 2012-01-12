@@ -83,7 +83,7 @@ setControls = () ->
   $(document).keypress((e) -> action_handler(e.which))
   $('#game_container').click(() -> action_handler('click'))
 
-  window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat'))
+  window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love'))
 
   $('#menu_button').click(openMenu)
   $('#autosave_button').click(changeAutoSave)
@@ -104,20 +104,18 @@ changeControlState = (state) ->
   window.game_state['control'] = state
   switch state
     when 'Chat'
-      console.log("moving to Chat State")
       enterChatState()
     when 'Choice'
-      console.log("moving to Choice State")
       enterChoiceState()
     when 'Free'
-      console.log("moving to Free State")
       enterFreeState()
+    when 'Love'
+      enterLoveState()
     when 'Menu'
-      console.log('moving to Menu State')
       enterMenuState()
     when 'Opening'
-      console.log('moving to Opening State')
       enterOpeningState()
+  console.log("moving to #{state} State")
 
 enterChatState = () ->
   window.control_elements.hide()
@@ -131,6 +129,11 @@ enterChoiceState = () ->
 enterFreeState = () ->
   window.control_elements.hide()
   $('.free').show()
+
+enterLoveState = () ->
+  window.control_elements.hide()
+  $('.free').show()
+  $('.love').show()
 
 enterMenuState = () ->
   window.control_elements.hide()
@@ -164,9 +167,8 @@ followDialogue = (dialogue) ->
   window.dialogue = dialogue
   setTimeout(continueDialogue, 50)
 
-# TODO
 continueDialogue = (choice = null) ->
-  console.log("continued shit")
+  console.log("continued dialogue")
   if not window.chatlocked or choice != null
     changeControlState("Chat")
     dialogue = window.dialogue
@@ -177,7 +179,7 @@ continueDialogue = (choice = null) ->
       completeDialogue()
 
 completeDialogue = () ->
-  changeControlState('Free')
+  changeControlState(window.next_state)
 
 handleMessage = (message) ->
   if message instanceof Object
@@ -248,6 +250,7 @@ setLocationImage = (location) ->
 encounterPerson = (location) ->
   possible_people   = window.game_data['Locations'][location]['People']
   unless possible_people == null
+    prepareNextState('Love')
     person   = chooseRandomFromList(possible_people)
     setupPerson(person)
 
@@ -270,6 +273,9 @@ setPersonImage = (person) ->
   person_element.width(width)
   person_element.height(window.image_data[path].height())
   person_element.css('margin-left', (800 - width) / 2)
+
+prepareNextState = (state) ->
+  window.next_state = state
 
 chooseRandomFromList = (list) ->
   list[parseInt(Math.random() * list.length)]
@@ -314,4 +320,5 @@ continueSavedGame = () ->
 startingSequence = () ->
   setChatlock(false)
   travelToLocation('The Apartment', false)
+  prepareNextState('Free')
   followDialogue(window.game_data['Starting Sequence'])

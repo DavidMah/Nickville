@@ -112,6 +112,8 @@ Locations:
     - The Apartment
 People:
   Shiny:
+    Love Yes: "Yes Homo. You're such a cutey nick"
+    Love No: "Da eff"
     Dialogue:
     -
       - "Shiny: Hey Nick, want to come to the toolshed with me?"
