@@ -173,6 +173,18 @@ h1 {
 }
 
 /*---------------------
+ * Relationship
+ * --------------------*/
+
+#relationship_container {
+  z-index: 5;
+}
+
+dt,dd {
+  display: inline;
+}
+
+/*---------------------
  * Status Area
  * --------------------*/
 
