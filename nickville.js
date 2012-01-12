@@ -355,10 +355,14 @@
     return window.game_state['love'][person] = 1;
   };
   succeedLove = function() {
-    return console.log('hooray');
+    console.log(window.game_data['Default Love Success']);
+    prepareNextState('Free');
+    return followDialogue(window.game_data['Default Love Success']);
   };
   failLove = function() {
-    return console.log('boo');
+    console.log(window.game_data['Default Love Failure']);
+    prepareNextState('Free');
+    return followDialogue(window.game_data['Default Love Failure']);
   };
   chooseRandomFromList = function(list) {
     return list[parseInt(Math.random() * list.length)];
