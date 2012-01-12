@@ -460,7 +460,7 @@ activateOpeningMenu = () ->
 
 initializeNewGame = () ->
   default_love = {}
-  no_achievements = []
+  no_achievements = {}
   for person in game_data['People List']
     default_love[person] = 0
   for ach in game_data['Achievement List']
@@ -532,10 +532,6 @@ collectAchievement = (message) ->
         data['list'].push(message['Person'])
     if data['list'].length == window.game_data['People List'].length
       rewardAchievement('Socially Acceptable')
-
-  # NERD ALERT
-  data = window.game_state['achievements']['NERD ALERT'][2]
-  # if message['Action'] == 'Dialogue'
 
   # Fried Rice
   if window.game_state['love']['Hawaiian Barbecue Guy'] >= 400

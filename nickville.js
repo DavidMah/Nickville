@@ -517,7 +517,7 @@
   initializeNewGame = function() {
     var ach, achievement, default_love, no_achievements, person, _i, _j, _len, _len2, _ref, _ref2;
     default_love = {};
-    no_achievements = [];
+    no_achievements = {};
     _ref = game_data['People List'];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       person = _ref[_i];
@@ -601,7 +601,6 @@
         rewardAchievement('Socially Acceptable');
       }
     }
-    data = window.game_state['achievements']['NERD ALERT'][2];
     if (window.game_state['love']['Hawaiian Barbecue Guy'] >= 400) {
       rewardAchievement('Fried Rice');
     }
