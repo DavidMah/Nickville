@@ -32,7 +32,7 @@ initializeGameData = () ->
 
 recordGameState = (force = false) ->
   if force or window.game_state['autosave']
-    game_state = window.game_state
+    game_state = JSON.parse(JSON.stringify(window.game_state))
     game_state['control'] = 'Free'
     $.cookie('game_state', JSON.stringify(game_state))
     console.log("game saved")
@@ -166,6 +166,7 @@ followDialogue = (dialogue) ->
 
 # TODO
 continueDialogue = (choice = null) ->
+  console.log("continued shit")
   if not window.chatlocked or choice != null
     changeControlState("Chat")
     dialogue = window.dialogue
@@ -209,6 +210,7 @@ getPossibleLinks = () ->
 
 travelToLocation = (location, encounter_possible = true) ->
   return unless window.game_state['control'] == 'Free'
+  setChatlock(true)
   console.log "Moving to #{location}"
   window.game_state['location'] = location
   setIndicatorArea(location)

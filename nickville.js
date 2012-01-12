@@ -36,7 +36,7 @@
       force = false;
     }
     if (force || window.game_state['autosave']) {
-      game_state = window.game_state;
+      game_state = JSON.parse(JSON.stringify(window.game_state));
       game_state['control'] = 'Free';
       $.cookie('game_state', JSON.stringify(game_state));
       return console.log("game saved");
@@ -185,6 +185,7 @@
     if (choice == null) {
       choice = null;
     }
+    console.log("continued shit");
     if (!window.chatlocked || choice !== null) {
       changeControlState("Chat");
       dialogue = window.dialogue;
@@ -242,6 +243,7 @@
     if (window.game_state['control'] !== 'Free') {
       return;
     }
+    setChatlock(true);
     console.log("Moving to " + location);
     window.game_state['location'] = location;
     setIndicatorArea(location);
