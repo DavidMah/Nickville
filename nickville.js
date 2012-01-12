@@ -77,7 +77,7 @@
         window.preload['success'] += 1;
         $('#progress_bar').width(600 * (1.0 * window.preload['success'] / window.preload['necessary']));
         if (window.preload['success'] >= window.preload['necessary']) {
-          if (window.game_state['control'] !== 'Loading') {
+          if (window.game_state['control'] === 'Loading') {
             return activateOpeningMenu();
           }
         }
@@ -121,7 +121,7 @@
       return recordGameState(true);
     });
     $('#menu_opening').click(activateOpeningMenu);
-    $('menu_relationships').click(prepareRelationshipTable);
+    $('#menu_relationships').click(prepareRelationshipTable);
     $('#love_talk').click(function() {
       return loveEvent(0);
     });
@@ -407,18 +407,20 @@
   };
   prepareRelationshipTable = function() {
     var container, entry, person, value, _i, _len, _ref, _results;
+    console.log("relationshipping");
     changeControlState('Relationship');
     container = $('#relationship_container');
     _ref = window.game_data['People List'];
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       person = _ref[_i];
+      console.log("rel for " + person);
       entry = $(document.createElement('dt'));
       entry.text(person);
       value = $(document.createElement('dd'));
       value.text(window.game_state['love'][person]);
-      container.append(entry);
-      _results.push(container.append(value));
+      container.append(value);
+      _results.push(container.append(entry));
     }
     return _results;
   };

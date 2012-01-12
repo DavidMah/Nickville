@@ -64,7 +64,7 @@ initializeImages = () ->
       window.preload['success'] += 1
       $('#progress_bar').width(600 * (1.0 * window.preload['success'] / window.preload['necessary']))
       if window.preload['success'] >= window.preload['necessary']
-        if window.game_state['control'] != 'Loading'
+        if window.game_state['control'] == 'Loading'
           activateOpeningMenu()
     )
     cached_image.attr('src', path)
@@ -102,7 +102,7 @@ setControls = () ->
   $('#autosave_button').click(changeAutoSave)
   $('#save_button').click(() -> recordGameState(true))
   $('#menu_opening').click(activateOpeningMenu)
-  $('menu_relationships').click(prepareRelationshipTable)
+  $('#menu_relationships').click(prepareRelationshipTable)
 
   $('#love_talk').click(() -> loveEvent(0))
   $('#love_chill').click(() -> loveEvent(1))
@@ -174,7 +174,7 @@ enterRelationshipState = () ->
   setChatlock(true)
   $('.menu').show()
   $('#menu_items_container').hide()
-  $('.relationship_container').show()
+  $('#relationship_container').show()
 
 enterOpeningState = () ->
   $('.opening').show()
@@ -292,7 +292,7 @@ setLocationImage = (location) ->
 #------------------------------
 # Logic around Chat
 # -----------------------------
-#
+
 possiblyEncounterPerson = (location) ->
   possible_people = window.game_data['Locations'][location]['People']
   if possible_people != null and ((possible_people.length == 1 and Math.random() > 0.75) or (Math.random() > 0.4))
@@ -358,19 +358,21 @@ failLove = () ->
   followDialogue(window.game_data['Default Love Failure'])
 
 prepareRelationshipTable = () ->
+  console.log("relationshipping")
   changeControlState('Relationship')
   container = $('#relationship_container')
   for person in window.game_data['People List']
+    console.log("rel for #{person}")
     entry = $(document.createElement('dt'))
     entry.text(person)
 
     value = $(document.createElement('dd'))
     value.text(window.game_state['love'][person])
 
-    container.append(entry)
     container.append(value)
 
 #------------------------------
+    container.append(entry)
 # Misc Utility
 # -----------------------------
 
