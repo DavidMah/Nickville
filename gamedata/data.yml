@@ -17,6 +17,7 @@ Locations:
     - The Ave
     - Reddit
   The Ave:
+    Description: "I know these streets better than I know myself..."
     People:
     Links:
     - The Apartment
@@ -24,12 +25,14 @@ Locations:
     - Chipotle
     - Red Square
   Hawaiian Barbecue:
+    Description: "Is that Jin's father?!?"
     People:
     - Hawaiian Barbecue Guy
     Links:
     - Chipotle
     - The Ave
   Chipotle:
+    Description: "Home sweet Chipotle"
     People:
     - David
     - Martin
@@ -38,6 +41,7 @@ Locations:
     - Hawaiian Barbecue
     - The Ave
   Red Square:
+    Description: "I sure do love talking to God the Mother people!"
     People:
     Links:
     - The Ave
@@ -45,11 +49,13 @@ Locations:
     - Fountain
     - Physics Building
   The Quad:
+    Description: "This isn't Loew Hall, that means no real classes happen here!"
     People:
     Links:
     - Red Square
     - McMahon
   McMahon:
+    Description: "The home I never had.."
     People:
     Links:
     - The Quad
@@ -57,27 +63,32 @@ Locations:
     - CSE Building
     - IMA
   10th Floor Cluster:
+    Description: "This place is so cool"
     People:
     Links:
     - McMahon
     - Jin's Room
     - David's Room
   Jin's Room:
+    Description: "It smells like fart in here"
     People:
     Links:
     - 10th Floor Cluster
     - Jin's Bed
   Jin's Bed:
+    Description: "It smells like sex in here"
     People:
     - Jin
     Links:
     - Jin's Room
   David's Room:
+    Description: "I'm unsure what country I'm in when I'm in here"
     People:
     - David
     Links:
     - 10th Floor Cluster
   Fountain:
+    Description: "There's nothing like the smell of geese poop"
     People:
     Links:
     - Red Square
@@ -85,11 +96,13 @@ Locations:
     - IMA
     - Physics Building
   Physics Building:
+    Description: "Smells like midterm"
     People:
     Links:
     - Fountain
     - Red Square
   CSE Building:
+    Description: "My future home"
     People:
     - David
     - Martin
@@ -99,6 +112,7 @@ Locations:
     - IMA
     - McMahon
   IMA:
+    Description: "I own this place..."
     People:
     - Martin
     Links:
@@ -106,6 +120,7 @@ Locations:
     - CSE Building
     - McMahon
   Reddit:
+    Description: "My true love"
     People:
     - Some Post
     Links:
@@ -299,8 +314,33 @@ People:
   Jin:
     Dialogue:
     -
-      - "Jin: Gosh darnit Nick not there!"
+      - "Jin: Gosh darnit Nick, not there!"
       - "Nick: Zug Zug"
+    -
+      - "Jin: Is it normal to have feelings for your professor?"
+      - "Nick: Umm, I'm not really sure Jin, why do you ask?"
+      - "Jin: Oh, no reason, you know, a friend just asked and I thought I'd ask you..."
+      - "Jin: ..."
+      - "Jin: Okay it's just that my O-Chem teacher is SO HAWT I can't contain it."
+      - "Nick: I'm slightly frightened so I'm just going to leave now..."
+    - 
+      - "Nick: Oh hey Jin, how's it going?"
+      - "Jin: Hey Nick, not too bad. How about you?"
+      - "Nick: Just got out of class and thought I'd stop by the cluster and see what's going on."
+      - "Nick: What have you been up to?"
+      - "Jin: Oh I just held up a bank."
+      - "Nick: Haha, that's funny."
+      - "Jin: I'm dead serious."
+      - "Jin: And if you say anything I'll make sure you wake up missing a kidney."
+      - "Jin: But if you don't say anything, there's $10,000 in it for you."
+      - "Nick: I think I'm just going to leave now, I'm a little uncomfortable..."
+      - "Jin: Oh just FYI before you go, I'll have someone monitoring your every movement."
+      - "Jin: So if you say anything, I WILL KNOW."
+      - "Nick: My life is over *begins sobbing uncontrollably*"
+    -
+      - "Nick: Hey Jin, what's up?"
+      - "Jin: *crying, inaudible response*"
+      - "Nick: See ya Jin..."
 
 Achievements:
 - Happy Birthday Nick!: "You opened up the game. Now get out of my House"
