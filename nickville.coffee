@@ -16,8 +16,7 @@ testFunctions = () ->
 initializeGameData = () ->
   $('.container').hide()
   cached_game_state = $.cookie('game_state')
-  if cached_game_state != null
-    cached_game_state = JSON.parse(cached_game_state)
+
   $.get("gamedata/data.json", (data) ->
     window.game_data = data
     initializeImages()
@@ -304,6 +303,8 @@ startNewGame = () ->
   startingSequence()
 
 continueSavedGame = () ->
+  console.log("trying to continue")
+  window.game_state = JSON.parse($.cookie('game_state'))
   setAutoSaveButtonState()
   travelToLocation(window.game_state['location'], false)
 

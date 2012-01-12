@@ -17,9 +17,6 @@
     var cached_game_state;
     $('.container').hide();
     cached_game_state = $.cookie('game_state');
-    if (cached_game_state !== null) {
-      cached_game_state = JSON.parse(cached_game_state);
-    }
     return $.get("gamedata/data.json", function(data) {
       window.game_data = data;
       initializeImages();
@@ -351,6 +348,8 @@
     return startingSequence();
   };
   continueSavedGame = function() {
+    console.log("trying to continue");
+    window.game_state = JSON.parse($.cookie('game_state'));
     setAutoSaveButtonState();
     return travelToLocation(window.game_state['location'], false);
   };
