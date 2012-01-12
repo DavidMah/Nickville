@@ -65,7 +65,7 @@ h1 {
 #opening_background {
   width:  800px;
   height: 600px;
-  background-image: "images/Opening.jpg"
+  background-image: url("images/Opening.jpg")
 }
 
 .background {
@@ -194,9 +194,8 @@ h1 {
 .box {
   border: solid;
   border-color: #000000;
-  background-color: #777777;
+  background: none repeat scroll 0 0 rgba(119, 119, 119, 0.7);
   border-radius: 15px;
-  opacity: 0.7;
   font-family: Verdana;
   color:       White;
 }
@@ -264,11 +263,21 @@ h1 {
  *****************/
 
 #love_container {
-  margin-top: 550px;
+  width:       450px;
+  margin-top:  550px;
+  margin-left: 200px;
+  height: 30px;
 }
 
 .love_item {
-  width: 200px;
-  min-height: 50px;
+  width: 100px;
+  height: 60px;
   opacity: 1.0;
+  margin: 0px 0px 0px 0px;
+}
+
+.love_item:active {
+  width: 80px;
+  height: 50px;
+  padding: 5px 10px 5px 10px;
 }

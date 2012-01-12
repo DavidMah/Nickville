@@ -90,6 +90,15 @@ setControls = () ->
   $('#save_button').click(() -> recordGameState(true))
   $('#menu_opening').click(activateOpeningMenu)
 
+  $('#love_talk').click(() -> loveEvent(0))
+  $('#love_chill').click(() -> loveEvent(1))
+  $('#love_footsy').click(() -> loveEvent(2))
+  $('#love_sex').click(() -> loveEvent(3))
+
+# -------------------------------------------
+# Logic around Saving
+# -------------------------------------------
+
 changeAutoSave = () ->
   current_autostate = window.game_state['autosave']
   window.game_state['autosave'] = !current_autostate
@@ -205,6 +214,10 @@ handleMessage = (message) ->
     $("#dialogue_area").text(message)
     console.log(message)
 
+#------------------------------
+# Logic around Travel
+# -----------------------------
+
 getPossibleLinks = () ->
   possible_links = window.game_data['Locations'][window.game_state['location']]['Links']
   console.log(possible_links)
@@ -247,6 +260,10 @@ setLocationImage = (location) ->
     $('#background_image').attr('src', "images/#{location}.jpg")
     $('#background_image').show()
 
+#------------------------------
+# Logic around Chat
+# -----------------------------
+
 encounterPerson = (location) ->
   possible_people   = window.game_data['Locations'][location]['People']
   unless possible_people == null
@@ -256,6 +273,7 @@ encounterPerson = (location) ->
 
 setupPerson = (person) ->
   console.log("Encountered #{person}")
+  window.person = person
   setIndicatorArea(person)
   possible_dialogue = window.game_data['People'][person]['Dialogue']
   dialogue = chooseRandomFromList(possible_dialogue)
@@ -276,6 +294,30 @@ setPersonImage = (person) ->
 
 prepareNextState = (state) ->
   window.next_state = state
+
+#------------------------------
+# Logic around Love
+# -----------------------------
+
+loveEvent = (level) ->
+  current    = window.game_state[window.person]
+  difficulty = (10 * level * level - 0.1 * current)
+  if current == null
+    initializeLove(window.person)
+  power = Math.random() * 10
+  if power > difficulty
+    succeedLove()
+  else
+    failLove()
+
+initializeLove = (person) ->
+  window.game_state['love'][person] = 1
+
+succeedLove = () ->
+  console.log('hooray')
+
+failLove = () ->
+  console.log('boo')
 
 chooseRandomFromList = (list) ->
   list[parseInt(Math.random() * list.length)]
@@ -307,6 +349,7 @@ startNewGame = () ->
     location: "Home"
     control:  "Free"
     autosave: false
+    love: {}
   setAutoSaveButtonState()
   startingSequence()
 
