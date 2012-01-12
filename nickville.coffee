@@ -1,7 +1,7 @@
 $(document).ready(()->
   testFunctions()
-  initializeGameData()
   setControls()
+  initializeGameData()
 )
 
 testFunctions = () ->
@@ -16,16 +16,18 @@ testFunctions = () ->
 initializeGameData = () ->
   $('.container').hide()
   cached_game_state = $.cookie('game_state')
+  window.control_elements.hide()
+  $('.loading').show()
+  $('#loading_skip').click(activateOpeningMenu)
 
   $.get("gamedata/data.json", (data) ->
     window.game_data = data
-    initializeImages()
     window.chatlocked = false
     if cached_game_state == null
-      startNewGame()
+      initializeNewGame()
     else
       window.game_state = cached_game_state
-      activateOpeningMenu()
+    initializeImages()
 
     setInterval(recordGameState, 15000)
   )
@@ -51,9 +53,20 @@ initializeImages = () ->
   for l in window.game_data['Location List']
     image_names.push("images/#{l}.jpg")
 
+  window.preload =
+    necessary: image_names.length - 4
+    success: 0
   $.each(image_names, (i, path) ->
     cached_image = $('<img/>')
     cached_image.addClass('cached_image')
+    cached_image.load(() ->
+      console.log(path)
+      window.preload['success'] += 1
+      $('#progress_bar').width(600 * (1.0 * window.preload['success'] / window.preload['necessary']))
+      if window.preload['success'] >= window.preload['necessary']
+        if window.game_state['control'] != 'Loading'
+          activateOpeningMenu()
+    )
     cached_image.attr('src', path)
     window.image_data[path] = cached_image
     cached_image.appendTo($("#meta_container")))
@@ -83,7 +96,7 @@ setControls = () ->
   $(document).keypress((e) -> action_handler(e.which))
   $('#game_container').click(() -> action_handler('click'))
 
-  window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love'))
+  window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love')).add($('.loading'))
 
   $('#menu_button').click(openMenu)
   $('#autosave_button').click(changeAutoSave)
@@ -111,7 +124,10 @@ setAutoSaveButtonState = () ->
 changeControlState = (state) ->
   window.game_state['previous_control'] = window.game_state['control']
   window.game_state['control'] = state
+  window.control_elements.hide()
   switch state
+    when 'Loading'
+      enterLoadingState()
     when 'Chat'
       enterChatState()
     when 'Choice'
@@ -124,33 +140,33 @@ changeControlState = (state) ->
       enterMenuState()
     when 'Opening'
       enterOpeningState()
+  console.log("chatlocked #{window.chatlocked}")
   console.log("moving to #{state} State")
 
+enterLoadingState = () ->
+  $('.loading').show()
+
 enterChatState = () ->
-  window.control_elements.hide()
   $('.chat').show()
   setChatlock(false)
 
 enterChoiceState = () ->
-  window.control_elements.hide()
   setChatlock(true)
 
 enterFreeState = () ->
-  window.control_elements.hide()
   $('.free').show()
+  setChatlock(true)
 
 enterLoveState = () ->
-  window.control_elements.hide()
   $('.free').show()
   $('.love').show()
+  setChatlock(true)
 
 enterMenuState = () ->
-  window.control_elements.hide()
   $('.menu').show()
   setChatlock(true)
 
 enterOpeningState = () ->
-  window.control_elements.hide()
   $('.opening').show()
 
 openMenu = () ->
@@ -174,7 +190,8 @@ followDialogue = (dialogue) ->
   changeControlState('Chat')
   dialogue = dialogue.slice() # I really want clone
   window.dialogue = dialogue
-  setTimeout(continueDialogue, 50)
+  unless window.game_state['previous_control'] == 'Love'
+    setTimeout(continueDialogue, 100)
 
 continueDialogue = (choice = null) ->
   console.log("continued dialogue")
@@ -253,6 +270,7 @@ setTravelList = (location) ->
     item.text(l)
     item.click(() -> travelToLocation($(this).text()))
 
+
     link_container.append(item)
     container.append(link_container)
 
@@ -301,7 +319,7 @@ prepareNextState = (state) ->
 
 loveEvent = (level) ->
   current    = window.game_state[window.person]
-  difficulty = (10 * level * level - 0.1 * current)
+  difficulty = (6 * level * level - 0.1 * current)
   if current == null
     initializeLove(window.person)
   power = Math.random() * 10
@@ -333,13 +351,7 @@ setChatlock = (chatlock) ->
   if chatlock
     window.chatlocked = true
   else
-    setTimeout((() -> window.chatlocked = false), 50)
-
-
-# Logic around the chat box
-triggerChatBox = () ->
-  visibility = $("#chatbox").visibility
-  $("#chatbox").visibility = (visibility == "hidden" ? "visible" : "hidden")
+    setTimeout((() -> window.chatlocked = false), 100)
 
 activateOpeningMenu = () ->
   changeControlState('Opening')
@@ -348,13 +360,16 @@ activateOpeningMenu = () ->
   $('#opening_new').click(startNewGame)
   $('#opening_continue').click(continueSavedGame)
 
-startNewGame = () ->
+initializeNewGame = () ->
   window.game_state =
     location: "Home"
     control:  "Free"
     autosave: false
     love: {}
   setAutoSaveButtonState()
+
+startNewGame = () ->
+  initializeNewGame()
   startingSequence()
 
 continueSavedGame = () ->

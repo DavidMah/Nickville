@@ -12,6 +12,17 @@
   <body>
     <div id="meta_container"></div>
     <div id="game_container">
+      <div id="loading_container" class="loading">
+        <h1> Please Wait while the Game Loads... </h1>
+        <div id="loading_bar" class="bar">
+          <div id="progress_bar" class="bar"></div>
+        </div>
+        <button id="loading_skip" class="box">
+          Skip<br />(Warning that things may not be
+          loaded yet and <strong>will definitely look like crap</strong>)
+        </button>
+
+      </div>
 
       <div id="opening_container"     class="opening">
         <br /><br /><br /><br />
@@ -73,32 +84,32 @@
           <button id="love_sex"    class="love_item box">Rape</button>
         </div>
       </div>-->
-	  
-	  
-		<table width=400px style="float:right;margin-top:540;" class="love">
-			<tr>
-				<td width=100px align=center>
-					<div style="width:140px;height:60px;z-index:-100;">
-						<button id="love_talk" class="love_item box">Make Conversation</button>
-					</div>
-				</td>
-				<td width=100px align=center>
-					<div style="width:140px;height:60px;z-index:-100;">
-						<button id="love_chill" class="love_item box">Play Video Games</button>
-					</div>
-				</td>
-				<td width=100px align=center>
-					<div style="width:140px;height:60px;z-index:-100;">
-						<button id="love_footsy" class="love_item box">Play Footsy right here</button>
-					</div>
-				</td>
-				<td width=100px align=center>
-					<div style="width:140px;height:60px;z-index:-100;">
-						<button id="love_sex"    class="love_item box">Rape</button>
-					</div>
-				</td>
-			<tr>
-		</table>
+
+
+    <table id="love_container" class="love">
+      <tr>
+        <td width=100px align=center>
+          <div class="love_item_container">
+            <button id="love_talk" class="love_item box">Make Conversation</button>
+          </div>
+        </td>
+        <td width=100px align=center>
+          <div class="love_item_container">
+            <button id="love_chill" class="love_item box">Play Video Games</button>
+          </div>
+        </td>
+        <td width=100px align=center>
+          <div class="love_item_container">
+            <button id="love_footsy" class="love_item box">Play Footsy right here</button>
+          </div>
+        </td>
+        <td width=100px align=center>
+          <div class="love_item_container">
+            <button id="love_sex"    class="love_item box">Rape</button>
+          </div>
+        </td>
+      <tr>
+    </table>
 
       <div id="dialogue_container" class="container chat">
         <div id="dialogue_box"  class="dialogue box"></div>
