@@ -19,6 +19,7 @@ initializeGameData = () ->
   window.control_elements.hide()
   $('.loading').show()
   $('#loading_skip').click(activateOpeningMenu)
+  window.loading = true
 
   $.get("gamedata/data.json", (data) ->
     window.game_data = data
@@ -64,7 +65,7 @@ initializeImages = () ->
       window.preload['success'] += 1
       $('#progress_bar').width(600 * (1.0 * window.preload['success'] / window.preload['necessary']))
       if window.preload['success'] >= window.preload['necessary']
-        if window.game_state['control'] == 'Loading'
+        if window.loading
           activateOpeningMenu()
     )
     cached_image.attr('src', path)
@@ -126,6 +127,7 @@ changeControlState = (state) ->
   window.game_state['previous_control'] = window.game_state['control']
   window.game_state['control'] = state
   window.control_elements.hide()
+  window.loading = false
   switch state
     when 'Loading'
       enterLoadingState()
@@ -363,16 +365,19 @@ prepareRelationshipTable = () ->
   container = $('#relationship_container')
   for person in window.game_data['People List']
     console.log("rel for #{person}")
+
     entry = $(document.createElement('dt'))
     entry.text(person)
 
     value = $(document.createElement('dd'))
     value.text(window.game_state['love'][person])
 
-    container.append(value)
+    item  = $(document.createElement('div'))
+    item.append(entry)
+    item.append(value)
+    container.append(item)
 
 #------------------------------
-    container.append(entry)
 # Misc Utility
 # -----------------------------
 

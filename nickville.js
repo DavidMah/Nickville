@@ -20,6 +20,7 @@
     window.control_elements.hide();
     $('.loading').show();
     $('#loading_skip').click(activateOpeningMenu);
+    window.loading = true;
     return $.get("gamedata/data.json", function(data) {
       window.game_data = data;
       window.chatlocked = false;
@@ -77,7 +78,7 @@
         window.preload['success'] += 1;
         $('#progress_bar').width(600 * (1.0 * window.preload['success'] / window.preload['necessary']));
         if (window.preload['success'] >= window.preload['necessary']) {
-          if (window.game_state['control'] === 'Loading') {
+          if (window.loading) {
             return activateOpeningMenu();
           }
         }
@@ -150,6 +151,7 @@
     window.game_state['previous_control'] = window.game_state['control'];
     window.game_state['control'] = state;
     window.control_elements.hide();
+    window.loading = false;
     switch (state) {
       case 'Loading':
         enterLoadingState();
@@ -206,7 +208,7 @@
     setChatlock(true);
     $('.menu').show();
     $('#menu_items_container').hide();
-    return $('.relationship_container').show();
+    return $('#relationship_container').show();
   };
   enterOpeningState = function() {
     return $('.opening').show();
@@ -406,7 +408,7 @@
     return followDialogue(window.game_data['Default Love Failure']);
   };
   prepareRelationshipTable = function() {
-    var container, entry, person, value, _i, _len, _ref, _results;
+    var container, entry, item, person, value, _i, _len, _ref, _results;
     console.log("relationshipping");
     changeControlState('Relationship');
     container = $('#relationship_container');
@@ -419,8 +421,10 @@
       entry.text(person);
       value = $(document.createElement('dd'));
       value.text(window.game_state['love'][person]);
-      container.append(value);
-      _results.push(container.append(entry));
+      item = $(document.createElement('div'));
+      item.append(entry);
+      item.append(value);
+      _results.push(container.append(item));
     }
     return _results;
   };
