@@ -177,7 +177,8 @@ followDialogue = (dialogue) ->
   changeControlState('Chat')
   dialogue = dialogue.slice() # I really want clone
   window.dialogue = dialogue
-  setTimeout(continueDialogue, 100)
+  unless window.game_state['previous_control'] == 'Love'
+    setTimeout(continueDialogue, 100)
 
 continueDialogue = (choice = null) ->
   console.log("continued dialogue")
@@ -255,6 +256,7 @@ setTravelList = (location) ->
 
     item.text(l)
     item.click(() -> travelToLocation($(this).text()))
+
 
     link_container.append(item)
     container.append(link_container)
@@ -336,7 +338,7 @@ setChatlock = (chatlock) ->
   if chatlock
     window.chatlocked = true
   else
-    setTimeout((() -> window.chatlocked = false), 50)
+    setTimeout((() -> window.chatlocked = false), 100)
 
 activateOpeningMenu = () ->
   changeControlState('Opening')

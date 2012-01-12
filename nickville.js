@@ -201,7 +201,9 @@
     changeControlState('Chat');
     dialogue = dialogue.slice();
     window.dialogue = dialogue;
-    return setTimeout(continueDialogue, 100);
+    if (window.game_state['previous_control'] !== 'Love') {
+      return setTimeout(continueDialogue, 100);
+    }
   };
   continueDialogue = function(choice) {
     var dialogue;
@@ -379,7 +381,7 @@
     } else {
       return setTimeout((function() {
         return window.chatlocked = false;
-      }), 50);
+      }), 100);
     }
   };
   activateOpeningMenu = function() {

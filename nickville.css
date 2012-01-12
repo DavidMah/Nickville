@@ -97,16 +97,14 @@ h1 {
 #menu_button {
   width:   100px;
   height:  40px;
-  padding: 1px 5px 0px 5px;
   opacity: 1.0;
   text-align:center;
 }
 
 #menu_button:active {
-  width:   90px;
-  height:  30px;
-  padding: 0.9px 4.5px 0px 4.5px;
-  margin:  5px 5px 5px 5px;
+  width:   96px;
+  height:  36px;
+  margin: 2px 2px 2px 2px;
 }
 
 /*---------------------
@@ -238,7 +236,7 @@ h1 {
 
 .link_container, .choice_box {
   width:   100px;
-  min-height:  25px;
+  height:  40px;
   margin:  10px 10px 10px 10px;
 }
 
@@ -263,10 +261,15 @@ h1 {
  *****************/
 
 #love_container {
-  width:       450px;
-  margin-top:  550px;
-  margin-left: 200px;
-  height: 30px;
+  float:      right;
+  width:      400px;
+  margin-top: 540px;
+}
+
+.love_item_container {
+  width: 140px;
+  height: 60px;
+  z-index: -100;
 }
 
 .love_item {
@@ -277,7 +280,8 @@ h1 {
 }
 
 .love_item:active {
-  width: 120px;
-  height: 50px;
-  padding: 5px 10px 5px 10px;
+  width: 136px;
+  height: 56px;
+  padding: 2px 2px 2px 2px;
+  margin: 2px 2px 2px 2px;
 }
