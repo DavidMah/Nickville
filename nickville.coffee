@@ -124,6 +124,7 @@ changeControlState = (state) ->
       enterMenuState()
     when 'Opening'
       enterOpeningState()
+  console.log("chatlocked #{window.chatlocked}")
   console.log("moving to #{state} State")
 
 enterChatState = () ->
@@ -138,11 +139,13 @@ enterChoiceState = () ->
 enterFreeState = () ->
   window.control_elements.hide()
   $('.free').show()
+  setChatlock(true)
 
 enterLoveState = () ->
   window.control_elements.hide()
   $('.free').show()
   $('.love').show()
+  setChatlock(true)
 
 enterMenuState = () ->
   window.control_elements.hide()
@@ -174,7 +177,7 @@ followDialogue = (dialogue) ->
   changeControlState('Chat')
   dialogue = dialogue.slice() # I really want clone
   window.dialogue = dialogue
-  setTimeout(continueDialogue, 50)
+  setTimeout(continueDialogue, 100)
 
 continueDialogue = (choice = null) ->
   console.log("continued dialogue")
@@ -301,7 +304,7 @@ prepareNextState = (state) ->
 
 loveEvent = (level) ->
   current    = window.game_state[window.person]
-  difficulty = (10 * level * level - 0.1 * current)
+  difficulty = (6 * level * level - 0.1 * current)
   if current == null
     initializeLove(window.person)
   power = Math.random() * 10
@@ -334,12 +337,6 @@ setChatlock = (chatlock) ->
     window.chatlocked = true
   else
     setTimeout((() -> window.chatlocked = false), 50)
-
-
-# Logic around the chat box
-triggerChatBox = () ->
-  visibility = $("#chatbox").visibility
-  $("#chatbox").visibility = (visibility == "hidden" ? "visible" : "hidden")
 
 activateOpeningMenu = () ->
   changeControlState('Opening')

@@ -303,14 +303,6 @@ People:
       - "I probably shouldn't dive this, but fuck it let's do this thing. DOUBLE KILL"
       - "BITCHES LOVE JEWELRY AND CANDLES"
       - "We do the barons!"
-  Professor:
-    Dialogue:
-    -
-      - "Professor: So if you take the cross product of the net torque vector keeping in mind the net displacement from BOTH friction and the electrical field..."
-      - "Professor: ...and then cross multiply that with the static internal tension, convert the function to parametric polar coordinates..."
-      - "Professor: ...and then correctly use the property of superposition to accurately reflect the free body diagram, everything should make sense."
-      - "Professor: That is, of course, unless you take the acceleration of gravity to be a negative."
-      - "Professor: Only retards do that."
   Jin:
     Dialogue:
     -
@@ -344,7 +336,7 @@ People:
 
 Achievements:
 - Happy Birthday Nick!: "You opened up the game. Now get out of my House"
-- Molested Jin:         "You broke into Jin's bedroom"
+- Molested Jin: "You broke into Jin's bedroom"
 
 Default Love Success:
 - "You're so hot right now"

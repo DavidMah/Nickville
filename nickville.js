@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoveState, enterMenuState, enterOpeningState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, loveEvent, openMenu, prepareNextState, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation, triggerChatBox;
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoveState, enterMenuState, enterOpeningState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, loveEvent, openMenu, prepareNextState, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -151,6 +151,7 @@
       case 'Opening':
         enterOpeningState();
     }
+    console.log("chatlocked " + window.chatlocked);
     return console.log("moving to " + state + " State");
   };
   enterChatState = function() {
@@ -164,12 +165,14 @@
   };
   enterFreeState = function() {
     window.control_elements.hide();
-    return $('.free').show();
+    $('.free').show();
+    return setChatlock(true);
   };
   enterLoveState = function() {
     window.control_elements.hide();
     $('.free').show();
-    return $('.love').show();
+    $('.love').show();
+    return setChatlock(true);
   };
   enterMenuState = function() {
     window.control_elements.hide();
@@ -198,7 +201,7 @@
     changeControlState('Chat');
     dialogue = dialogue.slice();
     window.dialogue = dialogue;
-    return setTimeout(continueDialogue, 50);
+    return setTimeout(continueDialogue, 100);
   };
   continueDialogue = function(choice) {
     var dialogue;
@@ -340,7 +343,7 @@
   loveEvent = function(level) {
     var current, difficulty, power;
     current = window.game_state[window.person];
-    difficulty = 10 * level * level - 0.1 * current;
+    difficulty = 6 * level * level - 0.1 * current;
     if (current === null) {
       initializeLove(window.person);
     }
@@ -378,13 +381,6 @@
         return window.chatlocked = false;
       }), 50);
     }
-  };
-  triggerChatBox = function() {
-    var visibility, _ref;
-    visibility = $("#chatbox").visibility;
-    return $("#chatbox").visibility = (_ref = visibility === "hidden") != null ? _ref : {
-      "visible": "hidden"
-    };
   };
   activateOpeningMenu = function() {
     changeControlState('Opening');
