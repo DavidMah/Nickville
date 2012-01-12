@@ -75,7 +75,7 @@ initializeImages = () ->
   $('#person_image').hide()
 
 # -------------------------------------------
-# Logic around control mechanics
+# Logic around Controls!!!
 # -------------------------------------------
 setControls = () ->
   console.log("controls being set")
@@ -102,6 +102,7 @@ setControls = () ->
   $('#autosave_button').click(changeAutoSave)
   $('#save_button').click(() -> recordGameState(true))
   $('#menu_opening').click(activateOpeningMenu)
+  $('menu_relationships').click(prepareRelationshipTable)
 
   $('#love_talk').click(() -> loveEvent(0))
   $('#love_chill').click(() -> loveEvent(1))
@@ -138,6 +139,8 @@ changeControlState = (state) ->
       enterLoveState()
     when 'Menu'
       enterMenuState()
+    when 'Relationship'
+      enterRelationshipState()
     when 'Opening'
       enterOpeningState()
   console.log("chatlocked #{window.chatlocked}")
@@ -164,7 +167,14 @@ enterLoveState = () ->
 
 enterMenuState = () ->
   $('.menu').show()
+  $('#menu_items_container').show()
   setChatlock(true)
+
+enterRelationshipState = () ->
+  setChatlock(true)
+  $('.menu').show()
+  $('#menu_items_container').hide()
+  $('.relationship_container').show()
 
 enterOpeningState = () ->
   $('.opening').show()
@@ -232,7 +242,7 @@ handleMessage = (message) ->
     console.log(message)
 
 #------------------------------
-# Logic around Travel
+# Logic around Travel!!!
 # -----------------------------
 
 getPossibleLinks = () ->
@@ -253,6 +263,7 @@ travelToLocation = (location, encounter_possible = true) ->
     encounterPerson(location)
   else
     changeControlState('Free')
+    window.person = null
   setTravelList(location)
   setLocationImage(location)
 
@@ -314,11 +325,15 @@ prepareNextState = (state) ->
   window.next_state = state
 
 #------------------------------
-# Logic around Love
+# Logic around Love!!!
 # -----------------------------
 
 loveEvent = (level) ->
+<<<<<<< HEAD
   current    = window.game_state[window.person]
+=======
+  current    = window.game_state['love'][window.person]
+>>>>>>> d4b7fa0d28c59645fd70be0d0d6dfcbdb44c6d64
   difficulty = (6 * level * level - 0.1 * current)
   if current == null
     initializeLove(window.person)
@@ -341,6 +356,23 @@ failLove = () ->
   prepareNextState('Free')
   followDialogue(window.game_data['Default Love Failure'])
 
+prepareRelationshipTable = () ->
+  changeControlState('Relationship')
+  container = $('#relationship_container')
+  for person in window.game_data['People List']
+    entry = $(document.createElement('dt'))
+    entry.text(person)
+
+    value = $(document.createElement('dd'))
+    value.text(window.game_state['love'][person])
+
+    container.append(entry)
+    container.append(value)
+
+#------------------------------
+# Misc Utility
+# -----------------------------
+
 chooseRandomFromList = (list) ->
   list[parseInt(Math.random() * list.length)]
 
@@ -361,11 +393,17 @@ activateOpeningMenu = () ->
   $('#opening_continue').click(continueSavedGame)
 
 initializeNewGame = () ->
+<<<<<<< HEAD
+=======
+  default_love = {}
+  for person in game_data['People List']
+    default_love[person] = 0
+>>>>>>> d4b7fa0d28c59645fd70be0d0d6dfcbdb44c6d64
   window.game_state =
     location: "Home"
     control:  "Free"
     autosave: false
-    love: {}
+    love: default_love
   setAutoSaveButtonState()
 
 startNewGame = () ->

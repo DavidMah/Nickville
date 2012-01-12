@@ -1,5 +1,9 @@
 (function() {
+<<<<<<< HEAD
   var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, prepareNextState, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
+=======
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, prepareNextState, prepareRelationshipTable, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
+>>>>>>> d4b7fa0d28c59645fd70be0d0d6dfcbdb44c6d64
   $(document).ready(function() {
     testFunctions();
     setControls();
@@ -121,6 +125,7 @@
       return recordGameState(true);
     });
     $('#menu_opening').click(activateOpeningMenu);
+    $('menu_relationships').click(prepareRelationshipTable);
     $('#love_talk').click(function() {
       return loveEvent(0);
     });
@@ -168,6 +173,9 @@
       case 'Menu':
         enterMenuState();
         break;
+      case 'Relationship':
+        enterRelationshipState();
+        break;
       case 'Opening':
         enterOpeningState();
     }
@@ -195,7 +203,14 @@
   };
   enterMenuState = function() {
     $('.menu').show();
+    $('#menu_items_container').show();
     return setChatlock(true);
+  };
+  enterRelationshipState = function() {
+    setChatlock(true);
+    $('.menu').show();
+    $('#menu_items_container').hide();
+    return $('.relationship_container').show();
   };
   enterOpeningState = function() {
     return $('.opening').show();
@@ -295,6 +310,7 @@
       encounterPerson(location);
     } else {
       changeControlState('Free');
+      window.person = null;
     }
     setTravelList(location);
     return setLocationImage(location);
@@ -361,7 +377,11 @@
   };
   loveEvent = function(level) {
     var current, difficulty, power;
+<<<<<<< HEAD
     current = window.game_state[window.person];
+=======
+    current = window.game_state['love'][window.person];
+>>>>>>> d4b7fa0d28c59645fd70be0d0d6dfcbdb44c6d64
     difficulty = 6 * level * level - 0.1 * current;
     if (current === null) {
       initializeLove(window.person);
@@ -386,6 +406,23 @@
     prepareNextState('Free');
     return followDialogue(window.game_data['Default Love Failure']);
   };
+  prepareRelationshipTable = function() {
+    var container, entry, person, value, _i, _len, _ref, _results;
+    changeControlState('Relationship');
+    container = $('#relationship_container');
+    _ref = window.game_data['People List'];
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      person = _ref[_i];
+      entry = $(document.createElement('dt'));
+      entry.text(person);
+      value = $(document.createElement('dd'));
+      value.text(window.game_state['love'][person]);
+      container.append(entry);
+      _results.push(container.append(value));
+    }
+    return _results;
+  };
   chooseRandomFromList = function(list) {
     return list[parseInt(Math.random() * list.length)];
   };
@@ -408,6 +445,16 @@
     return $('#opening_continue').click(continueSavedGame);
   };
   initializeNewGame = function() {
+<<<<<<< HEAD
+=======
+    var default_love, person, _i, _len, _ref;
+    default_love = {};
+    _ref = game_data['People List'];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      person = _ref[_i];
+      default_love[person] = 0;
+    }
+>>>>>>> d4b7fa0d28c59645fd70be0d0d6dfcbdb44c6d64
     window.game_state = {
       location: "Home",
       control: "Free",
