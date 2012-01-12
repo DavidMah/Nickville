@@ -509,13 +509,42 @@ collectAchievement = (message) ->
   # Socially Acceptable
   data = window.game_state['achievements']['Socially Acceptable'][2]
   if message['Action'] == 'Dialogue'
-    if data['list'] == null
+    if data['list'] == undefined
       data['list'] = []
     if data['list'].indexOf(message['Person']) == -1
       unless message['Person'] == null
         data['list'].push(message['Person'])
     if data['list'].length == window.game_data['People List'].length
       rewardAchievement('Socially Acceptable')
+
+  # NERD ALERT
+  data = window.game_state['achievements']['NERD ALERT'][2]
+  # if message['Action'] == 'Dialogue'
+
+  # Fried Rice
+  if window.game_state['love']['Hawaiian Barbecue Guy'] >= 400
+    rewardAchievement('Fried Rice')
+
+  # Waifu Status
+  if window.game_state['love']['Lilly'] >= 400 or window.game_state['love']['Lydia'] >= 400
+    rewardAchievement('Waifu Status')
+
+  # Le Me and the Gf
+  if window.game_state['love']['Some Post'] >= 400
+    rewardAchievement('Le Me and the Gf')
+
+  # Fatass
+  if message['Action'] == "Travel" and message['Location'] == "Chipotle"
+    data = window.game_state['achievements']['Fatass'][2]
+    if data['count'] == undefined
+      data['count'] = 0
+    data['count'] += 1
+    if data['count'] >= 30
+      rewardAchievement('Fatass')
+
+  # Office After Hours
+  if window.game_state['love']['Professor'] >= 400
+    rewardAchievement('Office After Hours')
 
 rewardAchievement = (achievement) ->
   setTimeout((() ->

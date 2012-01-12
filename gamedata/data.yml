@@ -1,7 +1,7 @@
 Starting Sequence:
 - "..."
 - "I'm Nick Teal. My life is pretty tame and boring." 
-- "I'm so bored and lonely, I spend my time hanging out with my virtual waifus Lily and Lydia on the computer."
+- "I'm so bored and lonely, I spend my time hanging out with my virtual waifus Lilly and Lydia on the computer."
 - "Thursday January 12.. What a boring and crap day. Like totally useless day of no significance"
 - "Like there literally isn't anything interesting today. Shit this sucks."
 - "I guess I'll just go to class and tickle my buns like I always do...always the same routine day after day."
@@ -167,7 +167,7 @@ Locations:
     Description: "My second home"
     People:
     - Lydia
-    - Lily
+    - Lilly
     Links:
     - The Apartment
 People:
@@ -518,7 +518,7 @@ People:
       - "Nick: 6 POOL!"
       - "Nick: HNNNNNGHHH"
 
-  Lily:
+  Lilly:
     Description: "Your anime waifu. Blonde haired, blue-eyed cripple girl perfection."  
     Love:
       Success: "Won't you sit down for a cup of tea?"
@@ -526,20 +526,20 @@ People:
       Love: "I'd look at you, if I could see. I'd speak to you, if I had a voice. I'd hug you, if I had arms. Hisao...(I mean Nick)...I love you. I will never leave your desktop."
     Dialogue:
     -
-      - "Lily: I used to be able to see..."
-      - "Lily: But then I took an arrow to the eye."
-      - "Lily: That is, of course, just a joke."
-      - "Lily: But you shouldn't joke about other's disabilites."
+      - "Lilly: I used to be able to see..."
+      - "Lilly: But then I took an arrow to the eye."
+      - "Lilly: That is, of course, just a joke."
+      - "Lilly: But you shouldn't joke about other's disabilites."
     -
-      - "Lily: Have you ever heard of the Sky Rim-Job?"
-      - "Lily: I don't know what it is either."
-      - "Lily: I'm quite curious about it myself. I've heard it's quite popular."
+      - "Lilly: Have you ever heard of the Sky Rim-Job?"
+      - "Lilly: I don't know what it is either."
+      - "Lilly: I'm quite curious about it myself. I've heard it's quite popular."
     -
-      - "Lily: Would you help me into the bath?"
-      - "Lily: It's quite cold and I'm not quite faimiliar with this place."
+      - "Lilly: Would you help me into the bath?"
+      - "Lilly: It's quite cold and I'm not quite faimiliar with this place."
       - "Nick: It's bun touching time."
-      - "Lily: You know I can't see you right now..."
-      - "Lily: But I definitely heard that."
+      - "Lilly: You know I can't see you right now..."
+      - "Lilly: But I definitely heard that."
 
 
   Lydia:
@@ -568,7 +568,7 @@ Achievements:
   Socially Acceptable: "You've talked to everyone at least once."
   NERD ALERT: "You've seen every goddamn conversation in this game. Get a life nerd."
   Fried Rice: "Successfully romance the Hawaiian Barbecue guy. Maybe now you'll get something that's not the 70."
-  Waifu Status: "Successfully romance Lily or Lydia."
+  Waifu Status: "Successfully romance Lilly or Lydia."
   Le Me and the Gf: "Successfully romance Random Reddit Poster."
   Fatass: "Hit up Chipotle not enough times. Only Thirty"
   Office After-Hours: "Successfully romance the professor."
