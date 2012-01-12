@@ -202,7 +202,9 @@ followDialogue = (dialogue) ->
   changeControlState('Chat')
   dialogue = dialogue.slice() # I really want clone
   window.dialogue = dialogue
+  console.log("previous control #{window.game_state['previous_control']}")
   unless window.game_state['previous_control'] == 'Love'
+    console.log("IT WAS HERE")
     setTimeout(continueDialogue, 100)
 
 continueDialogue = (choice = null) ->
@@ -254,6 +256,7 @@ getPossibleLinks = () ->
 
 travelToLocation = (location, encounter_possible = true) ->
   return unless window.game_state['control'] == 'Free' or window.game_state['control'] == 'Love'
+  changeControlState('Free')
   setChatlock(true)
   console.log "Moving to #{location}"
   window.game_state['location'] = location

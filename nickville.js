@@ -231,7 +231,9 @@
     changeControlState('Chat');
     dialogue = dialogue.slice();
     window.dialogue = dialogue;
+    console.log("previous control " + window.game_state['previous_control']);
     if (window.game_state['previous_control'] !== 'Love') {
+      console.log("IT WAS HERE");
       return setTimeout(continueDialogue, 100);
     }
   };
@@ -298,6 +300,7 @@
     if (!(window.game_state['control'] === 'Free' || window.game_state['control'] === 'Love')) {
       return;
     }
+    changeControlState('Free');
     setChatlock(true);
     console.log("Moving to " + location);
     window.game_state['location'] = location;
