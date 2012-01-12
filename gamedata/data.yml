@@ -1,6 +1,6 @@
 Starting Sequence:
 - "I'm Nick Teal. My life is pretty tame and boring." 
-- "I just spend all day tickling my buns and hanging out with Lydia(http://elderscrolls.wikia.com/wiki/Lydia) or Lilly(http://katawa-shoujo.com/characters.php#lilly)"
+- "I'm so bored and lonely, I spend my time hanging out with my virtual waifus Lily and Lydia on the computer."
 - "What a boring day this Thursday, January twelve is"
 - "Like there literally isn't anything interesting today. Shit this sucks."
 - "I guess I'll just go to class and tickle my buns like I always do...always the same routine day after day. I wish I had a blind girl to love"
@@ -129,7 +129,8 @@ Locations:
     Links:
     - Fountain
     - Red Square
-  Physics Building:
+    - Lecture Hall
+  Lecture Hall:
     Description: "Smells like zzzzzzzz"
     People:
     - Professor
@@ -169,8 +170,12 @@ Locations:
     - The Apartment
 People:
   Shiny:
-    Love Yes: "Yes Homo. You're such a cutey nick"
-    Love No: "Da eff"
+    Description: "The coolest of the cool, the 1337est of the 1338. Also the one who probably wrote the dialogue you read."
+	Love:
+		Success: "Hey, check out this cool new feature I added to my game!"
+		Failure: "Dude, you suck at this game. You can't even long jump!"
+		Love: "Nick. You. My game. You play it. Now. Make a level too, while you're at it."
+
     Dialogue:
     -
       - "Shiny: Hey Nick, want to come to the toolshed with me?"
@@ -203,7 +208,19 @@ People:
       - "Shiny: I CAN FEEL HER POOP ON MY DICK"
       - "..."
       - "Nick: Let's never do this again."
+    -
+      - "Shiny: Hey, I may have asked you this before but..."
+      - "Shiny: Have you ever tried Spam Musubi before?"
+      - "Nick: You ask this every time."
+      - "Shiny: That's because it's so good!"
+      - "Nick: It's alright, I just don't like the seaweed."
+      - "Shiny: But that's the best part!"
   David:
+    Description: "The programmer of this game. Cannot into HTML tables."
+	Love:
+		Success: "Nick, will you watch ponies with me?"
+		Failure: "That's totally nasty."
+		Love: "I want to hang you on my shelf like one of my anime figures."
     Dialogue:
     -
       - "David: WAAAAAAAAAAAAAAAH BAWWW"
@@ -262,6 +279,13 @@ People:
       - "Emo: You know what's even greater?"
       - "Nick: ...What?"
       - "Emo: A frozen heart."
+    -
+      - "Emo: JIMBO I'M GOING INNNNN"
+      - "Nick: Goddam it emo."
+      - "*An ally has been slain*"
+      - "*An enemy double kill!*"
+      - "Emo: Where was the team?!"
+      - "Nick: Emo, you're retarded."
   Mikelsons:
     Dialogue:
     -
@@ -272,7 +296,7 @@ People:
       - "*WUB**WUB*"
       - "*WUB**WUB**WUB*"
       - "HOW DID YOU EVER KNOW...I NEVER TOLD...I HAVE A CRUSH ON YOU"
-      - "Nick: Goddam that's not even real music."
+      - "Nick: Goddam dubstep's not even real music."
     -
       - "Mikelsons: So I was there heating some mo'fucking toquitos..."
       - "Mikelsons: When suddenly Mordokaiser walked up to me and told me to give them all to him or els i report u HUEHUEHUE"
@@ -280,6 +304,14 @@ People:
       - "Mikelsons: Then I took off all my clothes and rubbed vaseline over my glorious naked body."
       - "Mikelsons: And finally I got on the ground and pretended I was a slug. True story."
       - "Nick: Cool story bro."
+    -
+      - "Nick: Hey Mikelsons, what movie should we watch?"
+      - "Mikelsons: BBBBAAAAAAWWWWWWWWWWWWWWWMMMMMMMMMMMMMMM"
+      - "Nick: No."
+      - "Mikelsons: You are waiting for a train..."
+      - "Nick: NO."
+      - "Nick: How about...Mega Pirhana? That cover looks awesome."
+      - "Mikelsons: BEEP BEEP I'M A JEEP"
   Hawaiian Barbecue Guy:
     Dialogue:
     -
@@ -404,6 +436,21 @@ People:
       - "Nick: Hey Jin, what's up?"
       - "Jin: *crying, inaudible response*"
       - "Nick: See ya Jin..."
+    -
+      - "Jin: Hey Nick, how long is longcat?"
+      - "..."
+      - "..."
+      - "*le awkward silence*"
+      - "Nick: I don't know, you'd better ask some East Koreans about it."
+    -
+      - "Jin: Hey Nick, remember how you got me to play StarCraft II?"
+      - "Nick: Yeah, it was one of the first things we did together as roomates freshman year. You were pretty nooby back then."
+      - "Jin: 4 Gate?"
+      - "Nick: Proxy Pylon."
+      - "Jin: RUSH COLOSSI?"
+      - "Nick: 6 POOL!"
+      - "Nick: HNNNNNGHHH"
+
   Lily:
     Dialogue:
     -
@@ -441,8 +488,13 @@ People:
 
 
 Achievements:
-- Happy Birthday Nick!: "You opened up the game. Now get out of my House"
+- Happy Birthday Nick!: "You opened up the game. Now get out of my House."
 - Molested Jin: "You broke into Jin's bedroom"
+- Socially Acceptable: "You've talked to everyone at least once."
+- NERD ALERT: "You've seen every goddamn conversation in this game. Get a life nerd."
+- Fried Rice: "Successfully romance the Hawaiian Barbecue guy. Maybe now you'll get something that's not the 70."
+- Waifu Status: "Successfully romance Lily or Lydia."
+- Le Me and the Gf: "Successfully romance Random Reddit Poster."
 
 Default Love Success:
 - "You're so hot right now"
