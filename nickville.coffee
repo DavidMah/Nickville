@@ -63,7 +63,6 @@ initializeImages = () ->
     cached_image = $('<img/>')
     cached_image.addClass('cached_image')
     cached_image.load(() ->
-      console.log(path)
       window.preload['success'] += 1
       $('#progress_bar').width(600 * (1.0 * window.preload['success'] / window.preload['necessary']))
       if window.preload['success'] >= window.preload['necessary']
@@ -243,6 +242,8 @@ continueDialogue = (choice = null) ->
 
 completeDialogue = () ->
   changeControlState(window.next_state)
+  collectAchievement(buildAchievementMessage("Dialogue", window.game_state['location'], window.person, window.dialogue))
+  window.intro = false
 
 handleMessage = (message) ->
   if message instanceof Object
@@ -292,6 +293,7 @@ travelToLocation = (location, encounter_possible = true) ->
   else
     changeControlState('Free')
     window.person = null
+  collectAchievement(buildAchievementMessage("Travel", location, window.person, window.dialogue))
   setTravelList(location)
   setLocationImage(location)
 
@@ -467,6 +469,7 @@ continueSavedGame = () ->
   travelToLocation(window.game_state['location'], false)
 
 startingSequence = () ->
+  window.intro = true
   setChatlock(false)
   travelToLocation('The Apartment', false)
   prepareNextState('Free')
@@ -494,13 +497,38 @@ prepareAchievementData = () ->
     container.append(entry)
 
 collectAchievement = (message) ->
+  console.log("collecting........................")
+
   # Happy Birthday Nick
-  data = window.game_state['achievements']['Happy Birthday Nick!']
-  unless data[1]
-    rewardAchievement('Happy Birthday Nick!')
+  rewardAchievement('Happy Birthday Nick!')
+
+  # Molest Jin
+  if message['Action'] == "Travel" and message['Location'] == "Jin's Bed"
+    rewardAchievement('Molested Jin')
+
+  # Socially Acceptable
+  data = window.game_state['achievements']['Socially Acceptable'][2]
+  if message['Action'] == 'Dialogue'
+    if data['list'] == null
+      data['list'] = []
+    if data['list'].indexOf(message['Person']) == -1
+      unless message['Person'] == null
+        data['list'].push(message['Person'])
+    if data['list'].length == window.game_data['People List'].length
+      rewardAchievement('Socially Acceptable')
 
 rewardAchievement = (achievement) ->
-  window.game_state['achievements'][achievement][1] = true
-  description = window.game_data['Achievements'][achievement]
-  changeControlState('Reward')
-  $('#reward_message').text("Solved! Achievement: #{achievement} -- #{description}")
+  setTimeout((() ->
+    unless window.game_state['achievements'][achievement][1]
+      window.game_state['achievements'][achievement][1] = true
+      description = window.game_data['Achievements'][achievement]
+      changeControlState('Reward')
+      $('#reward_message').text("Solved! Achievement: #{achievement} -- #{description}")
+  ), 200)
+
+buildAchievementMessage = (action, location, person, dialogue) ->
+  console.log("building.........................")
+  Action:   action
+  Location: location
+  Person:   person
+  Dialogue: dialogue

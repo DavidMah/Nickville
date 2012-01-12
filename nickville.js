@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, changeToPreviousControl, chooseRandomFromList, collectAchievement, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterAchievementsState, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, enterRewardState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, possiblyEncounterPerson, prepareAchievementData, prepareNextState, prepareRelationshipTable, recordGameState, rewardAchievement, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
+  var activateOpeningMenu, buildAchievementMessage, changeAutoSave, changeControlState, changeToPreviousControl, chooseRandomFromList, collectAchievement, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterAchievementsState, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, enterRewardState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, possiblyEncounterPerson, prepareAchievementData, prepareNextState, prepareRelationshipTable, recordGameState, rewardAchievement, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
   $(document).ready(function() {
     testFunctions();
     setControls();
@@ -76,7 +76,6 @@
       cached_image = $('<img/>');
       cached_image.addClass('cached_image');
       cached_image.load(function() {
-        console.log(path);
         window.preload['success'] += 1;
         $('#progress_bar').width(600 * (1.0 * window.preload['success'] / window.preload['necessary']));
         if (window.preload['success'] >= window.preload['necessary']) {
@@ -280,7 +279,9 @@
     }
   };
   completeDialogue = function() {
-    return changeControlState(window.next_state);
+    changeControlState(window.next_state);
+    collectAchievement(buildAchievementMessage("Dialogue", window.game_state['location'], window.person, window.dialogue));
+    return window.intro = false;
   };
   handleMessage = function(message) {
     var c, choice_box, choices, container, i, item, _i, _len, _results;
@@ -338,6 +339,7 @@
       changeControlState('Free');
       window.person = null;
     }
+    collectAchievement(buildAchievementMessage("Travel", location, window.person, window.dialogue));
     setTravelList(location);
     return setLocationImage(location);
   };
@@ -524,6 +526,7 @@
     return travelToLocation(window.game_state['location'], false);
   };
   startingSequence = function() {
+    window.intro = true;
     setChatlock(false);
     travelToLocation('The Apartment', false);
     prepareNextState('Free');
@@ -556,16 +559,44 @@
   };
   collectAchievement = function(message) {
     var data;
-    data = window.game_state['achievements']['Happy Birthday Nick!'];
-    if (!data[1]) {
-      return rewardAchievement('Happy Birthday Nick!');
+    console.log("collecting........................");
+    rewardAchievement('Happy Birthday Nick!');
+    if (message['Action'] === "Travel" && message['Location'] === "Jin's Bed") {
+      rewardAchievement('Molested Jin');
+    }
+    data = window.game_state['achievements']['Socially Acceptable'][2];
+    if (message['Action'] === 'Dialogue') {
+      if (data['list'] === null) {
+        data['list'] = [];
+      }
+      if (data['list'].indexOf(message['Person']) === -1) {
+        if (message['Person'] !== null) {
+          data['list'].push(message['Person']);
+        }
+      }
+      if (data['list'].length === window.game_data['People List'].length) {
+        return rewardAchievement('Socially Acceptable');
+      }
     }
   };
   rewardAchievement = function(achievement) {
-    var description;
-    window.game_state['achievements'][achievement][1] = true;
-    description = window.game_data['Achievements'][achievement];
-    changeControlState('Reward');
-    return $('#reward_message').text("Solved! Achievement: " + achievement + " -- " + description);
+    return setTimeout((function() {
+      var description;
+      if (!window.game_state['achievements'][achievement][1]) {
+        window.game_state['achievements'][achievement][1] = true;
+        description = window.game_data['Achievements'][achievement];
+        changeControlState('Reward');
+        return $('#reward_message').text("Solved! Achievement: " + achievement + " -- " + description);
+      }
+    }), 200);
+  };
+  buildAchievementMessage = function(action, location, person, dialogue) {
+    console.log("building.........................");
+    return {
+      Action: action,
+      Location: location,
+      Person: person,
+      Dialogue: dialogue
+    };
   };
 }).call(this);
