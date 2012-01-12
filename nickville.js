@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, prepareNextState, prepareRelationshipTable, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, possiblyEncounterPerson, prepareNextState, prepareRelationshipTable, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
   $(document).ready(function() {
     testFunctions();
     setControls();
@@ -77,7 +77,7 @@
         window.preload['success'] += 1;
         $('#progress_bar').width(600 * (1.0 * window.preload['success'] / window.preload['necessary']));
         if (window.preload['success'] >= window.preload['necessary']) {
-          if (window.game_state['control'] !== 'Loading') {
+          if (window.game_state['control'] === 'Loading') {
             return activateOpeningMenu();
           }
         }
@@ -121,7 +121,7 @@
       return recordGameState(true);
     });
     $('#menu_opening').click(activateOpeningMenu);
-    $('menu_relationships').click(prepareRelationshipTable);
+    $('#menu_relationships').click(prepareRelationshipTable);
     $('#love_talk').click(function() {
       return loveEvent(0);
     });
@@ -302,8 +302,8 @@
     setIndicatorArea(location);
     $('#status_location').text(location);
     setPersonImage(null);
-    if (encounter_possible && Math.random() > 0.4) {
-      encounterPerson(location);
+    if (encounter_possible) {
+      possiblyEncounterPerson(location);
     } else {
       changeControlState('Free');
       window.person = null;
@@ -334,6 +334,13 @@
   setLocationImage = function(location) {
     $('#background_image').attr('src', "images/" + location + ".jpg");
     return $('#background_image').show();
+  };
+  possiblyEncounterPerson = function(location) {
+    var possible_people;
+    possible_people = window.game_data['Locations'][location]['People'];
+    if (possible_people !== null && ((possible_people.length === 1 && Math.random() > 0.75) || (Math.random() > 0.4))) {
+      return encounterPerson(location);
+    }
   };
   encounterPerson = function(location) {
     var person, possible_people;
@@ -400,18 +407,20 @@
   };
   prepareRelationshipTable = function() {
     var container, entry, person, value, _i, _len, _ref, _results;
+    console.log("relationshipping");
     changeControlState('Relationship');
     container = $('#relationship_container');
     _ref = window.game_data['People List'];
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       person = _ref[_i];
+      console.log("rel for " + person);
       entry = $(document.createElement('dt'));
       entry.text(person);
       value = $(document.createElement('dd'));
       value.text(window.game_state['love'][person]);
-      container.append(entry);
-      _results.push(container.append(value));
+      container.append(value);
+      _results.push(container.append(entry));
     }
     return _results;
   };

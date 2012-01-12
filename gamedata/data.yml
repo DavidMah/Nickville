@@ -354,10 +354,31 @@ People:
       - "Professor: Only retards do that."
 
   Jin:
-    Dialogue:
+  - Dialogue:
     -
-      - "Jin: Gosh darnit Nick, not there!"
-      - "Nick: Zug Zug"
+      - "Jin: nick, the most terrible thing happened to me today..."
+      - "Nick: what's that, jin?"
+      - "Jin: well...i..."
+      - "Nick: longcat, huh?"
+      - "Jin: I THOUGHT IT WOULD HAVE BEEN FUNNY"
+      - "Nick: jin"
+      - "Jin: what?"
+      - "Nick: i was there."
+      - "Jin:"
+      - "Nick: that was rough, buddy"
+      - "Jin: NO ONE WILL WANT TO BE MY FRIEND NOW, AND I'LL NEVER GET A GIRLFRIEND"
+    -
+      - "Jin: hey nick, remember that one time i farted in your..."
+      - "Nick: what?"
+      - "Jin: nevermind."
+    -
+      - "Jin: remember when we first met? you let me into your pack the first day"
+      - "Nick: yeah, that was fun"
+      - "Jin: you know what else was fun?"
+      - "Nick: what?"
+      - "Jin: orange pants lol"
+    -
+      - "Jin: Gosh darnit Nick!!"
     -
       - "Jin: Is it normal to have feelings for your professor?"
       - "Nick: Umm, I'm not really sure Jin, why do you ask?"
