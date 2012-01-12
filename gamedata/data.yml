@@ -171,10 +171,10 @@ Locations:
 People:
   Shiny:
     Description: "The coolest of the cool, the 1337est of the 1338. Also the one who probably wrote the dialogue you read."
-	Love:
-		Success: "Hey, check out this cool new feature I added to my game!"
-		Failure: "Dude, you suck at this game. You can't even long jump!"
-		Love: "Nick. You. My game. You play it. Now. Make a level too, while you're at it."
+  Love:
+    Success: "Hey, check out this cool new feature I added to my game!"
+    Failure: "Dude, you suck at this game. You can't even long jump!"
+    Love: "Nick. You. My game. You play it. Now. Make a level too, while you're at it."
 
     Dialogue:
     -
@@ -217,10 +217,10 @@ People:
       - "Shiny: But that's the best part!"
   David:
     Description: "The programmer of this game. Cannot into HTML tables."
-	Love:
-		Success: "Nick, will you watch ponies with me?"
-		Failure: "That's totally nasty."
-		Love: "I want to hang you on my shelf like one of my anime figures."
+  Love:
+    Success: "Nick, will you watch ponies with me?"
+    Failure: "That's totally nasty."
+    Love: "I want to hang you on my shelf like one of my anime figures."
     Dialogue:
     -
       - "David: WAAAAAAAAAAAAAAAH BAWWW"

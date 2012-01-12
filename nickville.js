@@ -115,7 +115,7 @@
     $('#game_container').click(function() {
       return action_handler('click');
     });
-    window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love')).add($('.loading'));
+    window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love')).add($('.loading')).add($('.relationship'));
     $('#menu_button').click(openMenu);
     $('#autosave_button').click(changeAutoSave);
     $('#save_button').click(function() {
@@ -148,7 +148,9 @@
     return $('#autosave_button').text("Turn " + next_state + " Autosave");
   };
   changeControlState = function(state) {
-    window.game_state['previous_control'] = window.game_state['control'];
+    if (state !== 'Relationship') {
+      window.game_state['previous_control'] = window.game_state['control'];
+    }
     window.game_state['control'] = state;
     window.control_elements.hide();
     window.loading = false;
@@ -386,35 +388,38 @@
   loveEvent = function(level) {
     var current, difficulty, power;
     current = window.game_state['love'][window.person];
-    difficulty = 6 * level * level - 0.1 * current;
+    difficulty = 6 * Math.pow(level, 3) - 0.1 * current;
     if (current === null) {
       initializeLove(window.person);
     }
     power = Math.random() * 10;
     if (power > difficulty) {
-      return succeedLove();
+      return succeedLove(person, level);
     } else {
-      return failLove();
+      return failLove(person, level);
     }
   };
   initializeLove = function(person) {
     return window.game_state['love'][person] = 1;
   };
-  succeedLove = function() {
+  succeedLove = function(person, level) {
+    window.game_state['love'][person] += Math.max(Math.pow(level + 1, 2), -5);
     console.log(window.game_data['Default Love Success']);
     prepareNextState('Free');
     return followDialogue(window.game_data['Default Love Success']);
   };
-  failLove = function() {
+  failLove = function(person, level) {
+    window.game_state['love'][person] -= level;
     console.log(window.game_data['Default Love Failure']);
     prepareNextState('Free');
     return followDialogue(window.game_data['Default Love Failure']);
   };
   prepareRelationshipTable = function() {
-    var container, entry, item, person, value, _i, _len, _ref, _results;
+    var container, entry, item, love_points, person, value, _i, _len, _ref, _results;
     console.log("relationshipping");
     changeControlState('Relationship');
     container = $('#relationship_container');
+    container.text("");
     _ref = window.game_data['People List'];
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -423,7 +428,17 @@
       entry = $(document.createElement('dt'));
       entry.text(person);
       value = $(document.createElement('dd'));
-      value.text(window.game_state['love'][person]);
+      love_points = window.game_state['love'][person];
+      value.text(love_points);
+      if (love_points < 0) {
+        value.addClass("rel_bad");
+      } else if (love_points < 100) {
+        value.addClass("rel_normal");
+      } else if (love_points < 400) {
+        value.addClass("rel_good");
+      } else {
+        value.addClass("rel_best");
+      }
       item = $(document.createElement('div'));
       item.append(entry);
       item.append(value);

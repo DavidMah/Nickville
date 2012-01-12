@@ -97,7 +97,7 @@ setControls = () ->
   $(document).keypress((e) -> action_handler(e.which))
   $('#game_container').click(() -> action_handler('click'))
 
-  window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love')).add($('.loading'))
+  window.control_elements = $('.free').add($('.menu')).add($('.opening')).add($('.chat')).add($('.love')).add($('.loading')).add($('.relationship'))
 
   $('#menu_button').click(openMenu)
   $('#autosave_button').click(changeAutoSave)
@@ -124,7 +124,8 @@ setAutoSaveButtonState = () ->
   $('#autosave_button').text("Turn #{next_state} Autosave")
 
 changeControlState = (state) ->
-  window.game_state['previous_control'] = window.game_state['control']
+  unless state == 'Relationship'
+    window.game_state['previous_control'] = window.game_state['control']
   window.game_state['control'] = state
   window.control_elements.hide()
   window.loading = false
@@ -340,24 +341,26 @@ prepareNextState = (state) ->
 
 loveEvent = (level) ->
   current    = window.game_state['love'][window.person]
-  difficulty = (6 * level * level - 0.1 * current)
+  difficulty = (6 * Math.pow(level, 3) - 0.1 * current)
   if current == null
     initializeLove(window.person)
   power = Math.random() * 10
   if power > difficulty
-    succeedLove()
+    succeedLove(person, level)
   else
-    failLove()
+    failLove(person, level)
 
 initializeLove = (person) ->
   window.game_state['love'][person] = 1
 
-succeedLove = () ->
+succeedLove = (person, level) ->
+  window.game_state['love'][person] += Math.max(Math.pow((level + 1), 2), -5)
   console.log(window.game_data['Default Love Success'])
   prepareNextState('Free')
   followDialogue(window.game_data['Default Love Success'])
 
-failLove = () ->
+failLove = (person, level) ->
+  window.game_state['love'][person] -= level
   console.log(window.game_data['Default Love Failure'])
   prepareNextState('Free')
   followDialogue(window.game_data['Default Love Failure'])
@@ -366,6 +369,7 @@ prepareRelationshipTable = () ->
   console.log("relationshipping")
   changeControlState('Relationship')
   container = $('#relationship_container')
+  container.text("")
   for person in window.game_data['People List']
     console.log("rel for #{person}")
 
@@ -373,7 +377,16 @@ prepareRelationshipTable = () ->
     entry.text(person)
 
     value = $(document.createElement('dd'))
-    value.text(window.game_state['love'][person])
+    love_points = window.game_state['love'][person]
+    value.text(love_points)
+    if love_points < 0
+      value.addClass("rel_bad")
+    else if love_points < 100
+      value.addClass("rel_normal")
+    else if love_points < 400
+      value.addClass("rel_good")
+    else
+      value.addClass("rel_best")
 
     item  = $(document.createElement('div'))
     item.append(entry)
@@ -395,6 +408,10 @@ setChatlock = (chatlock) ->
     window.chatlocked = true
   else
     setTimeout((() -> window.chatlocked = false), 100)
+
+#------------------------------
+# Manage Gameplay
+# -----------------------------
 
 activateOpeningMenu = () ->
   changeControlState('Opening')
@@ -424,9 +441,16 @@ continueSavedGame = () ->
   setAutoSaveButtonState()
   travelToLocation(window.game_state['location'], false)
 
-# Logic around plot
 startingSequence = () ->
   setChatlock(false)
   travelToLocation('The Apartment', false)
   prepareNextState('Free')
   followDialogue(window.game_data['Starting Sequence'])
+
+#------------------------------
+# Achievements
+# -----------------------------
+
+collectAchievement = (message) ->
+
+
