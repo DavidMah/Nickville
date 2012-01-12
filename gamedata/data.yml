@@ -278,7 +278,7 @@ People:
       - "Mark: of course"
       - "Nick: I'll get the pillows!"
   Emo:
-    Description: "Emo-"los rageous"-licious, player of AD Carries, diver of towers, feeder of scrubs"  
+    Description: "Emo-'outRAGEous'-licious, player of AD Carries, diver of towers, feeder of scrubs"  
 	Love:
 		Success: "TO YOU! TO ME! BACK TO YOU! TO ME!"
 		Failure: "That's ghey. G H E Y. No homo."
@@ -522,7 +522,7 @@ People:
 	Love:
 		Success: "Won't you sit down for a cup of tea?"
 		Failure: "I bet you ran fast with Emi on purpose, didn't you?"
-		Love: "If look at you, if I could see. I'd speak to you, if I had a voice. I'd hug you, if I had arms. Hisao...(I mean Nick)...I love you. I will never leave your desktop."
+		Love: "I'd look at you, if I could see. I'd speak to you, if I had a voice. I'd hug you, if I had arms. Hisao...(I mean Nick)...I love you. I will never leave your desktop."
     Dialogue:
     -
       - "Lily: I used to be able to see..."
