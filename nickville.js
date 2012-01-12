@@ -1,9 +1,5 @@
 (function() {
-<<<<<<< HEAD
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, prepareNextState, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
-=======
   var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, prepareNextState, prepareRelationshipTable, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
->>>>>>> d4b7fa0d28c59645fd70be0d0d6dfcbdb44c6d64
   $(document).ready(function() {
     testFunctions();
     setControls();
@@ -377,11 +373,7 @@
   };
   loveEvent = function(level) {
     var current, difficulty, power;
-<<<<<<< HEAD
-    current = window.game_state[window.person];
-=======
     current = window.game_state['love'][window.person];
->>>>>>> d4b7fa0d28c59645fd70be0d0d6dfcbdb44c6d64
     difficulty = 6 * level * level - 0.1 * current;
     if (current === null) {
       initializeLove(window.person);
@@ -445,8 +437,6 @@
     return $('#opening_continue').click(continueSavedGame);
   };
   initializeNewGame = function() {
-<<<<<<< HEAD
-=======
     var default_love, person, _i, _len, _ref;
     default_love = {};
     _ref = game_data['People List'];
@@ -454,12 +444,11 @@
       person = _ref[_i];
       default_love[person] = 0;
     }
->>>>>>> d4b7fa0d28c59645fd70be0d0d6dfcbdb44c6d64
     window.game_state = {
       location: "Home",
       control: "Free",
       autosave: false,
-      love: {}
+      love: default_love
     };
     return setAutoSaveButtonState();
   };

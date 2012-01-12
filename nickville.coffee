@@ -329,11 +329,7 @@ prepareNextState = (state) ->
 # -----------------------------
 
 loveEvent = (level) ->
-<<<<<<< HEAD
-  current    = window.game_state[window.person]
-=======
   current    = window.game_state['love'][window.person]
->>>>>>> d4b7fa0d28c59645fd70be0d0d6dfcbdb44c6d64
   difficulty = (6 * level * level - 0.1 * current)
   if current == null
     initializeLove(window.person)
@@ -393,12 +389,9 @@ activateOpeningMenu = () ->
   $('#opening_continue').click(continueSavedGame)
 
 initializeNewGame = () ->
-<<<<<<< HEAD
-=======
   default_love = {}
   for person in game_data['People List']
     default_love[person] = 0
->>>>>>> d4b7fa0d28c59645fd70be0d0d6dfcbdb44c6d64
   window.game_state =
     location: "Home"
     control:  "Free"
