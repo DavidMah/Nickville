@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoveState, enterMenuState, enterOpeningState, exitMenu, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, openMenu, prepareNextState, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, testFunctions, travelToLocation, triggerChatBox;
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoveState, enterMenuState, enterOpeningState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, loveEvent, openMenu, prepareNextState, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation, triggerChatBox;
   $(document).ready(function() {
     testFunctions();
     initializeGameData();
@@ -104,7 +104,19 @@
     $('#save_button').click(function() {
       return recordGameState(true);
     });
-    return $('#menu_opening').click(activateOpeningMenu);
+    $('#menu_opening').click(activateOpeningMenu);
+    $('#love_talk').click(function() {
+      return loveEvent(0);
+    });
+    $('#love_chill').click(function() {
+      return loveEvent(1);
+    });
+    $('#love_footsy').click(function() {
+      return loveEvent(2);
+    });
+    return $('#love_sex').click(function() {
+      return loveEvent(3);
+    });
   };
   changeAutoSave = function() {
     var current_autostate;
@@ -301,6 +313,7 @@
   setupPerson = function(person) {
     var dialogue, possible_dialogue;
     console.log("Encountered " + person);
+    window.person = person;
     setIndicatorArea(person);
     possible_dialogue = window.game_data['People'][person]['Dialogue'];
     dialogue = chooseRandomFromList(possible_dialogue);
@@ -323,6 +336,29 @@
   };
   prepareNextState = function(state) {
     return window.next_state = state;
+  };
+  loveEvent = function(level) {
+    var current, difficulty, power;
+    current = window.game_state[window.person];
+    difficulty = 10 * level * level - 0.1 * current;
+    if (current === null) {
+      initializeLove(window.person);
+    }
+    power = Math.random() * 10;
+    if (power > difficulty) {
+      return succeedLove();
+    } else {
+      return failLove();
+    }
+  };
+  initializeLove = function(person) {
+    return window.game_state['love'][person] = 1;
+  };
+  succeedLove = function() {
+    return console.log('hooray');
+  };
+  failLove = function() {
+    return console.log('boo');
   };
   chooseRandomFromList = function(list) {
     return list[parseInt(Math.random() * list.length)];
@@ -356,7 +392,8 @@
     window.game_state = {
       location: "Home",
       control: "Free",
-      autosave: false
+      autosave: false,
+      love: {}
     };
     setAutoSaveButtonState();
     return startingSequence();
