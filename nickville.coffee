@@ -285,6 +285,7 @@ travelToLocation = (location, encounter_possible = true) ->
   console.log "Moving to #{location}"
   window.game_state['location'] = location
   setIndicatorArea(location)
+  setDescription(location, 'Location')
   $('#status_location').text(location)
   # Things that happen right when you arrive somewhere :
   setPersonImage(null)
@@ -339,6 +340,7 @@ setupPerson = (person) ->
   console.log("Encountered #{person}")
   window.person = person
   setIndicatorArea(person)
+  setDescription(person, 'Person')
   possible_dialogue = window.game_data['People'][person]['Dialogue']
   dialogue = chooseRandomFromList(possible_dialogue)
   setPersonImage(person)
@@ -379,15 +381,21 @@ initializeLove = (person) ->
 
 succeedLove = (person, level) ->
   window.game_state['love'][person] += Math.max(Math.pow((level + 1), 2), -5)
-  console.log(window.game_data['Default Love Success'])
   prepareNextState('Free')
-  followDialogue(window.game_data['Default Love Success'])
+  message = window.game_data['People'][person]['Love']['Success']
+  if window.game_state['love'][person] >= 400
+    message = window.game_data['People'][person]['Love']['Love']
+  if message == undefined
+    message = "#{person}: #{window.game_data['Default Love Success']}"
+  followDialogue(message)
 
 failLove = (person, level) ->
   window.game_state['love'][person] -= level
-  console.log(window.game_data['Default Love Failure'])
   prepareNextState('Free')
-  followDialogue(window.game_data['Default Love Failure'])
+  message = window.game_data['People'][person]['Love']['Failure']
+  if message == undefined
+    message = "#{person}: #{window.game_data['Default Love Failure']}"
+  followDialogue(message)
 
 prepareRelationshipTable = () ->
   console.log("relationshipping")
@@ -430,6 +438,14 @@ setChatlock = (chatlock) ->
     window.chatlocked = true
   else
     setTimeout((() -> window.chatlocked = false), 100)
+
+setDescription = (target, type) ->
+  if type == 'Location'
+    message = window.game_data['Locations'][target]['Description']
+  else
+    message = window.game_data['People'][target]['Description']
+    $('#description_love').text("Love Points: #{window.game_state['love'][window.person]}")
+  $('#description_message').text(message)
 
 #------------------------------
 # Manage Gameplay

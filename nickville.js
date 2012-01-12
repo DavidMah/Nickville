@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, buildAchievementMessage, changeAutoSave, changeControlState, changeToPreviousControl, chooseRandomFromList, collectAchievement, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterAchievementsState, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, enterRewardState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, possiblyEncounterPerson, prepareAchievementData, prepareNextState, prepareRelationshipTable, recordGameState, rewardAchievement, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
+  var activateOpeningMenu, buildAchievementMessage, changeAutoSave, changeControlState, changeToPreviousControl, chooseRandomFromList, collectAchievement, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterAchievementsState, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, enterRewardState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, possiblyEncounterPerson, prepareAchievementData, prepareNextState, prepareRelationshipTable, recordGameState, rewardAchievement, setAutoSaveButtonState, setChatlock, setControls, setDescription, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
   $(document).ready(function() {
     testFunctions();
     setControls();
@@ -331,6 +331,7 @@
     console.log("Moving to " + location);
     window.game_state['location'] = location;
     setIndicatorArea(location);
+    setDescription(location, 'Location');
     $('#status_location').text(location);
     setPersonImage(null);
     if (encounter_possible) {
@@ -388,6 +389,7 @@
     console.log("Encountered " + person);
     window.person = person;
     setIndicatorArea(person);
+    setDescription(person, 'Person');
     possible_dialogue = window.game_data['People'][person]['Dialogue'];
     dialogue = chooseRandomFromList(possible_dialogue);
     setPersonImage(person);
@@ -428,16 +430,27 @@
     return window.game_state['love'][person] = 1;
   };
   succeedLove = function(person, level) {
+    var message;
     window.game_state['love'][person] += Math.max(Math.pow(level + 1, 2), -5);
-    console.log(window.game_data['Default Love Success']);
     prepareNextState('Free');
-    return followDialogue(window.game_data['Default Love Success']);
+    message = window.game_data['People'][person]['Love']['Success'];
+    if (window.game_state['love'][person] >= 400) {
+      message = window.game_data['People'][person]['Love']['Love'];
+    }
+    if (message === void 0) {
+      message = "" + person + ": " + window.game_data['Default Love Success'];
+    }
+    return followDialogue(message);
   };
   failLove = function(person, level) {
+    var message;
     window.game_state['love'][person] -= level;
-    console.log(window.game_data['Default Love Failure']);
     prepareNextState('Free');
-    return followDialogue(window.game_data['Default Love Failure']);
+    message = window.game_data['People'][person]['Love']['Failure'];
+    if (message === void 0) {
+      message = "" + person + ": " + window.game_data['Default Love Failure'];
+    }
+    return followDialogue(message);
   };
   prepareRelationshipTable = function() {
     var container, entry, item, love_points, person, value, _i, _len, _ref, _results;
@@ -484,6 +497,16 @@
         return window.chatlocked = false;
       }), 100);
     }
+  };
+  setDescription = function(target, type) {
+    var message;
+    if (type === 'Location') {
+      message = window.game_data['Locations'][target]['Description'];
+    } else {
+      message = window.game_data['People'][target]['Description'];
+      $('#description_love').text("Love Points: " + window.game_state['love'][window.person]);
+    }
+    return $('#description_message').text(message);
   };
   activateOpeningMenu = function() {
     changeControlState('Opening');

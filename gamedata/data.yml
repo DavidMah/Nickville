@@ -9,7 +9,7 @@ Starting Sequence:
 
 Locations:
   The Apartment:
-    Description: "Cool people only, NO GIRLS ALLOWED"
+    Description: "Our Apartment? Cool people only, NO GIRLS ALLOWED"
     People:
     - Shiny
     - Mark
@@ -174,10 +174,12 @@ People:
   Shiny:
     Description: "The coolest of the cool, the 1337est of the 1338. Also the one who probably wrote the dialogue you read."
     Love:
-      Success: "Hey, check out this cool new feature I added to my game!"
-      Failure: "Dude, you suck at this game. You can't even long jump!"
-      Love: "Nick. You. My game. You play it. Now. Make a level too, while you're at it."
-
+      Success:
+      - "Hey, check out this cool new feature I added to my game!"
+      Failure:
+      - "Dude, you suck at this game. You can't even long jump!"
+      Love:
+      - "Nick. You. My game. You play it. Now. Make a level too, while you're at it."
     Dialogue:
     -
       - "Shiny: Hey Nick, want to come to the toolshed with me?"
@@ -226,9 +228,12 @@ People:
   David:
     Description: "The programmer of this game. Cannot into HTML tables."
     Love:
-      Success: "Nick, will you watch ponies with me?"
-      Failure: "That's totally nasty."
-      Love: "I want to hang you on my shelf like one of my anime figures."
+      Success:
+      - "Nick, will you watch ponies with me?"
+      Failure:
+      - "That's totally nasty."
+      Love:
+      - "I want to hang you on my shelf like one of my anime figures."
     Dialogue:
     -
       - "David: WAAAAAAAAAAAAAAAH BAWWW"
@@ -248,9 +253,12 @@ People:
   Mark:
     Description: "Mark 'Lemon Rust' Sippel, four dee kay fan."  
     Love:
-      Success: "That's...pretty cool."
-      Failure: "That's heresy!"
-      Love: "FOR THE EMPRAH"
+      Success:
+      - "That's...pretty cool."
+      Failure:
+      - "That's heresy!"
+      Love:
+      - "FOR THE EMPRAH"
     Dialogue:
     -
       - "*Somewhere above a wartorn Battlefield*"
@@ -281,9 +289,12 @@ People:
   Emo:
     Description: "Emo-'outRAGEous'-licious, player of AD Carries, diver of towers, feeder of scrubs"  
     Love:
-      Success: "TO YOU! TO ME! BACK TO YOU! TO ME!"
-      Failure: "That's ghey. G H E Y. No homo."
-      Love: "Beth won't ever have to know about this..."
+      Success:
+      - "TO YOU! TO ME! BACK TO YOU! TO ME!"
+      Failure:
+      - "That's ghey. G H E Y. No homo."
+      Love:
+      - "Beth won't ever have to know about this..."
     Dialogue:
     -
       - "Emo: Don't worry guys, I got this."
@@ -315,9 +326,12 @@ People:
   Mikelsons:
     Description: "Started playing WoW again. That's all you need to know."
     Love:
-      Success: "Why, yes my good sir."
-      Failure: "Maybe another time, my good sir."
-      Love: "My good sir, let's make this happen."
+      Success:
+      - "Why, yes my good sir."
+      Failure:
+      - "Maybe another time, my good sir."
+      Love:
+      - "My good sir, let's make this happen."
     Dialogue:
     -
       - "It's the dark of night. Everything is silent, and everyone is asleep."
@@ -364,9 +378,12 @@ People:
   Martin:
     Description: "Martin EL FUERTE Reyes, CSE 14x Ta."  
     Love:
-      Success: "ok"
-      Failure: "no"
-      Love: "romance"
+      Success:
+      - "ok"
+      Failure:
+      - "no"
+      Love:
+      - "romance"
     Dialogue:
     -
       - "Martin: Nick! Jin has gone missing and we have a presentation to give in 20 minutes!"
@@ -392,9 +409,12 @@ People:
   Derek:
     Description: "Derek 'OH GOD MAKE THE VOICES STOP' Sams, he's Southern."  
     Love:
-      Success: "ok"
-      Failure: "no"
-      Love: "Nick, will ya draw me like one of your french girls?"
+      Success:
+      - "ok"
+      Failure:
+      - "no"
+      Love:
+      - "Nick, will ya draw me like one of your french girls?"
     Dialogue:
     -
       - "Derek: Did you guys just hear a barking spider?"
@@ -413,9 +433,12 @@ People:
   Some Post:
     Description: "Le redditor. He's in it for the karma."  
     Love:
-      Success: "UPBOAT"
-      Failure: "DOWNVOTE"
-      Love: "UPBOAT UPBOAT UPBOAT THAT SHIT, BEST THREAD EVER"
+      Success:
+      - "UPBOAT"
+      Failure:
+      - "DOWNVOTE"
+      Love:
+      - "UPBOAT UPBOAT UPBOAT THAT SHIT, BEST THREAD EVER"
     Dialogue:
     -
       - "Post you're favorite Saintvicious quotes....(Click reply to see more)"
@@ -436,9 +459,12 @@ People:
   Professor:
     Description: "Physics professor."  
     Love:
-      Success: "yes"
-      Failure: "no"
-      Love: "romance"
+      Success:
+      - "yes"
+      Failure:
+      - "no"
+      Love:
+      - "romance"
     Dialogue:
     -
       - "Professor: So if you take the cross product of the net torque vector keeping in mind the net displacement from BOTH friction and the electrical field..."
@@ -450,9 +476,12 @@ People:
   Jin:
     Description: "your roomate from last year"  
     Love:
-      Success: "yes"
-      Failure: "no"
-      Love: "romance"
+      Success:
+      - "yes"
+      Failure:
+      - "no"
+      Love:
+      - "romance"
     Dialogue:
     -
       - "Jin: nick, the most terrible thing happened to me today..."
@@ -521,9 +550,12 @@ People:
   Lilly:
     Description: "Your anime waifu. Blonde haired, blue-eyed cripple girl perfection."  
     Love:
-      Success: "Won't you sit down for a cup of tea?"
-      Failure: "I bet you ran fast with Emi on purpose, didn't you?"
-      Love: "I'd look at you, if I could see. I'd speak to you, if I had a voice. I'd hug you, if I had arms. Hisao...(I mean Nick)...I love you. I will never leave your desktop."
+      Success:
+      - "Won't you sit down for a cup of tea?"
+      Failure:
+      - "I bet you ran fast with Emi on purpose, didn't you?"
+      Love:
+      - "I'd look at you, if I could see. I'd speak to you, if I had a voice. I'd hug you, if I had arms. Hisao...(I mean Nick)...I love you. I will never leave your desktop."
     Dialogue:
     -
       - "Lilly: I used to be able to see..."
@@ -537,17 +569,18 @@ People:
     -
       - "Lilly: Would you help me into the bath?"
       - "Lilly: It's quite cold and I'm not quite faimiliar with this place."
-      - "Nick: It's bun touching time."
+      - "Nick: It's bun tickling time."
       - "Lilly: You know I can't see you right now..."
       - "Lilly: But I definitely heard that."
-
-
   Lydia:
     Description: "Your nord waifu. oo"
     Love:
-      Success: "I'll tank any mob for you!"
-      Failure: "Your performance and Skyrim's combat system have a lot in common."
-      Love: "Let's make some unkillable children!"
+      Success:
+      - "I'll tank any mob for you!"
+      Failure:
+      - "Your performance and Skyrim's combat system have a lot in common."
+      Love:
+      - "Let's make some unkillable children!"
     Dialogue:
     -
       - "Lydia: Oh, my sweet Dohvakin, I would love to marry you so."
@@ -574,7 +607,7 @@ Achievements:
   Office After-Hours: "Successfully romance the professor."
 
 Default Love Success:
-- "You're so hot right now."
+- "I follow what you're getting at. You're pretty cute you know if I say so myself"
 Default Love Failure:
 - "What the hell man, get away from me"
 - "Nick: I'm so sorry! I just wanted to tickle your buns!"
