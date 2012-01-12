@@ -369,6 +369,16 @@ People:
       - "..."
       - "..."
   Hawaiian Barbecue Guy:
+    Description: "I enjoy the 56 with this Man"
+    Love:
+      Success:
+      - "Guy: Would you like your chunky chicken stuff salty or spicy?"
+      Failure:
+      - "Guy: I don't think you will be getting your egg today"
+      - "Nick: Tenga Egg?"
+      Love:
+      - "Guy: Keep that 56 going!"
+      - "Nick: This beats Shiny any day"
     Dialogue:
     -
       - "Hawaiian Barbecue Guy: Herro."
@@ -460,11 +470,11 @@ People:
     Description: "Physics professor."  
     Love:
       Success:
-      - "yes"
+      - "GOOD MORNING SON"
       Failure:
-      - "no"
+      - "BAD MORNING SON"
       Love:
-      - "romance"
+      - "SON"
     Dialogue:
     -
       - "Professor: So if you take the cross product of the net torque vector keeping in mind the net displacement from BOTH friction and the electrical field..."
@@ -477,32 +487,32 @@ People:
     Description: "your roomate from last year"  
     Love:
       Success:
-      - "yes"
+      - "Jin: yes"
       Failure:
-      - "no"
+      - "Jin: Gosh Dangit"
       Love:
-      - "romance"
+      - "Jin: Gosh Nick!"
     Dialogue:
     -
-      - "Jin: nick, the most terrible thing happened to me today..."
-      - "Nick: what's that, jin?"
-      - "Jin: well...i..."
-      - "Nick: longcat, huh?"
+      - "Jin: Nick, the most terrible thing happened to me today..."
+      - "Nick: What's that, Jin?"
+      - "Jin: Well...I..."
+      - "Nick: Longcat, huh?"
       - "Jin: I THOUGHT IT WOULD HAVE BEEN FUNNY"
-      - "Nick: jin"
+      - "Nick: Jin"
       - "Jin: what?"
-      - "Nick: i was there."
-      - "Jin:"
-      - "Nick: that was rough, buddy"
+      - "Nick: I was there."
+      - "Jin: ..."
+      - "Nick: That was rough, buddy"
       - "Jin: NO ONE WILL WANT TO BE MY FRIEND NOW, AND I'LL NEVER GET A GIRLFRIEND"
     -
-      - "Jin: hey nick, remember that one time i farted in your..."
-      - "Nick: what?"
-      - "Jin: nevermind."
+      - "Jin: Hey Nick, remember that one time i farted in your..."
+      - "Nick: What?"
+      - "Jin: Nevermind."
     -
-      - "Jin: remember when we first met? you let me into your pack the first day"
-      - "Nick: yeah, that was fun"
-      - "Jin: you know what else was fun?"
+      - "Jin: Remember when we first met? You let me into your pack the first day"
+      - "Nick: Yeah, that was fun"
+      - "Jin: You know what else was fun?"
       - "Nick: what?"
       - "Jin: orange pants lol"
     -
