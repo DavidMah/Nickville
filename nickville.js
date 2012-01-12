@@ -622,7 +622,21 @@
       }
     }
     if (window.game_state['love']['Professor'] >= 400) {
-      return rewardAchievement('Office After Hours');
+      rewardAchievement('Office After Hours');
+    }
+    data = window.game_state['achievements']['Through The Portal'][2];
+    if (message['Action'] === 'Travel') {
+      console.log("whoo");
+      if (data['list'] === void 0) {
+        data['list'] = [];
+      }
+      data['list'].push(message['Location']);
+      if (data['list'].length > 3) {
+        data['list'] = data['list'].slice(1);
+      }
+      if (data['list'].length === 3 && data['list'][0] === 'The Apartment' && data['list'][1] === 'Skyrim' && data['list'][2] === "David's Room") {
+        return rewardAchievement("Through The Portal");
+      }
     }
   };
   rewardAchievement = function(achievement) {

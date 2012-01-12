@@ -109,6 +109,7 @@ Locations:
     - David
     Links:
     - 10th Floor Cluster
+    - Skyrim
   Fountain:
     Description: "Geese poop landmines"
     People:
@@ -170,6 +171,7 @@ Locations:
     - Lilly
     Links:
     - The Apartment
+    - David's Room
 People:
   Shiny:
     Description: "The coolest of the cool, the 1337est of the 1338. Also the one who probably wrote the dialogue you read."
@@ -621,10 +623,11 @@ Achievements:
   Molested Jin: "You broke into Jin's bed"
   Socially Acceptable: "You've talked to everyone at least once."
   NERD ALERT: "You've seen every goddamn conversation in this game. Get a life nerd."
+  Through The Portal: "Get to David's Room through Skyrim"
   Fried Rice: "Successfully romance the Hawaiian Barbecue guy. Maybe now you'll get something that's not the 70."
   Waifu Status: "Successfully romance Lilly or Lydia."
-  Le Me and the Gf: "Successfully romance Random Reddit Poster."
   Fatass: "Hit up Chipotle not enough times. Only Thirty"
+  Le Me and the Gf: "Successfully romance Random Reddit Poster."
   Office After-Hours: "Successfully romance the professor."
 
 Default Love Success:

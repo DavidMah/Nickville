@@ -562,6 +562,18 @@ collectAchievement = (message) ->
   if window.game_state['love']['Professor'] >= 400
     rewardAchievement('Office After Hours')
 
+  # Through the portal
+  data = window.game_state['achievements']['Through The Portal'][2]
+  if message['Action'] == 'Travel'
+    console.log("whoo")
+    if data['list'] == undefined
+      data['list'] = []
+    data['list'].push(message['Location'])
+    if data['list'].length > 3
+      data['list'] = data['list'].slice(1)
+    if data['list'].length == 3 and data['list'][0] == 'The Apartment' and data['list'][1] == 'Skyrim' and data['list'][2] == "David's Room"
+      rewardAchievement("Through The Portal")
+
 rewardAchievement = (achievement) ->
   setTimeout((() ->
     unless window.game_state['achievements'][achievement][1]
