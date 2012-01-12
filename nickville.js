@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, prepareNextState, prepareRelationshipTable, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, possiblyEncounterPerson, prepareNextState, prepareRelationshipTable, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
   $(document).ready(function() {
     testFunctions();
     setControls();
@@ -302,8 +302,8 @@
     setIndicatorArea(location);
     $('#status_location').text(location);
     setPersonImage(null);
-    if (encounter_possible && Math.random() > 0.4) {
-      encounterPerson(location);
+    if (encounter_possible) {
+      possiblyEncounterPerson(location);
     } else {
       changeControlState('Free');
       window.person = null;
@@ -334,6 +334,13 @@
   setLocationImage = function(location) {
     $('#background_image').attr('src', "images/" + location + ".jpg");
     return $('#background_image').show();
+  };
+  possiblyEncounterPerson = function(location) {
+    var possible_people;
+    possible_people = window.game_data['Locations'][location]['People'];
+    if (possible_people !== null && ((possible_people.length === 1 && Math.random() > 0.75) || (Math.random() > 0.4))) {
+      return encounterPerson(location);
+    }
   };
   encounterPerson = function(location) {
     var person, possible_people;

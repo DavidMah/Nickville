@@ -259,8 +259,8 @@ travelToLocation = (location, encounter_possible = true) ->
   $('#status_location').text(location)
   # Things that happen right when you arrive somewhere :
   setPersonImage(null)
-  if encounter_possible and Math.random() >  0.4
-    encounterPerson(location)
+  if encounter_possible
+    possiblyEncounterPerson(location)
   else
     changeControlState('Free')
     window.person = null
@@ -292,6 +292,11 @@ setLocationImage = (location) ->
 #------------------------------
 # Logic around Chat
 # -----------------------------
+#
+possiblyEncounterPerson = (location) ->
+  possible_people = window.game_data['Locations'][location]['People']
+  if possible_people != null and ((possible_people.length == 1 and Math.random() > 0.75) or (Math.random() > 0.4))
+    encounterPerson(location)
 
 encounterPerson = (location) ->
   possible_people   = window.game_data['Locations'][location]['People']
