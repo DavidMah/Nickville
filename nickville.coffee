@@ -24,7 +24,7 @@ initializeGameData = () ->
     window.game_data = data
     window.chatlocked = false
     if cached_game_state == null
-      startNewGame()
+      initializeNewGame()
     else
       window.game_state = cached_game_state
     initializeImages()
@@ -360,13 +360,16 @@ activateOpeningMenu = () ->
   $('#opening_new').click(startNewGame)
   $('#opening_continue').click(continueSavedGame)
 
-startNewGame = () ->
+initializeNewGame = () ->
   window.game_state =
     location: "Home"
     control:  "Free"
     autosave: false
     love: {}
   setAutoSaveButtonState()
+
+startNewGame = () ->
+  initializeNewGame()
   startingSequence()
 
 continueSavedGame = () ->

@@ -1,5 +1,5 @@
 (function() {
-  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, loveEvent, openMenu, prepareNextState, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
+  var activateOpeningMenu, changeAutoSave, changeControlState, chooseRandomFromList, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, prepareNextState, recordGameState, setAutoSaveButtonState, setChatlock, setControls, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
   $(document).ready(function() {
     testFunctions();
     setControls();
@@ -24,7 +24,7 @@
       window.game_data = data;
       window.chatlocked = false;
       if (cached_game_state === null) {
-        startNewGame();
+        initializeNewGame();
       } else {
         window.game_state = cached_game_state;
       }
@@ -407,14 +407,17 @@
     $('#opening_new').click(startNewGame);
     return $('#opening_continue').click(continueSavedGame);
   };
-  startNewGame = function() {
+  initializeNewGame = function() {
     window.game_state = {
       location: "Home",
       control: "Free",
       autosave: false,
       love: {}
     };
-    setAutoSaveButtonState();
+    return setAutoSaveButtonState();
+  };
+  startNewGame = function() {
+    initializeNewGame();
     return startingSequence();
   };
   continueSavedGame = function() {
