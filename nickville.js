@@ -248,7 +248,7 @@
     if (encounter_possible == null) {
       encounter_possible = true;
     }
-    if (window.game_state['control'] !== 'Free') {
+    if (!(window.game_state['control'] === 'Free' || window.game_state['control'] === 'Love')) {
       return;
     }
     setChatlock(true);

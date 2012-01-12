@@ -211,7 +211,7 @@ getPossibleLinks = () ->
   possible_links
 
 travelToLocation = (location, encounter_possible = true) ->
-  return unless window.game_state['control'] == 'Free'
+  return unless window.game_state['control'] == 'Free' or window.game_state['control'] == 'Love'
   setChatlock(true)
   console.log "Moving to #{location}"
   window.game_state['location'] = location
