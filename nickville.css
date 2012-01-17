@@ -64,9 +64,7 @@ h1 {
 }
 
 #loading_skip:active {
-  width: 494px;
-  height: 194px;
-  margin: 103px 153px 103px 153px;
+  border-width: 5px;
 }
 
 /*---------------------
@@ -87,9 +85,7 @@ h1 {
 }
 
 .opening_item:active {
-  width: 380px;
-  height: 130px;
-  margin: 110px 210px 50px 210px;
+  border-width: 5px;
 }
 
 #opening_background {
@@ -132,9 +128,7 @@ h1 {
 }
 
 #menu_button:active {
-  width:   96px;
-  height:  36px;
-  margin: 2px 2px 2px 2px;
+  border-width: 5px;
 }
 
 /*---------------------
@@ -167,9 +161,7 @@ h1 {
 }
 
 .menu_item:active {
-  width: 180px;
-  height: 40px;
-  margin: 15px 110px 15px 110px;
+  border-width: 5px;
 }
 
 /*---------------------
@@ -235,9 +227,7 @@ dt,dd {
 }
 
 #reward_back:active {
-  width:  56px;
-  height: 46px;
-  margin: 2px 2px 2px 2px;
+  border-width: 5px;
 }
 /*---------------------
  * status area
@@ -347,10 +337,7 @@ dt,dd {
 }
 
 .link:active {
-  width:  95px;
-  min-height: 20px;
-  margin: 3.5px 2.5px 2.5px 2.5px;
-  padding: 0px 5px 0px 5px;
+  border-width: 5px;
 }
 
 /*****************
@@ -377,10 +364,7 @@ dt,dd {
 }
 
 .love_item:active {
-  width: 136px;
-  height: 56px;
-  padding: 2px 2px 2px 2px;
-  margin: 2px 2px 2px 2px;
+  border-width: 5px;
 }
 
 /************
