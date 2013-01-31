@@ -26,7 +26,7 @@
     return $.get("gamedata/data.json", function(data) {
       window.game_data = data;
       window.chatlocked = false;
-      if (cached_game_state === null) {
+      if (cached_game_state === undefined || cached_game_state === null) {
         initializeNewGame();
       } else {
         window.game_state = cached_game_state;
